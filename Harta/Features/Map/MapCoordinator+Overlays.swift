@@ -57,16 +57,29 @@ extension MapCoordinator {
 
     @objc func selectOverlay(_ gesture: UITapGestureRecognizer) {
         guard gesture.state == .ended, let map = gesture.view as? MLNMapView else { return }
-        let enabled = MapOverlay.allCases.filter { $0 != .cycling && $0.isEnabled(in: overlaySelection) }
-        guard !enabled.isEmpty else { return }
         let point = gesture.location(in: map)
+        if let selected = model.selectedPlace {
+            let marker = map.convert(selected.coordinate, toPointTo: map)
+            if hypot(marker.x - point.x, marker.y - point.y) <= 22 {
+                onSelect(selected)
+                return
+            }
+        }
+        let enabled = MapOverlay.allCases.filter { $0 != .cycling && $0.isEnabled(in: overlaySelection) }
+        guard !enabled.isEmpty else {
+            onDeselect?()
+            return
+        }
         let area = CGRect(x: point.x - 22, y: point.y - 22, width: 44, height: 44)
         let features = map.visibleFeatures(in: area, styleLayerIdentifiers: Set(enabled.map(\.layerIdentifier)))
         guard let feature = features.compactMap({ $0 as? MLNPointFeature }).min(by: {
             let a = map.convert($0.coordinate, toPointTo: map)
             let b = map.convert($1.coordinate, toPointTo: map)
             return hypot(a.x - point.x, a.y - point.y) < hypot(b.x - point.x, b.y - point.y)
-        }) else { return }
+        }) else {
+            onDeselect?()
+            return
+        }
         let subclass = feature.attribute(forKey: "subclass") as? String ?? "Place"
         let kind = EssentialKind.from(subclass: subclass)?.title
             ?? TransitKind.from(subclass: subclass)?.title

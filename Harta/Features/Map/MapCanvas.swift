@@ -9,6 +9,7 @@ struct MapCanvas: UIViewRepresentable {
     let onSelect: (Place) -> Void
     var isNavigating = false
     var onPan: (() -> Void)?
+    var onDeselect: (() -> Void)?
     var compactPlaceCard = false
     @AppStorage(MapStyle.preferenceKey) private var mapStyle: MapStyle = .everyday
     @AppStorage(MapOverlay.preferenceKey) private var overlays = 0
@@ -58,6 +59,7 @@ struct MapCanvas: UIViewRepresentable {
         coordinator.updateOverlays(on: view)
         coordinator.onSelect = onSelect
         coordinator.onPan = onPan
+        coordinator.onDeselect = onDeselect
         coordinator.fitsRouteCamera = !isNavigating
         view.attributionButton.isHidden = true
         let inset = UIEdgeInsets(top: isNavigating ? 200 : 100, left: 0,

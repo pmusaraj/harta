@@ -19,6 +19,7 @@ struct MapScreen: View {
         MapCanvas(model: model, directions: directions, userCoordinate: location.fix?.coordinate,
                   isShowingPlace: sheet == .place, onSelect: selectFromMap,
                   onPan: model.stopLocationCentering,
+                  onDeselect: deselectPlace,
                   compactPlaceCard: placeDetent == .height(320))
             .ignoresSafeArea()
             .accessibilityAction(named: "Drop pin here", dropCenterPin)
@@ -144,6 +145,13 @@ struct MapScreen: View {
     private func selectFromSheet(_ place: Place) {
         pendingPlace = place
         sheet = nil
+    }
+
+    private func deselectPlace() {
+        guard model.selectedPlace != nil else { return }
+        model.selectedPlace = nil
+        directions.clear()
+        if sheet == .place { sheet = nil }
     }
 
     private func finishDismissal() {

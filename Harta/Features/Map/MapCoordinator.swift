@@ -5,6 +5,7 @@ import SwiftUI
 final class MapCoordinator: NSObject, @preconcurrency MLNMapViewDelegate {
     let model: MapModel
     var onSelect: (Place) -> Void
+    var onDeselect: (() -> Void)?
     var onPan: (() -> Void)?
     var fitsRouteCamera = true
     var overlaySelection = 0
