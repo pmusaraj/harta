@@ -3380,7 +3380,7 @@
         "line-join": "round"
       },
       "paint": {
-        "line-color": "#54856a",
+        "line-color": "#a3c9ac",
         "line-width": [
           "interpolate",
           [

@@ -47,6 +47,21 @@ struct LocationServiceTests {
         #expect(manager.stops == 2)
     }
 
+    @Test func becomingActiveAfterFirstFixDoesNotRestartLocationWait() {
+        let manager = TestLocationManager()
+        let service = LocationService(manager: manager)
+        service.startTracking(requestPermission: true)
+        service.locationManager(manager, didUpdateLocations: [location(45)])
+
+        // Becoming active after startup or a system prompt must keep the existing session.
+        service.startTracking()
+
+        #expect(manager.starts == 1)
+        #expect(!service.isLocating)
+        #expect(service.errorMessage == nil)
+        service.stop()
+    }
+
     @Test func rejectsStaleFutureAndInvalidFixes() {
         let now = Date()
         #expect(LocationService.isUsable(location(45, at: now), now: now))

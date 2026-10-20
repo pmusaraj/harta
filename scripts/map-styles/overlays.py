@@ -24,7 +24,7 @@ def optional_layers(dark):
                     ['all', ['==', ['get', 'class'], 'path'],
                      ['match', ['get', 'bicycle'], ['designated', 'official'], True, False]]]],
         'layout': {'visibility': 'none', 'line-cap': 'round', 'line-join': 'round'},
-        'paint': {'line-color': '#779f87' if dark else '#54856a',
+        'paint': {'line-color': '#52745f' if dark else '#a3c9ac',
                   'line-width': ['interpolate', ['linear'], ['zoom'], 12, 2, 18, 5],
                   'line-dasharray': [2, 1]}
     }]

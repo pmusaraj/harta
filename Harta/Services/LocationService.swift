@@ -23,6 +23,8 @@ final class LocationService: NSObject, @preconcurrency CLLocationManagerDelegate
 
     func startTracking(requestPermission: Bool = false) {
         tracksContinuously = true
+        // Scene activation can follow the first fix without tracking ever stopping.
+        guard !running else { return }
         if requestPermission { locate() } else { locateIfAuthorized() }
     }
 
