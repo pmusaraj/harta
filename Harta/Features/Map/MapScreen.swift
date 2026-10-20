@@ -19,13 +19,13 @@ struct MapScreen: View {
         MapCanvas(model: model, directions: directions, userCoordinate: location.fix?.coordinate,
                   isShowingPlace: sheet == .place, onSelect: selectFromMap,
                   onPan: model.stopLocationCentering,
-                  onDeselect: deselectPlace,
+                  onDeselect: dismissMapPanes,
                   compactPlaceCard: placeDetent == .height(320))
             .ignoresSafeArea()
             .accessibilityAction(named: "Drop pin here", dropCenterPin)
             .overlay {
-                if searching && search.results.isEmpty {
-                    Button { searching = false } label: {
+                if searching {
+                    Button(action: dismissMapPanes) {
                         Color.clear.contentShape(.rect)
                     }
                     .buttonStyle(.plain)
@@ -76,20 +76,25 @@ struct MapScreen: View {
                 }
             }
             .sheet(item: $sheet, onDismiss: finishDismissal) { activeSheet in
-                switch activeSheet {
-                case .saved:
-                    SavedPlacesSheet(store: saved, onSelect: selectFromSheet)
-                case .place:
-                    if let place = model.selectedPlace {
-                        PlaceSheet(place: place, store: saved, directionsModel: directions, location: location, detent: $placeDetent)
-                            .presentationDetents([.height(320), .medium, .large], selection: $placeDetent)
-                            .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+                Group {
+                    switch activeSheet {
+                    case .saved:
+                        SavedPlacesSheet(store: saved, onSelect: selectFromSheet)
+                            .presentationDetents([.medium, .large])
+                    case .place:
+                        if let place = model.selectedPlace {
+                            PlaceSheet(place: place, store: saved, directionsModel: directions, location: location, detent: $placeDetent)
+                                .presentationDetents([.height(320), .medium, .large], selection: $placeDetent)
+                        }
+                    case .layers:
+                        MapLayersSheet()
+                            .presentationDetents([.medium, .large])
+                    case .settings:
+                        SettingsSheet()
+                            .presentationDetents([.medium, .large])
                     }
-                case .layers:
-                    MapLayersSheet()
-                case .settings:
-                    SettingsSheet()
                 }
+                .presentationBackgroundInteraction(.enabled)
             }
             .task {
                 if model.beginStartupLocation() { location.startTracking(requestPermission: true) }
@@ -147,11 +152,12 @@ struct MapScreen: View {
         sheet = nil
     }
 
-    private func deselectPlace() {
-        guard model.selectedPlace != nil else { return }
+    private func dismissMapPanes() {
+        searching = false
+        pendingPlace = nil
         model.selectedPlace = nil
         directions.clear()
-        if sheet == .place { sheet = nil }
+        sheet = nil
     }
 
     private func finishDismissal() {

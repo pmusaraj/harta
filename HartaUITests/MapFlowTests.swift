@@ -2,6 +2,24 @@ import XCTest
 
 @MainActor
 final class MapFlowTests: XCTestCase {
+    func testEmptyMapTapDismissesOpenPanesWithoutSelectedPlace() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-mapOverlays", "0"]
+        app.launch()
+        for (button, title) in [("map.saved", "Saved places"),
+                                ("map.layers", "Map layers"),
+                                ("map.settings", "Settings")] {
+            XCTAssertTrue(app.buttons[button].waitForExistence(timeout: 15))
+            app.buttons[button].tap()
+            XCTAssertTrue(app.navigationBars[title].waitForExistence(timeout: 5))
+
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.15, dy: 0.25)).tap()
+
+            XCTAssertTrue(app.navigationBars[title].waitForNonExistence(timeout: 5))
+            XCTAssertTrue(app.buttons["map.search"].isHittable)
+        }
+    }
+
     func testEmptyMapTapDismissesSelectedPlace() {
         let app = XCUIApplication()
         for overlays in ["0", "8"] {
