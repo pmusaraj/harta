@@ -6,10 +6,10 @@ struct MapSearchBar: View {
     var body: some View {
         Button(action: action) {
             Label("Search places", systemImage: "magnifyingglass")
-                .font(.body)
+                .labelStyle(.iconOnly)
+                .font(.title3)
                 .foregroundStyle(.primary)
-                .frame(maxWidth: .infinity, minHeight: 52, alignment: .leading)
-                .padding(.horizontal)
+                .frame(width: 52, height: 52)
         }
         .buttonStyle(.plain)
         .background(.regularMaterial, in: .rect(cornerRadius: 20))

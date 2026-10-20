@@ -41,6 +41,7 @@ struct MapScreen: View {
                 } else {
                     HStack(spacing: 10) {
                         MapSearchBar(action: openSearch)
+                        Spacer()
                         Button("Settings", systemImage: "gearshape", action: openSettings)
                             .labelStyle(.iconOnly)
                             .font(.title3)
