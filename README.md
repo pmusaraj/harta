@@ -15,7 +15,7 @@ Harta is currently a prototype. It requires iOS/iPadOS 26 or later and an intern
 
 Choose a destination and tap **Go** to preview a route, then **Start navigation** when you're ready. Navigation needs Precise Location permission. Voice guidance starts muted; turn it on to hear directions. Guidance can continue with the screen locked. Tap **End** to stop navigation.
 
-Open **Layers** beside the location control to choose what appears on the map. Open **Settings** beside Search to change the map style, read privacy information, or view map credits.
+Open **Search** above the location control to find a place, or **Layers** beside it to choose what appears on the map. Open **Settings** in the top-right corner to change the map style, read privacy information, or view map credits.
 
 ## Privacy
 

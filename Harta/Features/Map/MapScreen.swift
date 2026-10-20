@@ -40,7 +40,6 @@ struct MapScreen: View {
                         .padding()
                 } else {
                     HStack(spacing: 10) {
-                        MapSearchBar(action: openSearch)
                         Spacer()
                         Button("Settings", systemImage: "gearshape", action: openSettings)
                             .labelStyle(.iconOnly)
@@ -62,7 +61,8 @@ struct MapScreen: View {
             .overlay(alignment: .bottom) {
                 if !searching {
                     MapControls(isLocating: location.isLocating, onSaved: openSaved,
-                                onLocate: locateUser, onLayers: { sheet = .layers })
+                                onLocate: locateUser, onSearch: openSearch,
+                                onLayers: { sheet = .layers })
                         .padding(.horizontal)
                         .padding(.bottom, 2)
                 }

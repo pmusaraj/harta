@@ -7,13 +7,12 @@ struct MapSearchBar: View {
         Button(action: action) {
             Label("Search places", systemImage: "magnifyingglass")
                 .labelStyle(.iconOnly)
-                .font(.title3)
+                .font(.body)
                 .foregroundStyle(.primary)
-                .frame(width: 52, height: 52)
+                .frame(width: 48, height: 48)
         }
         .buttonStyle(.plain)
-        .background(.regularMaterial, in: .rect(cornerRadius: 20))
-        .shadow(color: .black.opacity(0.08), radius: 12, y: 4)
+        .background(.regularMaterial, in: .circle)
         .accessibilityIdentifier("map.search")
     }
 }

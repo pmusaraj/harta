@@ -4,11 +4,12 @@ struct MapControls: View {
     let isLocating: Bool
     let onSaved: () -> Void
     let onLocate: () -> Void
+    let onSearch: () -> Void
     let onLayers: () -> Void
     @AppStorage(MapOverlay.preferenceKey) private var selection = 0
 
     var body: some View {
-        HStack {
+        HStack(alignment: .bottom) {
             Button("Saved", systemImage: "bookmark", action: onSaved)
                 .accessibilityIdentifier("map.saved")
                 .padding(.horizontal)
@@ -34,18 +35,21 @@ struct MapControls: View {
             .accessibilityLabel("Map layers")
             .accessibilityValue("\(MapOverlay.enabledCount(in: selection)) enabled")
             .accessibilityIdentifier("map.layers")
-            Button(action: onLocate) {
-                if isLocating {
-                    ProgressView().accessibilityLabel("Finding your location")
-                } else {
-                    Label("Show my location", systemImage: "location")
-                        .labelStyle(.iconOnly)
+            VStack(spacing: 12) {
+                MapSearchBar(action: onSearch)
+                Button(action: onLocate) {
+                    if isLocating {
+                        ProgressView().accessibilityLabel("Finding your location")
+                    } else {
+                        Label("Show my location", systemImage: "location")
+                            .labelStyle(.iconOnly)
+                    }
                 }
+                .frame(width: 48, height: 48)
+                .background(.regularMaterial, in: .circle)
+                .disabled(isLocating)
+                .accessibilityIdentifier("map.locate")
             }
-            .frame(width: 48, height: 48)
-            .background(.regularMaterial, in: .circle)
-            .disabled(isLocating)
-            .accessibilityIdentifier("map.locate")
         }
         .buttonStyle(.plain)
         .font(.body)
