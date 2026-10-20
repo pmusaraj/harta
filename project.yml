@@ -1,0 +1,67 @@
+name: Harta
+options:
+  bundleIdPrefix: com.musaraj.harta
+  deploymentTarget:
+    iOS: "26.0"
+packages:
+  Ferrostar:
+    url: https://github.com/stadiamaps/ferrostar
+    exactVersion: 0.57.0
+  MapLibre:
+    url: https://github.com/maplibre/maplibre-gl-native-distribution.git
+    exactVersion: 6.31.0
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    GENERATE_INFOPLIST_FILE: YES
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: 1
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: M4XMDAF939
+targets:
+  Harta:
+    type: application
+    platform: iOS
+    sources: [Harta]
+    info:
+      path: Harta/Resources/Info.plist
+      properties:
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UIBackgroundModes: [location, audio]
+    dependencies:
+      - package: MapLibre
+      - package: Ferrostar
+        product: FerrostarCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.musaraj.harta
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_KEY_CFBundleDisplayName: Harta
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Show your position and provide turn-by-turn guidance while you navigate.
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+  HartaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [HartaTests]
+    dependencies:
+      - target: Harta
+  HartaUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [HartaUITests]
+    dependencies:
+      - target: Harta
+schemes:
+  Harta:
+    build:
+      targets:
+        Harta: all
+    test:
+      environmentVariables:
+        RUN_LIVE_ROUTING_TESTS: "$(RUN_LIVE_ROUTING_TESTS)"
+      targets: [HartaTests, HartaUITests]

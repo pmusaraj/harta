@@ -1,0 +1,995 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		057B5C40E2208826C4BAE03B /* TravelMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52E7C1EC6F066B346426A3F /* TravelMode.swift */; };
+		07EC9F14E2327E827745EFEB /* MapCoordinator+Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56528F7B5DE3B67E7C3058D7 /* MapCoordinator+Routes.swift */; };
+		0EE1CE909D8D1EC841903FB7 /* RouteProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8352D56D8F17FD88F02016DF /* RouteProviding.swift */; };
+		0F99EC11C6A23F2F73A720BD /* MapStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E085FA4BA22EBB3812896344 /* MapStyleTests.swift */; };
+		0FD3C8E9800097B24417428B /* MapSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4C29E3491068A4A4A5593 /* MapSearchBar.swift */; };
+		127ED73BCAB488464EDF9648 /* harta-quiet-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 36032EBCA0C44A40DC364E87 /* harta-quiet-light.json */; };
+		1672A62F00FA4EBD6160CA79 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 6E12D781C4A58F7F36148B09 /* MapLibre */; };
+		20B332993F7153D934F29514 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E57F55082306DEF50B343B /* MapScreen.swift */; };
+		2125630C9241120C9CF6C87E /* MapCoordinator+Overlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9F7305E4BDEC2F17D7DB7D /* MapCoordinator+Overlays.swift */; };
+		284734D74758CF78E6A635A0 /* LocationFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA12A390CD0B1AFB07BA5DB8 /* LocationFix.swift */; };
+		2877D1F2702771B28D557372 /* SearchModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A90D272522A0AE7EF681B6 /* SearchModelTests.swift */; };
+		2A31306B70252E67B0E0B3E4 /* NavigationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05B55CC122508CFFDAC8B69 /* NavigationScreen.swift */; };
+		2D19BDB94D49B1202C950A81 /* OpenFreeMapStylesLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = A934AA353678348058E6F65A /* OpenFreeMapStylesLicense.txt */; };
+		2E3B2B8CC84576EBAF34429E /* DirectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3D262F084C44C9D22F2154 /* DirectionsTests.swift */; };
+		2F4047F1809C05578307FF65 /* MapLayersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1136A53386210F2A75826A8 /* MapLayersSheet.swift */; };
+		3069E13E6B8F7B4439638749 /* PlaceSearching.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC36E253D97542879A1A271D /* PlaceSearching.swift */; };
+		3393E7F4C2358FACDCCC5449 /* PhotonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DD173A6FA3405B0C14D814 /* PhotonResponse.swift */; };
+		34414F1F550D62100CB932A6 /* SavedPlacesSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A2635662A057BDFF4AD206 /* SavedPlacesSheet.swift */; };
+		3611E7632056444CE0883581 /* SavedPlacesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C83A5AC9D5B616F7D06B1E /* SavedPlacesStore.swift */; };
+		37122A07BC0C099D9429C894 /* harta-walking-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B8E90B395C0B250B2B77A91 /* harta-walking-dark.json */; };
+		3F1FE222F701DA0C8B002F12 /* harta-explore-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 1843F06EC50D1C031AFE3C44 /* harta-explore-light.json */; };
+		4254963AE825398073FEFE81 /* NavigationNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2405EC1490CA84D075A47BA /* NavigationNetwork.swift */; };
+		425FAF559A884439C1732E38 /* DirectionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9DB0134CAD4A59CDB86BF /* DirectionsModel.swift */; };
+		42F47FBB3599E398EBD53730 /* QuarterTurnLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B4A51492D8229514A4456D /* QuarterTurnLayout.swift */; };
+		48291A1696C797939C73A7AD /* MapStartupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85536F8A591447BBE6534367 /* MapStartupTests.swift */; };
+		495FFA0E15CA782AE05F6FCB /* harta-everyday-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 3DE22D5226E17D7E86143F03 /* harta-everyday-light.json */; };
+		4B6E407B618BFE2A1F9CB0BE /* PhotonSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064C17D7BF8CD7ACE4C6351 /* PhotonSearchService.swift */; };
+		5335DE8509A004DAFB5CAB51 /* MapCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5C32ABA2C35A7EFD75F25C /* MapCanvas.swift */; };
+		53678832DBE40CB007E25101 /* PositronLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 051B118471246F063F539B09 /* PositronLicense.txt */; };
+		55170380C6E8299E5F041BF4 /* SearchPlaceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49874165E2C8A1328D5AFE78 /* SearchPlaceRow.swift */; };
+		61D35D99B316C25F5D13743B /* ValhallaRoutingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590AF4E81BE0C6E01E59DE56 /* ValhallaRoutingService.swift */; };
+		6B96C3BA5CC3824DBC31CD22 /* SearchSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FFC9D98FA115553637B024 /* SearchSheet.swift */; };
+		71C9C03D9A1064E80E00DF86 /* RecentPlacesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3E38B6051839978A0BDBC /* RecentPlacesStore.swift */; };
+		780F6500A6AEA9B071F4BE26 /* SearchPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94A0D227E0BF056651F3920 /* SearchPanel.swift */; };
+		81F92252ADCFAB967AE11584 /* PlaceActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F4BD62D9E96B7680A249E4 /* PlaceActions.swift */; };
+		8487F47AD5F370A5AB0744A5 /* harta-walking-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 0D855CCEE6424C5A9444572E /* harta-walking-light.json */; };
+		8DC886132B1B6EA4F993481F /* TestResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6886931E6F8B56089B7F38E8 /* TestResources.swift */; };
+		8EA3359BE216A0D20DEBF05A /* MapSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2D485B1C1D8B704394DD7F /* MapSheet.swift */; };
+		8F7F6C22ED2D39C3D7041444 /* MapCredits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FD3FFD1EED1D4557CBAB60 /* MapCredits.swift */; };
+		90799D2981E33802BC8ADE00 /* MapLayerToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0C0CB50E9D5B4407E0E9B8 /* MapLayerToggle.swift */; };
+		9597456EF7C3E98002C15C77 /* MapFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13328118F047D5AD4C31C07E /* MapFlowTests.swift */; };
+		9A36270D09A0D2684800C921 /* MapStyleLicensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39677381C6C050AEE2E10D7F /* MapStyleLicensesView.swift */; };
+		9B683996155522ABE55797F3 /* NavigationLocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCD34163008E7055900B8FE /* NavigationLocationProvider.swift */; };
+		9C009535D755D052084E08AB /* MapRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A441283B0F6A06F2061BA5 /* MapRoute.swift */; };
+		9D7D71C5241C872E90EFD9AF /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250FFDFB62792F4D257133E /* MapModel.swift */; };
+		A000A9BEBE6E01A0054F5067 /* Ferrostar-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = EC0A142D22C3C1DB77C08D12 /* Ferrostar-LICENSE.txt */; };
+		A06A44D21018F08B78439D50 /* harta-everyday-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = C5431E91A6DAD47CC4DC5814 /* harta-everyday-dark.json */; };
+		A2EF73B24771894EF9DC3BD5 /* DirectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2E7AC52E44D970B46417C9 /* DirectionsView.swift */; };
+		A757CC47DA0B76F85AA8F450 /* FerrostarCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EB6C9D748E6BC93984A521E /* FerrostarCore */; };
+		A828163AF8ADDC54D87796D1 /* MapControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44A04B25E19009944FC9E6D /* MapControls.swift */; };
+		A978A25922D5304C508BAB53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4354F6818F42E4B5EDEF577 /* Assets.xcassets */; };
+		A9CCD8A2C7D67656CE3008B7 /* TransitKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6C9509C1C80920CC4EA0A4 /* TransitKind.swift */; };
+		AE46EADCF7ECBD7402282E00 /* DarkMatterLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5FDAFA38AA6C77DA3468C4F2 /* DarkMatterLicense.txt */; };
+		AF3E9316174BCC5897009766 /* MapLibre-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D64C855D783D0F0465420994 /* MapLibre-LICENSE.txt */; };
+		B1BD831CC919A6EE7D520780 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FE88E990ED20C759E002D3BC /* PrivacyInfo.xcprivacy */; };
+		B2D7B9706CCAC133EC0308D5 /* MapCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2DB244917B5AB6BADFE2C /* MapCoordinator.swift */; };
+		B3865A08870F00F919E742B3 /* RecentPlacesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE00C98A741118681F200A9 /* RecentPlacesTests.swift */; };
+		B444F71310F28E080E79BC81 /* NavigationTestNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B27A31DFA95786D595F74F3 /* NavigationTestNetwork.swift */; };
+		B4A2D94AF35B0B68F1655EA0 /* MapStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B85CFD412901E0584FF2D6 /* MapStyle.swift */; };
+		B648B52746EBCFF076A76F79 /* harta-quiet-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = FE521A8E16712615A4BD478B /* harta-quiet-dark.json */; };
+		B805A2AB4C8B88149FA50823 /* PhotonResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6C24860D30A8FB84230EC /* PhotonResponseTests.swift */; };
+		B9D134F4685CB6A04755B240 /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC274261D505970263F609B /* LocationServiceTests.swift */; };
+		BCA1E1764454FE94BEEBC012 /* PlaceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC14DA61EF80E7FE132E281D /* PlaceRow.swift */; };
+		C129262A5658835256BE8654 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB44B699DD12D0049E47F3 /* Place.swift */; };
+		C249D6836C39608F82128390 /* SavedPlacesStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021D232EFC03405959A14E34 /* SavedPlacesStoreTests.swift */; };
+		C33031212BB43F2B9230440E /* EssentialKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BACD311E15AE3F0AE521CC /* EssentialKind.swift */; };
+		C665261CB993F555368532EE /* navigation-route.json in Resources */ = {isa = PBXBuildFile; fileRef = 749A76B08BF5DC0340A9F0C5 /* navigation-route.json */; };
+		CB383B2451BCCE4FBF3E50E9 /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252961D0C07070FFCDD080 /* NavigationModel.swift */; };
+		D0CBA65D48C2299D1F197F22 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCCA4952664610085B6284E /* NavigationTests.swift */; };
+		D1189E8F33B8B3ABE02A25F9 /* MapErrorBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990B579E15C0199570C4E2E /* MapErrorBanner.swift */; };
+		D3E9FB7417CAD02F9CCDC6DC /* PlaceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D022F0AFCC326FF87C35A12 /* PlaceSheet.swift */; };
+		D5E6CA2A259FAC862D3C82AD /* MapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C537A1E9D3D2C02793B854EF /* MapOverlay.swift */; };
+		D7ECAB67F3957B083565E3E8 /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC773BE227A0ACDDF6D1045 /* SettingsSheet.swift */; };
+		DCA68CE9B97FAC0A1BECBEA1 /* ValhallaResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C576DCA4F310165F478D5 /* ValhallaResponse.swift */; };
+		EE00C8E89A8B69306FFBB642 /* harta-explore-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 5B5CA8351B6DC9BFD42E2D14 /* harta-explore-dark.json */; };
+		EE6FF78700E30CDF3D2BBDBD /* ControlledRouteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B71AB5DD7E99575C7BCC9 /* ControlledRouteService.swift */; };
+		F1B79A7611B59974D36C6638 /* ControlledSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25502E4516735E62DDBE95D /* ControlledSearchService.swift */; };
+		F467FB61E00CD9A101212F74 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEDD2FAEE44BA72F0269B9E /* SearchModel.swift */; };
+		F6AAA6647F0E8A538DF1B40D /* TestLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797E3691FDD7696D7E7E2588 /* TestLocationManager.swift */; };
+		F70D513690C7600F9AA0F960 /* HartaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399748FFB95E561D436F12E /* HartaApp.swift */; };
+		FA8A0FED0B9AFB43A1FD50B6 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A62A76C85B3E8822679076E /* AppConfiguration.swift */; };
+		FF5FE4147DB68BC45CBE77B6 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D9EA46F3F3C9130B1CBD9D /* LocationService.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9015E5A452479F2444068207 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA5806EC6F3532F4626C0052 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AABD0E988E33D6742EF158A5;
+			remoteInfo = Harta;
+		};
+		AD5EF482AFE094654E290BC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA5806EC6F3532F4626C0052 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AABD0E988E33D6742EF158A5;
+			remoteInfo = Harta;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00A2635662A057BDFF4AD206 /* SavedPlacesSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlacesSheet.swift; sourceTree = "<group>"; };
+		021D232EFC03405959A14E34 /* SavedPlacesStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlacesStoreTests.swift; sourceTree = "<group>"; };
+		051B118471246F063F539B09 /* PositronLicense.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = PositronLicense.txt; sourceTree = "<group>"; };
+		0BD6C24860D30A8FB84230EC /* PhotonResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotonResponseTests.swift; sourceTree = "<group>"; };
+		0D855CCEE6424C5A9444572E /* harta-walking-light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "harta-walking-light.json"; sourceTree = "<group>"; };
+		0EC9DB0134CAD4A59CDB86BF /* DirectionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsModel.swift; sourceTree = "<group>"; };
+		0F95789140F94D918C3B002B /* Harta.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Harta.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		131A3C6D27167B8E2C8A3297 /* HartaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HartaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		13328118F047D5AD4C31C07E /* MapFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFlowTests.swift; sourceTree = "<group>"; };
+		16A441283B0F6A06F2061BA5 /* MapRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRoute.swift; sourceTree = "<group>"; };
+		1843F06EC50D1C031AFE3C44 /* harta-explore-light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "harta-explore-light.json"; sourceTree = "<group>"; };
+		2064C17D7BF8CD7ACE4C6351 /* PhotonSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotonSearchService.swift; sourceTree = "<group>"; };
+		23BACD311E15AE3F0AE521CC /* EssentialKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialKind.swift; sourceTree = "<group>"; };
+		26A90D272522A0AE7EF681B6 /* SearchModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModelTests.swift; sourceTree = "<group>"; };
+		2D022F0AFCC326FF87C35A12 /* PlaceSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSheet.swift; sourceTree = "<group>"; };
+		2FC274261D505970263F609B /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
+		33FD3FFD1EED1D4557CBAB60 /* MapCredits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCredits.swift; sourceTree = "<group>"; };
+		36032EBCA0C44A40DC364E87 /* harta-quiet-light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "harta-quiet-light.json"; sourceTree = "<group>"; };
+		39677381C6C050AEE2E10D7F /* MapStyleLicensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStyleLicensesView.swift; sourceTree = "<group>"; };
+		3ADB44B699DD12D0049E47F3 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		3B27A31DFA95786D595F74F3 /* NavigationTestNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTestNetwork.swift; sourceTree = "<group>"; };
+		3DE22D5226E17D7E86143F03 /* harta-everyday-light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "harta-everyday-light.json"; sourceTree = "<group>"; };
+		4399748FFB95E561D436F12E /* HartaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HartaApp.swift; sourceTree = "<group>"; };
+		49874165E2C8A1328D5AFE78 /* SearchPlaceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceRow.swift; sourceTree = "<group>"; };
+		4DE00C98A741118681F200A9 /* RecentPlacesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentPlacesTests.swift; sourceTree = "<group>"; };
+		4FCCA4952664610085B6284E /* NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
+		51D9EA46F3F3C9130B1CBD9D /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		56528F7B5DE3B67E7C3058D7 /* MapCoordinator+Routes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapCoordinator+Routes.swift"; sourceTree = "<group>"; };
+		58B4A51492D8229514A4456D /* QuarterTurnLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuarterTurnLayout.swift; sourceTree = "<group>"; };
+		58F4BD62D9E96B7680A249E4 /* PlaceActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceActions.swift; sourceTree = "<group>"; };
+		590AF4E81BE0C6E01E59DE56 /* ValhallaRoutingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValhallaRoutingService.swift; sourceTree = "<group>"; };
+		5A0C0CB50E9D5B4407E0E9B8 /* MapLayerToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLayerToggle.swift; sourceTree = "<group>"; };
+		5B5CA8351B6DC9BFD42E2D14 /* harta-explore-dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "harta-explore-dark.json"; sourceTree = "<group>"; };
+		5E2E7AC52E44D970B46417C9 /* DirectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsView.swift; sourceTree = "<group>"; };
+		5FDAFA38AA6C77DA3468C4F2 /* DarkMatterLicense.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = DarkMatterLicense.txt; sourceTree = "<group>"; };
+		6886931E6F8B56089B7F38E8 /* TestResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestResources.swift; sourceTree = "<group>"; };
+		69B2DB244917B5AB6BADFE2C /* MapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCoordinator.swift; sourceTree = "<group>"; };
+		749A76B08BF5DC0340A9F0C5 /* navigation-route.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "navigation-route.json"; sourceTree = "<group>"; };
+		797E3691FDD7696D7E7E2588 /* TestLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocationManager.swift; sourceTree = "<group>"; };
+		8250FFDFB62792F4D257133E /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
+		8352D56D8F17FD88F02016DF /* RouteProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteProviding.swift; sourceTree = "<group>"; };
+		85536F8A591447BBE6534367 /* MapStartupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStartupTests.swift; sourceTree = "<group>"; };
+		8A3D262F084C44C9D22F2154 /* DirectionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsTests.swift; sourceTree = "<group>"; };
+		9A5C32ABA2C35A7EFD75F25C /* MapCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCanvas.swift; sourceTree = "<group>"; };
+		9A62A76C85B3E8822679076E /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		9AA3E38B6051839978A0BDBC /* RecentPlacesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentPlacesStore.swift; sourceTree = "<group>"; };
+		9B8E90B395C0B250B2B77A91 /* harta-walking-dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "harta-walking-dark.json"; sourceTree = "<group>"; };
+		A0C83A5AC9D5B616F7D06B1E /* SavedPlacesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlacesStore.swift; sourceTree = "<group>"; };
+		A52E7C1EC6F066B346426A3F /* TravelMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMode.swift; sourceTree = "<group>"; };
+		A934AA353678348058E6F65A /* OpenFreeMapStylesLicense.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = OpenFreeMapStylesLicense.txt; sourceTree = "<group>"; };
+		AC14DA61EF80E7FE132E281D /* PlaceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRow.swift; sourceTree = "<group>"; };
+		ADCD34163008E7055900B8FE /* NavigationLocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLocationProvider.swift; sourceTree = "<group>"; };
+		B25502E4516735E62DDBE95D /* ControlledSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlledSearchService.swift; sourceTree = "<group>"; };
+		B94A0D227E0BF056651F3920 /* SearchPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPanel.swift; sourceTree = "<group>"; };
+		B990B579E15C0199570C4E2E /* MapErrorBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapErrorBanner.swift; sourceTree = "<group>"; };
+		BB6C9509C1C80920CC4EA0A4 /* TransitKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitKind.swift; sourceTree = "<group>"; };
+		BBC773BE227A0ACDDF6D1045 /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
+		C44A04B25E19009944FC9E6D /* MapControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapControls.swift; sourceTree = "<group>"; };
+		C537A1E9D3D2C02793B854EF /* MapOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlay.swift; sourceTree = "<group>"; };
+		C5431E91A6DAD47CC4DC5814 /* harta-everyday-dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "harta-everyday-dark.json"; sourceTree = "<group>"; };
+		CA12A390CD0B1AFB07BA5DB8 /* LocationFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFix.swift; sourceTree = "<group>"; };
+		D08B71AB5DD7E99575C7BCC9 /* ControlledRouteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlledRouteService.swift; sourceTree = "<group>"; };
+		D1136A53386210F2A75826A8 /* MapLayersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLayersSheet.swift; sourceTree = "<group>"; };
+		D4A4C29E3491068A4A4A5593 /* MapSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchBar.swift; sourceTree = "<group>"; };
+		D64C855D783D0F0465420994 /* MapLibre-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "MapLibre-LICENSE.txt"; sourceTree = "<group>"; };
+		D7B85CFD412901E0584FF2D6 /* MapStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStyle.swift; sourceTree = "<group>"; };
+		D93C435E790DB68F874FB6E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		DE6C576DCA4F310165F478D5 /* ValhallaResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValhallaResponse.swift; sourceTree = "<group>"; };
+		E05B55CC122508CFFDAC8B69 /* NavigationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationScreen.swift; sourceTree = "<group>"; };
+		E085FA4BA22EBB3812896344 /* MapStyleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStyleTests.swift; sourceTree = "<group>"; };
+		E1FFC9D98FA115553637B024 /* SearchSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSheet.swift; sourceTree = "<group>"; };
+		E8732284952A12C8294F0E15 /* HartaUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HartaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9DD173A6FA3405B0C14D814 /* PhotonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotonResponse.swift; sourceTree = "<group>"; };
+		EC0A142D22C3C1DB77C08D12 /* Ferrostar-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Ferrostar-LICENSE.txt"; sourceTree = "<group>"; };
+		EC252961D0C07070FFCDD080 /* NavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationModel.swift; sourceTree = "<group>"; };
+		EC36E253D97542879A1A271D /* PlaceSearching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearching.swift; sourceTree = "<group>"; };
+		ED2D485B1C1D8B704394DD7F /* MapSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSheet.swift; sourceTree = "<group>"; };
+		EDEDD2FAEE44BA72F0269B9E /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
+		EF9F7305E4BDEC2F17D7DB7D /* MapCoordinator+Overlays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapCoordinator+Overlays.swift"; sourceTree = "<group>"; };
+		F2405EC1490CA84D075A47BA /* NavigationNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationNetwork.swift; sourceTree = "<group>"; };
+		F4354F6818F42E4B5EDEF577 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F8E57F55082306DEF50B343B /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
+		FE521A8E16712615A4BD478B /* harta-quiet-dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "harta-quiet-dark.json"; sourceTree = "<group>"; };
+		FE88E990ED20C759E002D3BC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		89302CCCABE17D36DF3CBF02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1672A62F00FA4EBD6160CA79 /* MapLibre in Frameworks */,
+				A757CC47DA0B76F85AA8F450 /* FerrostarCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E796B4DE142389B7A2B4411 /* Harta */ = {
+			isa = PBXGroup;
+			children = (
+				DA8693769BA8D493A6304661 /* App */,
+				5758BCE68FF6471C9C367D17 /* Features */,
+				4EE4BB7AAB69BB733B8DD5F5 /* Models */,
+				E897060BCC7B7CBFF3B73917 /* Resources */,
+				CA22E8E45D888456EC954D7F /* Services */,
+			);
+			path = Harta;
+			sourceTree = "<group>";
+		};
+		1D8CD29F0FD4E6C116918C52 /* Directions */ = {
+			isa = PBXGroup;
+			children = (
+				0EC9DB0134CAD4A59CDB86BF /* DirectionsModel.swift */,
+				5E2E7AC52E44D970B46417C9 /* DirectionsView.swift */,
+			);
+			path = Directions;
+			sourceTree = "<group>";
+		};
+		39C298CEA144DA9942C90B51 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0F95789140F94D918C3B002B /* Harta.app */,
+				131A3C6D27167B8E2C8A3297 /* HartaTests.xctest */,
+				E8732284952A12C8294F0E15 /* HartaUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4EE4BB7AAB69BB733B8DD5F5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				23BACD311E15AE3F0AE521CC /* EssentialKind.swift */,
+				CA12A390CD0B1AFB07BA5DB8 /* LocationFix.swift */,
+				C537A1E9D3D2C02793B854EF /* MapOverlay.swift */,
+				16A441283B0F6A06F2061BA5 /* MapRoute.swift */,
+				D7B85CFD412901E0584FF2D6 /* MapStyle.swift */,
+				E9DD173A6FA3405B0C14D814 /* PhotonResponse.swift */,
+				3ADB44B699DD12D0049E47F3 /* Place.swift */,
+				BB6C9509C1C80920CC4EA0A4 /* TransitKind.swift */,
+				A52E7C1EC6F066B346426A3F /* TravelMode.swift */,
+				DE6C576DCA4F310165F478D5 /* ValhallaResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5758BCE68FF6471C9C367D17 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				1D8CD29F0FD4E6C116918C52 /* Directions */,
+				EDE9693F179DF03A741F83F6 /* Map */,
+				CCCA4446731F877D56B7C989 /* Navigation */,
+				7AD721AEA9FE7B8D0665CF90 /* Places */,
+				7268E75B5413921B8FD74819 /* Search */,
+				EEAE282DB685BA4A4FD7CE2B /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		60C2D11AB6C4C0F5706A5A3F /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				749A76B08BF5DC0340A9F0C5 /* navigation-route.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		7268E75B5413921B8FD74819 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				EDEDD2FAEE44BA72F0269B9E /* SearchModel.swift */,
+				B94A0D227E0BF056651F3920 /* SearchPanel.swift */,
+				49874165E2C8A1328D5AFE78 /* SearchPlaceRow.swift */,
+				E1FFC9D98FA115553637B024 /* SearchSheet.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		7AD721AEA9FE7B8D0665CF90 /* Places */ = {
+			isa = PBXGroup;
+			children = (
+				58F4BD62D9E96B7680A249E4 /* PlaceActions.swift */,
+				AC14DA61EF80E7FE132E281D /* PlaceRow.swift */,
+				2D022F0AFCC326FF87C35A12 /* PlaceSheet.swift */,
+				00A2635662A057BDFF4AD206 /* SavedPlacesSheet.swift */,
+			);
+			path = Places;
+			sourceTree = "<group>";
+		};
+		81996998DCD87BE9A9EB9DC4 /* HartaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				13328118F047D5AD4C31C07E /* MapFlowTests.swift */,
+			);
+			path = HartaUITests;
+			sourceTree = "<group>";
+		};
+		963969E239AA904D9BA3140C /* HartaTests */ = {
+			isa = PBXGroup;
+			children = (
+				D08B71AB5DD7E99575C7BCC9 /* ControlledRouteService.swift */,
+				B25502E4516735E62DDBE95D /* ControlledSearchService.swift */,
+				8A3D262F084C44C9D22F2154 /* DirectionsTests.swift */,
+				2FC274261D505970263F609B /* LocationServiceTests.swift */,
+				85536F8A591447BBE6534367 /* MapStartupTests.swift */,
+				E085FA4BA22EBB3812896344 /* MapStyleTests.swift */,
+				3B27A31DFA95786D595F74F3 /* NavigationTestNetwork.swift */,
+				4FCCA4952664610085B6284E /* NavigationTests.swift */,
+				0BD6C24860D30A8FB84230EC /* PhotonResponseTests.swift */,
+				4DE00C98A741118681F200A9 /* RecentPlacesTests.swift */,
+				021D232EFC03405959A14E34 /* SavedPlacesStoreTests.swift */,
+				26A90D272522A0AE7EF681B6 /* SearchModelTests.swift */,
+				797E3691FDD7696D7E7E2588 /* TestLocationManager.swift */,
+				6886931E6F8B56089B7F38E8 /* TestResources.swift */,
+				60C2D11AB6C4C0F5706A5A3F /* Fixtures */,
+			);
+			path = HartaTests;
+			sourceTree = "<group>";
+		};
+		CA22E8E45D888456EC954D7F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				51D9EA46F3F3C9130B1CBD9D /* LocationService.swift */,
+				2064C17D7BF8CD7ACE4C6351 /* PhotonSearchService.swift */,
+				EC36E253D97542879A1A271D /* PlaceSearching.swift */,
+				9AA3E38B6051839978A0BDBC /* RecentPlacesStore.swift */,
+				8352D56D8F17FD88F02016DF /* RouteProviding.swift */,
+				A0C83A5AC9D5B616F7D06B1E /* SavedPlacesStore.swift */,
+				590AF4E81BE0C6E01E59DE56 /* ValhallaRoutingService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		CCCA4446731F877D56B7C989 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				ADCD34163008E7055900B8FE /* NavigationLocationProvider.swift */,
+				EC252961D0C07070FFCDD080 /* NavigationModel.swift */,
+				F2405EC1490CA84D075A47BA /* NavigationNetwork.swift */,
+				E05B55CC122508CFFDAC8B69 /* NavigationScreen.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		DA8693769BA8D493A6304661 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9A62A76C85B3E8822679076E /* AppConfiguration.swift */,
+				4399748FFB95E561D436F12E /* HartaApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		DBDBC60AFED9F3043812611D = {
+			isa = PBXGroup;
+			children = (
+				0E796B4DE142389B7A2B4411 /* Harta */,
+				963969E239AA904D9BA3140C /* HartaTests */,
+				81996998DCD87BE9A9EB9DC4 /* HartaUITests */,
+				39C298CEA144DA9942C90B51 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E2289D9FAAEE8D281741FC4A /* MapStyles */ = {
+			isa = PBXGroup;
+			children = (
+				5FDAFA38AA6C77DA3468C4F2 /* DarkMatterLicense.txt */,
+				C5431E91A6DAD47CC4DC5814 /* harta-everyday-dark.json */,
+				3DE22D5226E17D7E86143F03 /* harta-everyday-light.json */,
+				5B5CA8351B6DC9BFD42E2D14 /* harta-explore-dark.json */,
+				1843F06EC50D1C031AFE3C44 /* harta-explore-light.json */,
+				FE521A8E16712615A4BD478B /* harta-quiet-dark.json */,
+				36032EBCA0C44A40DC364E87 /* harta-quiet-light.json */,
+				9B8E90B395C0B250B2B77A91 /* harta-walking-dark.json */,
+				0D855CCEE6424C5A9444572E /* harta-walking-light.json */,
+				A934AA353678348058E6F65A /* OpenFreeMapStylesLicense.txt */,
+				051B118471246F063F539B09 /* PositronLicense.txt */,
+			);
+			path = MapStyles;
+			sourceTree = "<group>";
+		};
+		E897060BCC7B7CBFF3B73917 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F4354F6818F42E4B5EDEF577 /* Assets.xcassets */,
+				EC0A142D22C3C1DB77C08D12 /* Ferrostar-LICENSE.txt */,
+				D93C435E790DB68F874FB6E1 /* Info.plist */,
+				D64C855D783D0F0465420994 /* MapLibre-LICENSE.txt */,
+				FE88E990ED20C759E002D3BC /* PrivacyInfo.xcprivacy */,
+				E2289D9FAAEE8D281741FC4A /* MapStyles */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		EDE9693F179DF03A741F83F6 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				9A5C32ABA2C35A7EFD75F25C /* MapCanvas.swift */,
+				C44A04B25E19009944FC9E6D /* MapControls.swift */,
+				69B2DB244917B5AB6BADFE2C /* MapCoordinator.swift */,
+				EF9F7305E4BDEC2F17D7DB7D /* MapCoordinator+Overlays.swift */,
+				56528F7B5DE3B67E7C3058D7 /* MapCoordinator+Routes.swift */,
+				33FD3FFD1EED1D4557CBAB60 /* MapCredits.swift */,
+				B990B579E15C0199570C4E2E /* MapErrorBanner.swift */,
+				D1136A53386210F2A75826A8 /* MapLayersSheet.swift */,
+				5A0C0CB50E9D5B4407E0E9B8 /* MapLayerToggle.swift */,
+				8250FFDFB62792F4D257133E /* MapModel.swift */,
+				F8E57F55082306DEF50B343B /* MapScreen.swift */,
+				D4A4C29E3491068A4A4A5593 /* MapSearchBar.swift */,
+				ED2D485B1C1D8B704394DD7F /* MapSheet.swift */,
+				58B4A51492D8229514A4456D /* QuarterTurnLayout.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		EEAE282DB685BA4A4FD7CE2B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				39677381C6C050AEE2E10D7F /* MapStyleLicensesView.swift */,
+				BBC773BE227A0ACDDF6D1045 /* SettingsSheet.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1393B78523896AE158FFE762 /* HartaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9007D3D76314EB6624444C6F /* Build configuration list for PBXNativeTarget "HartaTests" */;
+			buildPhases = (
+				01AA8C48760164C902A43DE7 /* Sources */,
+				5698BDD447680C1373B4B2B1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				45D9B1DD9EF5E3654C32C300 /* PBXTargetDependency */,
+			);
+			name = HartaTests;
+			packageProductDependencies = (
+			);
+			productName = HartaTests;
+			productReference = 131A3C6D27167B8E2C8A3297 /* HartaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AABD0E988E33D6742EF158A5 /* Harta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9B964995B1C5C027AA51856 /* Build configuration list for PBXNativeTarget "Harta" */;
+			buildPhases = (
+				807E6759D4A9532F2830AE13 /* Sources */,
+				9FF32CC81D61DEB2583B057B /* Resources */,
+				89302CCCABE17D36DF3CBF02 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Harta;
+			packageProductDependencies = (
+				6E12D781C4A58F7F36148B09 /* MapLibre */,
+				6EB6C9D748E6BC93984A521E /* FerrostarCore */,
+			);
+			productName = Harta;
+			productReference = 0F95789140F94D918C3B002B /* Harta.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C88107B2A3FB1904A3BA30A3 /* HartaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 521169BA3488CD498DECA549 /* Build configuration list for PBXNativeTarget "HartaUITests" */;
+			buildPhases = (
+				A10E78BC9DC49EF87994D37E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CA1CBD61B62482567E1A15DB /* PBXTargetDependency */,
+			);
+			name = HartaUITests;
+			packageProductDependencies = (
+			);
+			productName = HartaUITests;
+			productReference = E8732284952A12C8294F0E15 /* HartaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BA5806EC6F3532F4626C0052 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					1393B78523896AE158FFE762 = {
+						DevelopmentTeam = M4XMDAF939;
+						ProvisioningStyle = Automatic;
+					};
+					AABD0E988E33D6742EF158A5 = {
+						DevelopmentTeam = M4XMDAF939;
+						ProvisioningStyle = Automatic;
+					};
+					C88107B2A3FB1904A3BA30A3 = {
+						DevelopmentTeam = M4XMDAF939;
+						ProvisioningStyle = Automatic;
+						TestTargetID = AABD0E988E33D6742EF158A5;
+					};
+				};
+			};
+			buildConfigurationList = 6A4844D10C2D26036CFE7AD2 /* Build configuration list for PBXProject "Harta" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = DBDBC60AFED9F3043812611D;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				8BF434F71D8EB5D156F5C59B /* XCRemoteSwiftPackageReference "ferrostar" */,
+				4222FB62568AB6E2BA48044F /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 39C298CEA144DA9942C90B51 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AABD0E988E33D6742EF158A5 /* Harta */,
+				1393B78523896AE158FFE762 /* HartaTests */,
+				C88107B2A3FB1904A3BA30A3 /* HartaUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5698BDD447680C1373B4B2B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C665261CB993F555368532EE /* navigation-route.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9FF32CC81D61DEB2583B057B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A978A25922D5304C508BAB53 /* Assets.xcassets in Resources */,
+				AE46EADCF7ECBD7402282E00 /* DarkMatterLicense.txt in Resources */,
+				A000A9BEBE6E01A0054F5067 /* Ferrostar-LICENSE.txt in Resources */,
+				AF3E9316174BCC5897009766 /* MapLibre-LICENSE.txt in Resources */,
+				2D19BDB94D49B1202C950A81 /* OpenFreeMapStylesLicense.txt in Resources */,
+				53678832DBE40CB007E25101 /* PositronLicense.txt in Resources */,
+				B1BD831CC919A6EE7D520780 /* PrivacyInfo.xcprivacy in Resources */,
+				A06A44D21018F08B78439D50 /* harta-everyday-dark.json in Resources */,
+				495FFA0E15CA782AE05F6FCB /* harta-everyday-light.json in Resources */,
+				EE00C8E89A8B69306FFBB642 /* harta-explore-dark.json in Resources */,
+				3F1FE222F701DA0C8B002F12 /* harta-explore-light.json in Resources */,
+				B648B52746EBCFF076A76F79 /* harta-quiet-dark.json in Resources */,
+				127ED73BCAB488464EDF9648 /* harta-quiet-light.json in Resources */,
+				37122A07BC0C099D9429C894 /* harta-walking-dark.json in Resources */,
+				8487F47AD5F370A5AB0744A5 /* harta-walking-light.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		01AA8C48760164C902A43DE7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE6FF78700E30CDF3D2BBDBD /* ControlledRouteService.swift in Sources */,
+				F1B79A7611B59974D36C6638 /* ControlledSearchService.swift in Sources */,
+				2E3B2B8CC84576EBAF34429E /* DirectionsTests.swift in Sources */,
+				B9D134F4685CB6A04755B240 /* LocationServiceTests.swift in Sources */,
+				48291A1696C797939C73A7AD /* MapStartupTests.swift in Sources */,
+				0F99EC11C6A23F2F73A720BD /* MapStyleTests.swift in Sources */,
+				B444F71310F28E080E79BC81 /* NavigationTestNetwork.swift in Sources */,
+				D0CBA65D48C2299D1F197F22 /* NavigationTests.swift in Sources */,
+				B805A2AB4C8B88149FA50823 /* PhotonResponseTests.swift in Sources */,
+				B3865A08870F00F919E742B3 /* RecentPlacesTests.swift in Sources */,
+				C249D6836C39608F82128390 /* SavedPlacesStoreTests.swift in Sources */,
+				2877D1F2702771B28D557372 /* SearchModelTests.swift in Sources */,
+				F6AAA6647F0E8A538DF1B40D /* TestLocationManager.swift in Sources */,
+				8DC886132B1B6EA4F993481F /* TestResources.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		807E6759D4A9532F2830AE13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA8A0FED0B9AFB43A1FD50B6 /* AppConfiguration.swift in Sources */,
+				425FAF559A884439C1732E38 /* DirectionsModel.swift in Sources */,
+				A2EF73B24771894EF9DC3BD5 /* DirectionsView.swift in Sources */,
+				C33031212BB43F2B9230440E /* EssentialKind.swift in Sources */,
+				F70D513690C7600F9AA0F960 /* HartaApp.swift in Sources */,
+				284734D74758CF78E6A635A0 /* LocationFix.swift in Sources */,
+				FF5FE4147DB68BC45CBE77B6 /* LocationService.swift in Sources */,
+				5335DE8509A004DAFB5CAB51 /* MapCanvas.swift in Sources */,
+				A828163AF8ADDC54D87796D1 /* MapControls.swift in Sources */,
+				2125630C9241120C9CF6C87E /* MapCoordinator+Overlays.swift in Sources */,
+				07EC9F14E2327E827745EFEB /* MapCoordinator+Routes.swift in Sources */,
+				B2D7B9706CCAC133EC0308D5 /* MapCoordinator.swift in Sources */,
+				8F7F6C22ED2D39C3D7041444 /* MapCredits.swift in Sources */,
+				D1189E8F33B8B3ABE02A25F9 /* MapErrorBanner.swift in Sources */,
+				90799D2981E33802BC8ADE00 /* MapLayerToggle.swift in Sources */,
+				2F4047F1809C05578307FF65 /* MapLayersSheet.swift in Sources */,
+				9D7D71C5241C872E90EFD9AF /* MapModel.swift in Sources */,
+				D5E6CA2A259FAC862D3C82AD /* MapOverlay.swift in Sources */,
+				9C009535D755D052084E08AB /* MapRoute.swift in Sources */,
+				20B332993F7153D934F29514 /* MapScreen.swift in Sources */,
+				0FD3C8E9800097B24417428B /* MapSearchBar.swift in Sources */,
+				8EA3359BE216A0D20DEBF05A /* MapSheet.swift in Sources */,
+				B4A2D94AF35B0B68F1655EA0 /* MapStyle.swift in Sources */,
+				9A36270D09A0D2684800C921 /* MapStyleLicensesView.swift in Sources */,
+				9B683996155522ABE55797F3 /* NavigationLocationProvider.swift in Sources */,
+				CB383B2451BCCE4FBF3E50E9 /* NavigationModel.swift in Sources */,
+				4254963AE825398073FEFE81 /* NavigationNetwork.swift in Sources */,
+				2A31306B70252E67B0E0B3E4 /* NavigationScreen.swift in Sources */,
+				3393E7F4C2358FACDCCC5449 /* PhotonResponse.swift in Sources */,
+				4B6E407B618BFE2A1F9CB0BE /* PhotonSearchService.swift in Sources */,
+				C129262A5658835256BE8654 /* Place.swift in Sources */,
+				81F92252ADCFAB967AE11584 /* PlaceActions.swift in Sources */,
+				BCA1E1764454FE94BEEBC012 /* PlaceRow.swift in Sources */,
+				3069E13E6B8F7B4439638749 /* PlaceSearching.swift in Sources */,
+				D3E9FB7417CAD02F9CCDC6DC /* PlaceSheet.swift in Sources */,
+				42F47FBB3599E398EBD53730 /* QuarterTurnLayout.swift in Sources */,
+				71C9C03D9A1064E80E00DF86 /* RecentPlacesStore.swift in Sources */,
+				0EE1CE909D8D1EC841903FB7 /* RouteProviding.swift in Sources */,
+				34414F1F550D62100CB932A6 /* SavedPlacesSheet.swift in Sources */,
+				3611E7632056444CE0883581 /* SavedPlacesStore.swift in Sources */,
+				F467FB61E00CD9A101212F74 /* SearchModel.swift in Sources */,
+				780F6500A6AEA9B071F4BE26 /* SearchPanel.swift in Sources */,
+				55170380C6E8299E5F041BF4 /* SearchPlaceRow.swift in Sources */,
+				6B96C3BA5CC3824DBC31CD22 /* SearchSheet.swift in Sources */,
+				D7ECAB67F3957B083565E3E8 /* SettingsSheet.swift in Sources */,
+				A9CCD8A2C7D67656CE3008B7 /* TransitKind.swift in Sources */,
+				057B5C40E2208826C4BAE03B /* TravelMode.swift in Sources */,
+				DCA68CE9B97FAC0A1BECBEA1 /* ValhallaResponse.swift in Sources */,
+				61D35D99B316C25F5D13743B /* ValhallaRoutingService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10E78BC9DC49EF87994D37E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9597456EF7C3E98002C15C77 /* MapFlowTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		45D9B1DD9EF5E3654C32C300 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AABD0E988E33D6742EF158A5 /* Harta */;
+			targetProxy = AD5EF482AFE094654E290BC7 /* PBXContainerItemProxy */;
+		};
+		CA1CBD61B62482567E1A15DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AABD0E988E33D6742EF158A5 /* Harta */;
+			targetProxy = 9015E5A452479F2444068207 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		104BB9760153AAFEBB57DE7A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.musaraj.harta.HartaTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Harta.app/Harta";
+			};
+			name = Debug;
+		};
+		1490A6318597F2D0E3C6A127 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.musaraj.harta.HartaTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Harta.app/Harta";
+			};
+			name = Release;
+		};
+		48F96B38FEB099A9DCAEC724 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Harta/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Harta;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show your position and provide turn-by-turn guidance while you navigate.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.musaraj.harta;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		650E9DD9746BE3265FF18A1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.musaraj.harta.HartaUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Harta;
+			};
+			name = Debug;
+		};
+		7E6D544658A82CFDB43B0A12 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.musaraj.harta.HartaUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Harta;
+			};
+			name = Release;
+		};
+		86F93DB723FEC2CB332364D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Harta/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Harta;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show your position and provide turn-by-turn guidance while you navigate.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.musaraj.harta;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9DCD91B41B5C0AB34FB9B583 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = M4XMDAF939;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A0FBFC64F3EA0953578F3121 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = M4XMDAF939;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		521169BA3488CD498DECA549 /* Build configuration list for PBXNativeTarget "HartaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				650E9DD9746BE3265FF18A1E /* Debug */,
+				7E6D544658A82CFDB43B0A12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6A4844D10C2D26036CFE7AD2 /* Build configuration list for PBXProject "Harta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A0FBFC64F3EA0953578F3121 /* Debug */,
+				9DCD91B41B5C0AB34FB9B583 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9007D3D76314EB6624444C6F /* Build configuration list for PBXNativeTarget "HartaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				104BB9760153AAFEBB57DE7A /* Debug */,
+				1490A6318597F2D0E3C6A127 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E9B964995B1C5C027AA51856 /* Build configuration list for PBXNativeTarget "Harta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				86F93DB723FEC2CB332364D5 /* Debug */,
+				48F96B38FEB099A9DCAEC724 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4222FB62568AB6E2BA48044F /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maplibre/maplibre-gl-native-distribution.git";
+			requirement = {
+				kind = exactVersion;
+				version = 6.31.0;
+			};
+		};
+		8BF434F71D8EB5D156F5C59B /* XCRemoteSwiftPackageReference "ferrostar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stadiamaps/ferrostar";
+			requirement = {
+				kind = exactVersion;
+				version = 0.57.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6E12D781C4A58F7F36148B09 /* MapLibre */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4222FB62568AB6E2BA48044F /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
+			productName = MapLibre;
+		};
+		6EB6C9D748E6BC93984A521E /* FerrostarCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8BF434F71D8EB5D156F5C59B /* XCRemoteSwiftPackageReference "ferrostar" */;
+			productName = FerrostarCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = BA5806EC6F3532F4626C0052 /* Project object */;
+}

@@ -1,0 +1,36 @@
+.DS_Store
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcresult
+.env.testflight
+*.p8
+*.p12
+*.mobileprovision
+*.xcarchive/
+*.ipa
+
+# Local credentials and generated distribution artifacts
+.env
+.env.*
+!.env.testflight.example
+*.pem
+*.key
+*.pfx
+*.cer
+*.app/
+*.dSYM/
+*.dSYM.zip
+*.xcframework/
+*.xcdistributionlogs/
+build/
+exports/
+archives/
+__pycache__/
+
+# Local review material, generated images, and conversation notes
+/output/
+/screenshots/
+/design/
+/HANDOFF.md
