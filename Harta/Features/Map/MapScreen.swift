@@ -10,6 +10,7 @@ struct MapScreen: View {
     @State private var searching = false
     @State private var placeDetent: PresentationDetent = .height(320)
     @State private var sheet: MapSheet?
+    @State private var showVoiceDirections = false
     @State private var pendingPlace: Place?
     @State private var alertMessage: String?
     @State private var showLocationError = false
@@ -37,7 +38,8 @@ struct MapScreen: View {
                 if searching {
                     SearchPanel(model: search, store: saved, recents: recents,
                                 latitude: model.latitude, longitude: model.longitude,
-                                onSelect: selectFromSearch, onClose: { searching = false })
+                                onSelect: selectFromSearch, onClose: { searching = false },
+                                location: location, onDirections: selectVoiceDirections)
                         .padding()
                 } else {
                     HStack(spacing: 10) {
@@ -83,7 +85,7 @@ struct MapScreen: View {
                             .presentationDetents([.medium, .large])
                     case .place:
                         if let place = model.selectedPlace {
-                            PlaceSheet(place: place, store: saved, directionsModel: directions, location: location, detent: $placeDetent)
+                            PlaceSheet(place: place, store: saved, directionsModel: directions, location: location, detent: $placeDetent, opensDirections: showVoiceDirections)
                                 .presentationDetents([.height(320), .medium, .large], selection: $placeDetent)
                         }
                     case .layers:
@@ -135,11 +137,19 @@ struct MapScreen: View {
         searching = false
         selectFromMap(place)
     }
+    private func selectVoiceDirections(_ place: Place, mode: TravelMode?) {
+        selectFromMap(place)
+        directions.origin = nil
+        if let mode { directions.mode = mode }
+        showVoiceDirections = true
+        placeDetent = .large
+    }
     private func openSaved() { sheet = .saved }
     private func openSettings() { sheet = .settings }
     private func dropCenterPin() { selectFromMap(model.centerPin()) }
 
     private func selectFromMap(_ place: Place) {
+        showVoiceDirections = false
         searching = false
         placeDetent = .height(320)
         directions.clear()
@@ -148,6 +158,7 @@ struct MapScreen: View {
     }
 
     private func selectFromSheet(_ place: Place) {
+        showVoiceDirections = false
         pendingPlace = place
         sheet = nil
     }

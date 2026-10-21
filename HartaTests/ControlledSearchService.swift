@@ -5,7 +5,7 @@ actor ControlledSearchService: PlaceSearching {
     private var continuation: CheckedContinuation<[Place], Never>?
     var hasPendingRequest: Bool { continuation != nil }
 
-    func search(query: String, latitude: Double, longitude: Double) async throws -> [Place] {
+    func search(query: String, latitude: Double?, longitude: Double?) async throws -> [Place] {
         await withCheckedContinuation { continuation = $0 }
     }
 

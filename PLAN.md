@@ -61,10 +61,14 @@ Ferrostar Core powers a custom SwiftUI guidance screen with live GPS, upcoming m
 Everyday is the default map style. Settings beside Search offers Quiet, Everyday, Walking, and Explore, remembers the choice, and applies it to browsing and navigation in light and dark appearance. Privacy and map credits share this screen. The overflow menu is removed; pin dropping remains available by long press and an accessibility action. Styles are bundled, generated from retained OpenFreeMap snapshots, and include upstream license notices.
 
 
-## Voice commands — revised scope
+## Voice commands — implemented scope
 
-Planned, not implemented. Add tap-to-speak commands that extract a basic search or
+Implemented October 20, 2026: tap-to-speak commands extract a basic search or
 route-preview request and reuse existing search, saved places, and directions.
+Automated tests cover extraction fallback, saved-place matching, cancellation,
+permission/error handling, and audio conversion. Real-device speech recognition,
+model quality/latency, accents, noisy environments, and navigation audio remain
+manual validation tasks; simulator service doubles do not establish speech accuracy.
 No chat interface, rich place filters, or visible transcript by default.
 
 ### Interaction
@@ -84,7 +88,7 @@ No chat interface, rich place filters, or visible transcript by default.
 
 1. Capture microphone audio with AVAudioEngine and transcribe with SpeechAnalyzer
    and SpeechTranscriber. Check hardware, locale, and installed assets; download
-   required assets with progress. Consider DictationTranscriber where supported.
+   required assets with progress. Use DictationTranscriber as a supported fallback.
 2. Pass only the completed utterance to an on-device Foundation Models session.
    Use guided generation for a small typed request: action (search or directions),
    query/destination text, optional saved-place reference (home/work/name), optional
@@ -104,15 +108,17 @@ No chat interface, rich place filters, or visible transcript by default.
   diacritics, whitespace, and punctuation for matching saved names.
 - “Home”, “go home”, and “directions home” match a saved place named Home or marked
   with the Home icon. Apply the same rule to Work. Do not infer home from GPS history.
-- Exact normalized saved-name matches take priority; allow unique whole-word name
-  matches. Multiple candidates, including multiple Home/Work places, require a chooser.
+- Exact normalized saved-name matches take priority. Multiple exact candidates,
+  including multiple Home/Work places, require a chooser. Broader matches appear
+  alongside online results instead of automatically opening one saved place.
 - Resolve a unique saved place directly using its stored coordinates. For directions,
   open the existing preview with current location as origin and the extracted mode
   or current mode default. Handle unavailable location through the existing flow.
 - If Home or Work is missing, explain how to save a place with that name or icon;
   do not send “home” or “work” as a generic online destination search.
-- Other unmatched names go through existing submit-only Photon search with the map
-  center bias. Keep an explicit locality in the text query for the initial version.
+- Other names go through combined saved and submit-only Photon search, preferring
+  a fresh current location. Explicit map-area requests use the map center; named
+  localities remain in the query and omit coordinate bias.
   Saved-place resolution must respect explicit locality qualifiers rather than
   silently replacing an out-of-town destination with a similarly named saved place.
 
@@ -129,11 +135,14 @@ No chat interface, rich place filters, or visible transcript by default.
   queries still reach Photon, and directions still use the online routing service.
   Update privacy text and microphone usage description when implementing.
 
-### Implementation and verification
+### Architecture and remaining verification
 
-- Introduce injectable transcription and command-extraction services, a typed voice
+- Use injectable transcription and command-extraction services, a typed voice
   request, and a deterministic saved-place resolver, coordinated by a cancellable
   voice-command model. Reuse SearchModel, SavedPlacesStore, and directions behavior.
+  Speech capture stops after 0.8 seconds without detected speech following speech,
+  eight seconds with no speech, or twenty seconds total. Stop submits; Cancel discards.
+  Local recognition finalization and command extraction also have bounded waits.
 - Cancel audio, extraction, and pending searches on dismissal or replacement; reject
   stale results. Coordinate microphone capture with spoken navigation guidance.
 - Test exact/partial/ambiguous saved matches, Home/Work aliases, absent saved places,
@@ -146,3 +155,25 @@ No chat interface, rich place filters, or visible transcript by default.
 References: [Apple speech pipeline](https://developer.apple.com/videos/play/wwdc2025/277/),
 [Foundation Models](https://developer.apple.com/documentation/foundationmodels),
 [guided generation](https://developer.apple.com/documentation/foundationmodels/generating-swift-data-structures-with-guided-generation).
+
+
+## Search quality — stage one
+
+Implemented shared typed/voice search with immediate saved matches followed by
+merged online results. Matching uses normalized tokens, small typos, and explicit
+sport/category icons. Rank by name relevance, saved status, and distance; exact
+named destinations retain priority. Merge duplicate IDs and same-name nearby points,
+preserving saved metadata. Keep saved results visible if online search fails.
+
+“Near me” is a current-location scope, never query text or a named locality. Use a
+fix less than two minutes old. Without one, offer location recovery or explicit
+map-area search. Ordinary searches may fall back to the map center with a notice.
+Named localities take precedence and only include saved places whose names/addresses
+match that locality; they do not inherit an unrelated GPS bias.
+
+## Search quality — stage two (deferred)
+
+Extend local-model involvement beyond voice intent extraction: use it to interpret
+category/name variations, expand queries, and assess retrieved candidates. Ground
+all results in actual saved/provider places. Evaluate against real failed queries
+before choosing the model prompts and ranking behavior. Do not invent destinations.

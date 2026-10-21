@@ -39,6 +39,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.musaraj.harta
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         INFOPLIST_KEY_CFBundleDisplayName: Harta
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: Use your microphone for on-device voice search and directions. Audio is not saved or uploaded.
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Show your position and provide turn-by-turn guidance while you navigate.
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES

@@ -12,14 +12,16 @@ actor PhotonSearchService: PlaceSearching {
         self.session = session
     }
 
-    func search(query: String, latitude: Double, longitude: Double) async throws -> [Place] {
+    func search(query: String, latitude: Double?, longitude: Double?) async throws -> [Place] {
         let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard query.count >= 2 else { return [] }
-        guard latitude.isFinite, longitude.isFinite,
-              (-90...90).contains(latitude), (-180...180).contains(longitude) else {
-            throw URLError(.badURL)
+        guard (latitude == nil) == (longitude == nil) else { throw URLError(.badURL) }
+        if let latitude, let longitude {
+            guard latitude.isFinite, longitude.isFinite,
+                  (-90...90).contains(latitude), (-180...180).contains(longitude) else { throw URLError(.badURL) }
         }
-        let key = "\(query.lowercased())|\(Int(latitude * 100))|\(Int(longitude * 100))"
+        let areaKey = latitude.flatMap { lat in longitude.map { "\(Int(lat * 100))|\(Int($0 * 100))" } } ?? "unbiased"
+        let key = "\(query.lowercased())|\(areaKey)"
         if let cached = cache[key] { return cached }
 
         // Submit-only UI plus a minimum interval protects the public demo service.
@@ -33,10 +35,15 @@ actor PhotonSearchService: PlaceSearching {
         }
         components.queryItems = [
             URLQueryItem(name: "q", value: query),
-            URLQueryItem(name: "lat", value: String(latitude)),
-            URLQueryItem(name: "lon", value: String(longitude)),
-            URLQueryItem(name: "limit", value: "8")
+            URLQueryItem(name: "limit", value: "20")
         ]
+        if let latitude, let longitude {
+            components.queryItems?.append(contentsOf: [
+                URLQueryItem(name: "lat", value: String(latitude)),
+                URLQueryItem(name: "lon", value: String(longitude)),
+                URLQueryItem(name: "location_bias_scale", value: "0.1")
+            ])
+        }
         guard let url = components.url else { throw URLError(.badURL) }
         var request = URLRequest(url: url)
         request.timeoutInterval = 15

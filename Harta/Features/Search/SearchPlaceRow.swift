@@ -14,7 +14,12 @@ struct SearchPlaceRow: View {
                             .frame(width: 28)
                             .accessibilityHidden(true)
                     }
-                    PlaceRow(place: place)
+                    VStack(alignment: .leading, spacing: 0) {
+                        PlaceRow(place: place)
+                        if store.contains(place) {
+                            Text("Saved").font(.caption).foregroundStyle(.teal)
+                        }
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading).contentShape(.rect)
             }

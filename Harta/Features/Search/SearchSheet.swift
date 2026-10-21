@@ -7,11 +7,14 @@ struct SearchSheet: View {
     let latitude: Double
     let longitude: Double
     let onSelect: (Place) -> Void
+    @State private var location = LocationService()
     @State private var recents = RecentPlacesStore()
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         SearchPanel(model: model, store: store, recents: recents, latitude: latitude, longitude: longitude,
-                    onSelect: onSelect, onClose: { dismiss() })
+                    onSelect: onSelect, onClose: { dismiss() }, location: location)
+            .task { location.startTracking() }
+            .onDisappear { location.stop() }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .presentationDragIndicator(.visible)

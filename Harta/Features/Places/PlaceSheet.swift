@@ -7,6 +7,7 @@ struct PlaceSheet: View {
     @Bindable var directionsModel: DirectionsModel
     let location: LocationService
     @Binding var detent: PresentationDetent
+    var opensDirections = false
     @State private var lastEstimateFix: LocationFix?
     @State private var showError = false
     @State private var showingDirections = false
@@ -68,6 +69,10 @@ struct PlaceSheet: View {
         }
         .task(id: place.id) {
             lastEstimateFix = nil
+            if opensDirections {
+                showingDirections = true
+                return
+            }
             directionsModel.clear()
             // Estimates are optional: Go is available without waiting for a preview or permission prompt.
             if let fix = location.fix, abs(fix.timestamp.timeIntervalSinceNow) < 120 {
