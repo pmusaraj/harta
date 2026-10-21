@@ -20,7 +20,7 @@ struct MapScreen: View {
                   isShowingPlace: sheet == .place, onSelect: selectFromMap,
                   onPan: model.stopLocationCentering,
                   onDeselect: dismissMapPanes,
-                  compactPlaceCard: placeDetent == .height(320))
+                  compactPlaceCard: placeDetent == .height(320), savedPlaces: saved.places)
             .ignoresSafeArea()
             .accessibilityAction(named: "Drop pin here", dropCenterPin)
             .overlay {

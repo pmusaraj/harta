@@ -65,6 +65,10 @@ extension MapCoordinator {
                 return
             }
         }
+        if let saved = savedPlace(at: point, on: map) {
+            onSelect(saved)
+            return
+        }
         let enabled = MapOverlay.allCases.filter { $0 != .cycling && $0.isEnabled(in: overlaySelection) }
         guard !enabled.isEmpty else {
             onDeselect?()

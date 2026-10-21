@@ -11,6 +11,7 @@ struct MapCanvas: UIViewRepresentable {
     var onPan: (() -> Void)?
     var onDeselect: (() -> Void)?
     var compactPlaceCard = false
+    var savedPlaces: [Place] = []
     @AppStorage(MapStyle.preferenceKey) private var mapStyle: MapStyle = .everyday
     @AppStorage(MapOverlay.preferenceKey) private var overlays = 0
     @Environment(\.colorScheme) private var colorScheme
@@ -79,7 +80,7 @@ struct MapCanvas: UIViewRepresentable {
         }
         coordinator.updateRoute(on: view, directions: directions, animated: !reduceMotion)
         coordinator.updateAnnotations(on: view, selected: model.selectedPlace, user: userCoordinate,
-                                      isDark: colorScheme == .dark)
+                                      isDark: colorScheme == .dark, saved: savedPlaces)
     }
 
     static func dismantleUIView(_ view: MLNMapView, coordinator: MapCoordinator) {

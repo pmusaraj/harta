@@ -2,6 +2,52 @@ import XCTest
 
 @MainActor
 final class MapFlowTests: XCTestCase {
+    func testSavedPlaceIconPickerPersistsWithoutOpeningPlace() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-mapOverlays", "0"]
+        app.launch()
+        XCTAssertTrue(app.buttons["map.saved"].waitForExistence(timeout: 15))
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(forDuration: 1.2)
+        let save = app.buttons["place.save"]
+        XCTAssertTrue(save.waitForExistence(timeout: 5))
+        if save.label == "Saved" { save.tap() }
+        save.tap()
+        app.buttons["Done"].tap()
+        app.buttons["map.saved"].tap()
+        let icon = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "saved.icon.pin:")).firstMatch
+        XCTAssertTrue(icon.waitForExistence(timeout: 5))
+        let identifier = icon.identifier
+        XCTAssertEqual(icon.value as? String, "Bookmark")
+        icon.tap()
+        XCTAssertTrue(app.navigationBars["Choose an icon"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["place.go"].exists)
+        let picker = XCTAttachment(screenshot: app.screenshot())
+        picker.name = "Saved place icon picker"
+        picker.lifetime = .keepAlways
+        add(picker)
+        app.buttons["saved.icon.option.home"].tap()
+        XCTAssertTrue(app.navigationBars["Choose an icon"].waitForNonExistence(timeout: 5))
+        XCTAssertEqual(app.buttons[identifier].value as? String, "Home")
+        app.terminate()
+        app.launch()
+        app.buttons["map.saved"].tap()
+        XCTAssertTrue(app.buttons[identifier].waitForExistence(timeout: 5))
+        XCTAssertEqual(app.buttons[identifier].value as? String, "Home")
+        let saved = XCTAttachment(screenshot: app.screenshot())
+        saved.name = "Saved place with custom icon"
+        saved.lifetime = .keepAlways
+        add(saved)
+        let rowIdentifier = identifier.replacingOccurrences(of: "saved.icon.", with: "saved.place.")
+        app.buttons[rowIdentifier].tap()
+        XCTAssertTrue(app.buttons["place.save"].waitForExistence(timeout: 5))
+        let map = XCTAttachment(screenshot: app.screenshot())
+        map.name = "Selected saved place icon on map"
+        map.lifetime = .keepAlways
+        add(map)
+        app.buttons["place.save"].tap()
+        app.buttons["Done"].tap()
+    }
+
     func testEmptyMapTapDismissesOpenPanesWithoutSelectedPlace() {
         let app = XCUIApplication()
         app.launchArguments = ["-mapOverlays", "0"]

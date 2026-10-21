@@ -7,7 +7,16 @@ struct SearchPlaceRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Button { onSelect(place) } label: {
-                PlaceRow(place: place).frame(maxWidth: .infinity, alignment: .leading).contentShape(.rect)
+                HStack(spacing: 12) {
+                    if let icon = store.icon(for: place) {
+                        Image(systemName: icon.symbol)
+                            .foregroundStyle(.teal)
+                            .frame(width: 28)
+                            .accessibilityHidden(true)
+                    }
+                    PlaceRow(place: place)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading).contentShape(.rect)
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("search.place.\(place.id)")

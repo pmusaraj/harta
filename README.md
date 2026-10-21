@@ -17,6 +17,8 @@ Choose a destination and tap **Go** to preview a route, then **Start navigation*
 
 Open **Search** above the location control to find a place, or **Layers** beside it to choose what appears on the map. Open **Settings** in the top-right corner to change the map style, read privacy information, or view map credits.
 
+In **Saved places**, tap the icon beside a place to choose a different symbol. New saves use a bookmark. Your choice appears in the saved list, search results, and on the map; tap the place’s name to open its details.
+
 ## Privacy
 
 Saved places, recent searches, and preferences stay on your device. Harta has no analytics. Background location is used only during active navigation.

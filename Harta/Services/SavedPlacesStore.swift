@@ -22,6 +22,22 @@ final class SavedPlacesStore {
 
     func contains(_ place: Place) -> Bool { places.contains { $0.id == place.id } }
 
+    func icon(for place: Place) -> SavedPlaceIcon? {
+        places.first { $0.id == place.id }?.icon
+    }
+
+    @discardableResult
+    func setIcon(_ icon: SavedPlaceIcon, for place: Place) -> Bool {
+        guard canWrite else {
+            errorMessage = "Saved places are unavailable because the existing file couldn’t be read."
+            return false
+        }
+        guard let index = places.firstIndex(where: { $0.id == place.id }) else { return false }
+        var updated = places
+        updated[index].savedIcon = icon.rawValue
+        return persist(updated)
+    }
+
     func toggle(_ place: Place) {
         guard canWrite else {
             errorMessage = "Saved places are unavailable because the existing file couldn’t be read."
@@ -44,15 +60,18 @@ final class SavedPlacesStore {
         persist(places.filter { !ids.contains($0.id) })
     }
 
-    private func persist(_ updated: [Place]) {
+    @discardableResult
+    private func persist(_ updated: [Place]) -> Bool {
         do {
             try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(),
                                                     withIntermediateDirectories: true)
             try JSONEncoder().encode(updated).write(to: fileURL, options: .atomic)
             places = updated
             errorMessage = nil
+            return true
         } catch {
             errorMessage = "Your change couldn’t be saved. Please try again."
+            return false
         }
     }
 }

@@ -15,7 +15,8 @@ final class MapCoordinator: NSObject, @preconcurrency MLNMapViewDelegate {
     var routeDirections: DirectionsModel?
     var lastCameraRequest: UUID?
     var lastReloadRequest: UUID?
-    private var selectedAnnotation: MLNPointAnnotation?
+    private var selectedAnnotation: PlaceMapAnnotation?
+    private var savedAnnotations: [String: PlaceMapAnnotation] = [:]
     private var locationAnnotation: MLNPointAnnotation?
     private var selectedPlace: Place?
     private var usesDarkMarkers = false
@@ -63,11 +64,18 @@ final class MapCoordinator: NSObject, @preconcurrency MLNMapViewDelegate {
     }
 
     func mapView(_ mapView: MLNMapView, didSelect annotation: any MLNAnnotation) {
-        guard annotation === selectedAnnotation, let selectedPlace else { return }
-        onSelect(selectedPlace)
+        guard let annotation = annotation as? PlaceMapAnnotation else { return }
+        onSelect(annotation.place)
     }
 
     func mapView(_ mapView: MLNMapView, imageFor annotation: any MLNAnnotation) -> MLNAnnotationImage? {
+        if let place = annotation as? PlaceMapAnnotation, let icon = place.icon {
+            let identifier = "saved-\(icon.rawValue)-\(place.isSelectedPlace)-\(usesDarkMarkers)"
+            if let reused = mapView.dequeueReusableAnnotationImage(withIdentifier: identifier) { return reused }
+            return MLNAnnotationImage(image: SavedPlaceMarker.image(icon: icon, selected: place.isSelectedPlace,
+                                                                   dark: usesDarkMarkers),
+                                      reuseIdentifier: identifier)
+        }
         let isLocation = annotation === locationAnnotation
         let identifier = isLocation ? "location" : (usesDarkMarkers ? "target-dark" : "target-light")
         if let reused = mapView.dequeueReusableAnnotationImage(withIdentifier: identifier) { return reused }
@@ -103,20 +111,33 @@ final class MapCoordinator: NSObject, @preconcurrency MLNMapViewDelegate {
         return MLNAnnotationImage(image: image, reuseIdentifier: identifier)
     }
 
-    func updateAnnotations(on map: MLNMapView, selected: Place?, user: CLLocationCoordinate2D?, isDark: Bool) {
+    func updateAnnotations(on map: MLNMapView, selected: Place?, user: CLLocationCoordinate2D?, isDark: Bool,
+                           saved: [Place] = []) {
         let appearanceChanged = usesDarkMarkers != isDark
         usesDarkMarkers = isDark
-        if selectedPlace != selected || appearanceChanged {
+        let selectedIcon = saved.first { $0.id == selected?.id }?.icon
+        if selectedPlace != selected || selectedAnnotation?.icon != selectedIcon || appearanceChanged {
             if let selectedAnnotation { map.removeAnnotation(selectedAnnotation) }
             selectedAnnotation = nil
             selectedPlace = selected
             if let selected {
-                let annotation = MLNPointAnnotation()
-                annotation.coordinate = selected.coordinate
-                annotation.title = selected.name
+                let annotation = PlaceMapAnnotation(place: selected, icon: selectedIcon, isSelected: true)
                 selectedAnnotation = annotation
                 map.addAnnotation(annotation)
             }
+        }
+        let visibleSaved = saved.filter { $0.id != selected?.id }
+        let savedByID = Dictionary(visibleSaved.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        for (id, annotation) in savedAnnotations {
+            if savedByID[id] != annotation.place || appearanceChanged {
+                map.removeAnnotation(annotation)
+                savedAnnotations.removeValue(forKey: id)
+            }
+        }
+        for place in visibleSaved where savedAnnotations[place.id] == nil {
+            let annotation = PlaceMapAnnotation(place: place, icon: place.icon, isSelected: false)
+            savedAnnotations[place.id] = annotation
+            map.addAnnotation(annotation)
         }
         if let user {
             if let locationAnnotation {
@@ -131,5 +152,13 @@ final class MapCoordinator: NSObject, @preconcurrency MLNMapViewDelegate {
                 map.addAnnotation(annotation)
             }
         }
+    }
+
+    func savedPlace(at point: CGPoint, on map: MLNMapView) -> Place? {
+        savedAnnotations.values.compactMap { annotation -> (Place, CGFloat)? in
+            let marker = map.convert(annotation.coordinate, toPointTo: map)
+            let distance = hypot(marker.x - point.x, marker.y - point.y)
+            return distance <= 22 ? (annotation.place, distance) : nil
+        }.min { $0.1 < $1.1 }?.0
     }
 }

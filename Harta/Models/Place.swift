@@ -7,6 +7,10 @@ struct Place: Identifiable, Codable, Equatable, Sendable {
     let address: String
     let latitude: Double
     let longitude: Double
+    // Optional for compatibility with places saved before icon customization.
+    var savedIcon: String?
+
+    var icon: SavedPlaceIcon { savedIcon.flatMap(SavedPlaceIcon.init(rawValue:)) ?? .bookmark }
 
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
