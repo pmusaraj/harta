@@ -115,7 +115,7 @@ final class MapCoordinator: NSObject, @preconcurrency MLNMapViewDelegate {
                            saved: [Place] = []) {
         let appearanceChanged = usesDarkMarkers != isDark
         usesDarkMarkers = isDark
-        let selectedIcon = saved.first { $0.id == selected?.id }?.icon
+        let selectedIcon = saved.first { $0.id == selected?.id }?.icon ?? selected?.suggestedIcon
         if selectedPlace != selected || selectedAnnotation?.icon != selectedIcon || appearanceChanged {
             if let selectedAnnotation { map.removeAnnotation(selectedAnnotation) }
             selectedAnnotation = nil

@@ -10,7 +10,11 @@ struct Place: Identifiable, Codable, Equatable, Sendable {
     // Optional for compatibility with places saved before icon customization.
     var savedIcon: String?
 
-    var icon: SavedPlaceIcon { savedIcon.flatMap(SavedPlaceIcon.init(rawValue:)) ?? .bookmark }
+    var suggestedIcon: SavedPlaceIcon? { SavedPlaceIcon.detected(in: name) }
+
+    var icon: SavedPlaceIcon {
+        savedIcon.flatMap(SavedPlaceIcon.init(rawValue:)) ?? suggestedIcon ?? .bookmark
+    }
 
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)

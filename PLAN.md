@@ -59,3 +59,90 @@ Ferrostar Core powers a custom SwiftUI guidance screen with live GPS, upcoming m
 ## Settings and map styles
 
 Everyday is the default map style. Settings beside Search offers Quiet, Everyday, Walking, and Explore, remembers the choice, and applies it to browsing and navigation in light and dark appearance. Privacy and map credits share this screen. The overflow menu is removed; pin dropping remains available by long press and an accessibility action. Styles are bundled, generated from retained OpenFreeMap snapshots, and include upstream license notices.
+
+
+## Voice commands — revised scope
+
+Planned, not implemented. Add tap-to-speak commands that extract a basic search or
+route-preview request and reuse existing search, saved places, and directions.
+No chat interface, rich place filters, or visible transcript by default.
+
+### Interaction
+
+- Add a microphone action beside search. Show accessible Listening and Processing
+  states, a stop action, and cancellation. Capture only during an explicit session.
+- Keep interim and final transcription internal. Show matching places or the route
+  preview directly; ordinary text search remains available for correcting a query.
+- End recording when the user stops or after a bounded silence/recording timeout.
+  Do not interpret a partial transcript or treat each finalized segment as a command.
+- Report short actionable errors for no speech, missing microphone permission,
+  unavailable language assets, and failed recognition. Allow retry or typed search.
+- On ambiguity, show a small place chooser. Do not automatically start navigation;
+  retain the existing Start navigation action on the route preview.
+
+### Local transcription and extraction
+
+1. Capture microphone audio with AVAudioEngine and transcribe with SpeechAnalyzer
+   and SpeechTranscriber. Check hardware, locale, and installed assets; download
+   required assets with progress. Consider DictationTranscriber where supported.
+2. Pass only the completed utterance to an on-device Foundation Models session.
+   Use guided generation for a small typed request: action (search or directions),
+   query/destination text, optional saved-place reference (home/work/name), optional
+   explicit locality text, and optional walking/cycling/driving mode. Missing fields
+   remain absent; preserve the user's destination name and existing travel default.
+3. Validate output against supported actions. The model extracts text and intent;
+   application code resolves saved IDs, locations, and routes. Never generate
+   coordinates or use model knowledge to invent places or opening hours.
+4. Check speech and LLM availability separately. When extraction is unavailable,
+   use a small deterministic parser for explicit commands such as “go home” and
+   “directions to work”; otherwise submit recognized destination text as basic search.
+   No silent cloud speech or language-model fallback.
+
+### Saved places first
+
+- Resolve saved references locally before calling Photon. Normalize case,
+  diacritics, whitespace, and punctuation for matching saved names.
+- “Home”, “go home”, and “directions home” match a saved place named Home or marked
+  with the Home icon. Apply the same rule to Work. Do not infer home from GPS history.
+- Exact normalized saved-name matches take priority; allow unique whole-word name
+  matches. Multiple candidates, including multiple Home/Work places, require a chooser.
+- Resolve a unique saved place directly using its stored coordinates. For directions,
+  open the existing preview with current location as origin and the extracted mode
+  or current mode default. Handle unavailable location through the existing flow.
+- If Home or Work is missing, explain how to save a place with that name or icon;
+  do not send “home” or “work” as a generic online destination search.
+- Other unmatched names go through existing submit-only Photon search with the map
+  center bias. Keep an explicit locality in the text query for the initial version.
+  Saved-place resolution must respect explicit locality qualifiers rather than
+  silently replacing an out-of-town destination with a similarly named saved place.
+
+### Basic search boundary
+
+- “Find tennis clubs” → search query “tennis clubs”.
+- “Find coffee in Montreal” → search query “coffee in Montreal”.
+- “Walking directions to Central Library” → match saved places first, otherwise show
+  Photon results; selecting a result opens a walking route preview.
+- “Go home” → resolve saved Home locally, then show a route preview.
+- No opening-hours, prices, ratings, availability, radius, or other rich filtering.
+  If requested, explain that the filter is unsupported rather than imply it applied.
+- Audio and extraction stay on device once assets are ready. Unmatched submitted
+  queries still reach Photon, and directions still use the online routing service.
+  Update privacy text and microphone usage description when implementing.
+
+### Implementation and verification
+
+- Introduce injectable transcription and command-extraction services, a typed voice
+  request, and a deterministic saved-place resolver, coordinated by a cancellable
+  voice-command model. Reuse SearchModel, SavedPlacesStore, and directions behavior.
+- Cancel audio, extraction, and pending searches on dismissal or replacement; reject
+  stale results. Coordinate microphone capture with spoken navigation guidance.
+- Test exact/partial/ambiguous saved matches, Home/Work aliases, absent saved places,
+  explicit locality, travel modes, malformed extraction, cancellation, unavailable
+  models, missing permissions, and no-speech recovery using service doubles.
+- On real devices, measure latency and recognition quality for local street names,
+  accents, noise, supported languages, and interaction with navigation audio. Verify
+  VoiceOver announces state and results without requiring a transcript on screen.
+
+References: [Apple speech pipeline](https://developer.apple.com/videos/play/wwdc2025/277/),
+[Foundation Models](https://developer.apple.com/documentation/foundationmodels),
+[guided generation](https://developer.apple.com/documentation/foundationmodels/generating-swift-data-structures-with-guided-generation).

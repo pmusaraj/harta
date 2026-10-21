@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+import UIKit
 @testable import Harta
 
 @MainActor
@@ -71,4 +72,42 @@ struct SavedPlacesStoreTests {
         #expect(store.icon(for: place) == .bookmark)
         #expect(store.errorMessage != nil)
     }
+
+    @Test func detectsSportNamesWithoutMatchingAddressOrPartialWords() {
+        let examples: [(String, SavedPlaceIcon)] = [
+            ("West-End Tennis Club", .tennis), ("SOCCER Centre", .soccer),
+            ("Basketball Courts", .basketball), ("American Football Club", .football),
+            ("Club de fútbol", .soccer), ("Baseball Park", .baseball),
+            ("Hockey Arena", .hockey), ("Golf Club", .golf),
+            ("Piscine municipale", .swimming), ("Volleyball Club", .volleyball),
+            ("Badminton Club", .badminton), ("Pickleball Courts", .pickleball),
+            ("Cricket Ground", .cricket), ("Rugby Club", .rugby)
+        ]
+        for (name, expected) in examples {
+            let venue = Place(id: name, name: name, address: "", latitude: 43, longitude: -79)
+            #expect(venue.icon == expected)
+        }
+        let unrelated = Place(id: "other", name: "Golford Café", address: "1 Tennis Road",
+                              latitude: 43, longitude: -79)
+        #expect(unrelated.suggestedIcon == nil)
+        #expect(unrelated.icon == .bookmark)
+        for icon in SavedPlaceIcon.allCases {
+            #expect(UIImage(systemName: icon.symbol) != nil)
+        }
+    }
+
+    @Test func explicitSportOverrideSurvivesRelaunch() {
+        let directory = URL.temporaryDirectory.appending(path: "Sport Icons \(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appending(path: "places.json")
+        let venue = Place(id: "tennis", name: "Tennis Club", address: "", latitude: 43, longitude: -79)
+        let store = SavedPlacesStore(fileURL: file)
+        store.toggle(venue)
+        #expect(SavedPlacesStore(fileURL: file).icon(for: venue) == .tennis)
+        #expect(store.setIcon(.bookmark, for: venue))
+        #expect(SavedPlacesStore(fileURL: file).icon(for: venue) == .bookmark)
+        #expect(store.setIcon(.basketball, for: venue))
+        #expect(SavedPlacesStore(fileURL: file).icon(for: venue) == .basketball)
+    }
+
 }

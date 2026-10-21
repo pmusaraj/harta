@@ -8,7 +8,7 @@ struct SearchPlaceRow: View {
         HStack(spacing: 12) {
             Button { onSelect(place) } label: {
                 HStack(spacing: 12) {
-                    if let icon = store.icon(for: place) {
+                    if let icon = store.icon(for: place) ?? place.suggestedIcon {
                         Image(systemName: icon.symbol)
                             .foregroundStyle(.teal)
                             .frame(width: 28)
