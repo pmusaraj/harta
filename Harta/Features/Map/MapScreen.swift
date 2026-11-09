@@ -1,10 +1,12 @@
 import SwiftUI
+import CloudKit
 
 struct MapScreen: View {
     @State private var model = MapModel()
     @State private var directions = DirectionsModel()
     @State private var location = LocationService()
-    @State private var saved = SavedPlacesStore()
+    @State private var family = FamilyMapStore.shared
+    private var saved: SavedPlacesStore { family.activeStore }
     @State private var search = SearchModel()
     @State private var recents = RecentPlacesStore()
     @State private var searching = false
@@ -42,6 +44,12 @@ struct MapScreen: View {
                         .padding()
                 } else {
                     HStack(spacing: 10) {
+                        if family.showingFamily, family.joined != nil {
+                            Label("Family map · View only", systemImage: "person.2")
+                                .font(.subheadline)
+                                .padding(10)
+                                .background(.regularMaterial, in: .capsule)
+                        }
                         Spacer()
                         Button("Settings", systemImage: "gearshape", action: openSettings)
                             .labelStyle(.iconOnly)
@@ -74,6 +82,10 @@ struct MapScreen: View {
                     MapErrorBanner(message: error, retry: model.retryMap)
                         .padding(.top, 80)
                         .padding(.horizontal)
+                } else if let error = family.errorMessage {
+                    MapErrorBanner(message: error, retry: { Task { await family.refresh() } })
+                        .padding(.top, 80)
+                        .padding(.horizontal)
                 }
             }
             .sheet(item: $sheet, onDismiss: finishDismissal) { activeSheet in
@@ -91,7 +103,7 @@ struct MapScreen: View {
                         MapLayersSheet()
                             .presentationDetents([.medium, .large])
                     case .settings:
-                        SettingsSheet()
+                        SettingsSheet(family: family)
                             .presentationDetents([.medium, .large])
                     }
                 }
@@ -99,6 +111,19 @@ struct MapScreen: View {
             }
             .task {
                 if model.beginStartupLocation() { location.startTracking(requestPermission: true) }
+            }
+            .task(id: scenePhase) {
+                guard scenePhase == .active else { return }
+                while !Task.isCancelled {
+                    await family.refresh()
+                    do { try await Task.sleep(for: .seconds(30)) } catch { return }
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .CKAccountChanged)) { _ in
+                Task { await family.refresh() }
+            }
+            .onChange(of: family.personal.places) {
+                Task { await family.refresh() }
             }
             .onChange(of: location.fix) { _, fix in
                 if let fix {

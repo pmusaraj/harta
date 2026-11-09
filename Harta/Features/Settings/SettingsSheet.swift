@@ -1,12 +1,14 @@
 import SwiftUI
 
 struct SettingsSheet: View {
+    let family: FamilyMapStore
     @Environment(\.dismiss) private var dismiss
     @AppStorage(MapStyle.preferenceKey) private var mapStyle: MapStyle = .everyday
 
     var body: some View {
         NavigationStack {
             List {
+                FamilyMapSettings(family: family)
                 Section {
                     ForEach(MapStyle.allCases) { style in
                         Button {
@@ -40,7 +42,7 @@ struct SettingsSheet: View {
                 }
                 Section("Privacy") {
                     Text("Voice search records only while you ask a question. Speech recognition and command extraction run on this device; audio and transcripts are not saved. Speech language support may need an initial download. Unmatched destination searches go to Stadia Maps, and route requests use the routing service.")
-                    Text("Saved places stay on this device. Location updates while the app is active and pauses in the background. During navigation, precise location updates continue while the phone is locked. Ending navigation stops background tracking.")
+                    Text("Personal saved places stay on this device unless you enable family sharing. Shared saved places are stored in iCloud and downloaded to invited members’ devices. Recent searches and live location are not shared. Location updates while the app is active and pauses in the background. During navigation, precise location updates continue while the phone is locked. Ending navigation stops background tracking.")
                     Text("Map requests go to OpenFreeMap. Search text (including partial queries) and selected place identifiers go to Stadia Maps. Searches prefer your current location when available; an explicit map-area search uses the map center. Searches for a named locality omit the location bias. Routing sends your starting point, destination, and travel mode to the Stadia Maps Valhalla service. Navigation rerouting sends your updated position. These providers receive your IP address.")
                 }
                 Section("Map credits") {

@@ -24,6 +24,11 @@ targets:
     type: application
     platform: iOS
     sources: [Harta]
+    entitlements:
+      path: Harta/Resources/Harta.entitlements
+      properties:
+        com.apple.developer.icloud-container-identifiers: [iCloud.com.musaraj.harta]
+        com.apple.developer.icloud-services: [CloudKit]
     configFiles:
       Debug: Configuration/Stadia.xcconfig
       Release: Configuration/Stadia.xcconfig
@@ -34,6 +39,7 @@ targets:
         StadiaMapsAPIKey: $(STADIA_MAPS_API_KEY)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UIBackgroundModes: [location, audio]
+        CKSharingSupported: true
     dependencies:
       - package: MapLibre
       - package: Ferrostar

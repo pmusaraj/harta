@@ -31,7 +31,7 @@ MapLibre renders OpenFreeMap tiles. Stadia Maps supplies search and Valhalla rou
 
 Free-plan budgeting: 200,000 credits/month shared by the account, noncommercial use only, no overage. Autocomplete v2 costs 1 credit/request; details, submitted search, and standard routing cost 20 each. Five autocomplete requests + selected-place details + route preview + navigation start cost 65 credits, approximately 3,076 trips/month before reroutes or other requests. Preview and navigation still fetch separate route formats; do not assume one routing call per trip. Reroutes are limited by Ferrostar to at least 15 seconds and 15 metres of movement. No traffic profiles, background prefetch, or automatic paid fallback are enabled. HTTP 429 is surfaced without search retries. Account-wide quota enforcement remains with Stadia. Pricing: https://stadiamaps.com/pricing/.
 
-Search sends partial/submitted text, selected GIDs, and a fresh location bias to Stadia Maps, falling back visibly to map center. Named localities omit coordinate bias. Routing sends origin/destination coordinates and mode; rerouting sends the updated position. OpenFreeMap receives tile requests. Providers receive the device IP address. Saved places and recent selections remain local. Online services require connectivity.
+Search sends partial/submitted text, selected GIDs, and a fresh location bias to Stadia Maps, falling back visibly to map center. Named localities omit coordinate bias. Routing sends origin/destination coordinates and mode; rerouting sends the updated position. OpenFreeMap receives tile requests. Providers receive the device IP address. Saved places remain local unless family sharing is enabled; shared places are uploaded to CloudKit. Recent selections remain local. Online services require connectivity.
 
 Endpoint configuration is in `AppConfiguration.swift`. Regenerate map styles with `python3 scripts/map-styles/generate.py`.
 
@@ -84,3 +84,24 @@ interruptions, multilingual place names, latency, VoiceOver, and battery use.
 The icon picker searches bundled SF Symbols names and keywords, filtering availability through the public `UIImage(systemName:)` initializer on a background actor. Common place icons stay first; typing an exact symbol name also supports newer OS symbols beyond the bundled catalog. Artwork is supplied by the OS, not bundled. The current metadata comes from SF Symbols 7.2 (9,184 names, including variants); regenerate with `python3 scripts/symbols/generate.py` after updating Apple's SF Symbols app.
 
 Legacy saved icon identifiers (such as `home` and `tennis`) remain unchanged. Custom selections store `symbol:<system-name>` in the existing optional `savedIcon` field. Unavailable symbols fall back to the place's detected icon or bookmark without dropping the stored value. Icons continue to render in saved lists, search results, and map markers.
+
+## Family map sharing
+
+The app uses `iCloud.com.musaraj.harta`, with the CloudKit entitlement and `CKSharingSupported` declared in `project.yml`. In Xcode Signing & Capabilities / Apple Developer, enable iCloud with CloudKit for `com.musaraj.harta`, create or associate that container with team `M4XMDAF939`, and regenerate signing profiles. These account-side steps are not performed by XcodeGen or an unsigned simulator build.
+
+The first development upload creates a `FamilyMap` record type with a `places` Asset field, in a custom `FamilyMap` zone. The fixed `FamilyMap` root record has a private `CKShare`; the sharing controller offers private, read-only invitations only. Deploy the development schema to production in CloudKit Console before TestFlight/App Store testing. Never enable public access to the map records.
+
+For this owner-edits/viewer-reads version, the root asset is a JSON snapshot of saved places. CloudKit operations perform foreground synchronization instead of `CKSyncEngine`; no background push or instant delivery is promised. This keeps the first sharing implementation small. Move to per-place records and change-token synchronization if collections or write volume grow. The local store atomically persists places and their last cloud baseline, migrates legacy JSON arrays, merges changes by place ID, and rejects stale CloudKit writes. Different place edits merge; local pending edits win same-place conflicts on the next successful retry. Edits made during an upload remain pending. A failed request leaves local edits intact.
+
+Participants use a separate read-only cache. Account identity is pinned at first cloud use; changing accounts blocks uploads until the original account is restored, rather than uploading the old account’s places to another account. Known sign-out, account mismatch, and confirmed removal clear joined-map access. An offline device can retain previously downloaded content until access can be checked. Reopening an invitation restores membership after signing back in. Joining another map replaces the previous joined-map cache, without modifying personal places.
+
+Before release, use two physical devices with different iCloud accounts to verify:
+
+- Create a share, invite a named participant with view-only access, and open the link with Harta terminated and already running.
+- Add/remove places and change icons/tints on the owner. Refresh the viewer and confirm navigation/search use shared saved places while all editing actions remain disabled.
+- Relaunch offline and confirm downloaded places persist. Edit the owner offline, reconnect, and confirm changes sync.
+- Use a second owner device: edit different places, then the same place; verify merge policy and retry after a server-version conflict.
+- Remove a member, stop sharing, and leave from the participant. Verify access removal clears the downloaded family map on the next refresh and personal places survive.
+- Test signed-out/restricted iCloud, account changes, full iCloud storage, interrupted invitations, network failures, and production-schema/TestFlight invitations.
+
+Unit coverage in `FamilyMapTests` checks mutation restrictions, merge/deletion semantics, in-flight edits, and persistence. These tests do not prove CloudKit provisioning, server authorization, or system invitation routing.

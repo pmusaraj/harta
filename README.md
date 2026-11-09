@@ -28,7 +28,7 @@ Search prefers your current location when available. “Near me” requires a re
 
 ## Privacy
 
-Voice audio and transcripts are processed on device and are not saved or uploaded. Unmatched voice destinations use the same online search as typed queries. Saved places, recent searches, and preferences stay on your device. Harta has no analytics. Background location is used only during active navigation.
+Voice audio and transcripts are processed on device and are not saved or uploaded. Unmatched voice destinations use the same online search as typed queries. Saved places stay on your device unless you enable family sharing. Shared places are stored in iCloud and downloaded to invited members’ devices. Recent searches and preferences stay on your device. Harta has no analytics. Background location is used only during active navigation.
 
 Online services receive the information needed to respond: Stadia Maps receives search text (including partial queries), selected place identifiers and, when used, the current-location or map-center search bias, OpenFreeMap receives map tile requests, and Stadia Maps receives route coordinates and travel mode. These providers also receive your IP address. You can clear recent searches in the app.
 
@@ -42,3 +42,13 @@ Harta is still being tested for navigation accuracy, background guidance, and ba
 
 - [Development](DEVELOPMENT.md): building, testing, and technical details.
 - [TestFlight distribution](TESTFLIGHT.md): signing and uploading beta builds.
+
+## Family maps
+
+In Settings → Family map, choose **Share my saved places** to upload your saved places to iCloud and invite people using Apple’s sharing sheet. You own and edit the map; invited members have view-only access. Everyone needs an active iCloud account. Invitations are explicit and do not require Apple Family Sharing membership.
+
+Open the invitation link on a device with Harta installed to join. Members can switch between the family map and their personal saved places in Settings. Joining does not overwrite personal places. Use **Manage membership** to leave; owners use **Manage my map’s sharing** to remove members or stop sharing.
+
+Changes sync when Harta is active, including a refresh about every 30 seconds, and through **Sync now**. Downloaded saved places remain available offline; map tiles, search, and routing still need connectivity. Live location, recent searches, and navigation sessions are not shared. Revoked access is detected on the next successful cloud check, not while a device is offline.
+
+This first version supports one joined family map per installation. Open the invitation on each device that should join. CloudKit provisioning and testing with separate iCloud accounts are required before distributing this feature; see Development.

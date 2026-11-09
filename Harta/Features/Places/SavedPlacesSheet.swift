@@ -14,7 +14,7 @@ struct SavedPlacesSheet: View {
                 }
                 if store.places.isEmpty {
                     ContentUnavailableView("Your places, close by", systemImage: "bookmark",
-                                           description: Text("Search for a place or drop a pin, then tap Save. Your places stay on this device."))
+                                           description: Text("Search for a place or drop a pin, then tap Save."))
                 }
                 ForEach(store.places) { place in
                     HStack(spacing: 12) {
@@ -25,6 +25,7 @@ struct SavedPlacesSheet: View {
                                 .background(place.tint.color.opacity(0.12), in: .circle)
                         }
                         .buttonStyle(.plain)
+                        .disabled(store.isReadOnly)
                         .foregroundStyle(place.tint.color)
                         .accessibilityLabel("Change icon for \(place.name)")
                         .accessibilityValue(place.icon.title)
@@ -38,12 +39,13 @@ struct SavedPlacesSheet: View {
                     }
                 }
                 .onDelete(perform: delete)
+                .deleteDisabled(store.isReadOnly)
             }
-            .navigationTitle("Saved places")
+            .navigationTitle(store.isReadOnly ? "Family places" : "Saved places")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    if !store.places.isEmpty { EditButton() }
+                    if !store.isReadOnly && !store.places.isEmpty { EditButton() }
                 }
                 ToolbarItem(placement: .confirmationAction) { Button("Done", action: close) }
             }

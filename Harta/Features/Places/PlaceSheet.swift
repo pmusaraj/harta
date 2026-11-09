@@ -30,6 +30,7 @@ struct PlaceSheet: View {
                             .accessibilityLabel("Change icon for \(place.name)")
                             .accessibilityValue(icon.title)
                             .accessibilityIdentifier("place.icon")
+                            .disabled(store.isReadOnly)
                         }
                         Text(place.name).font(.title2).bold().lineLimit(2)
                     }
@@ -55,6 +56,7 @@ struct PlaceSheet: View {
                         }
                         .buttonStyle(.bordered)
                         .accessibilityIdentifier("place.save")
+                        .disabled(store.isReadOnly)
                     }
                     if detent != .height(320) {
                         Divider()
