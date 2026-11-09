@@ -10,7 +10,6 @@ struct MapScreen: View {
     @State private var searching = false
     @State private var placeDetent: PresentationDetent = .height(320)
     @State private var sheet: MapSheet?
-    @State private var showVoiceDirections = false
     @State private var pendingPlace: Place?
     @State private var alertMessage: String?
     @State private var showLocationError = false
@@ -85,7 +84,7 @@ struct MapScreen: View {
                             .presentationDetents([.medium, .large])
                     case .place:
                         if let place = model.selectedPlace {
-                            PlaceSheet(place: place, store: saved, directionsModel: directions, location: location, detent: $placeDetent, opensDirections: showVoiceDirections)
+                            PlaceSheet(place: place, store: saved, directionsModel: directions, location: location, detent: $placeDetent)
                                 .presentationDetents([.height(320), .medium, .large], selection: $placeDetent)
                         }
                     case .layers:
@@ -102,7 +101,13 @@ struct MapScreen: View {
                 if model.beginStartupLocation() { location.startTracking(requestPermission: true) }
             }
             .onChange(of: location.fix) { _, fix in
-                if let fix, sheet != .place { model.receiveLocation(fix.coordinate) }
+                if let fix {
+                    if sheet != .place { model.receiveLocation(fix.coordinate) }
+                    if alertMessage == "Finding your location took too long. Please try again." {
+                        showLocationError = false
+                        alertMessage = nil
+                    }
+                }
             }
             .onChange(of: location.errorMessage) { _, message in
                 if let message {
@@ -139,17 +144,13 @@ struct MapScreen: View {
     }
     private func selectVoiceDirections(_ place: Place, mode: TravelMode?) {
         selectFromMap(place)
-        directions.origin = nil
         if let mode { directions.mode = mode }
-        showVoiceDirections = true
-        placeDetent = .large
     }
     private func openSaved() { sheet = .saved }
     private func openSettings() { sheet = .settings }
     private func dropCenterPin() { selectFromMap(model.centerPin()) }
 
     private func selectFromMap(_ place: Place) {
-        showVoiceDirections = false
         searching = false
         placeDetent = .height(320)
         directions.clear()
@@ -158,7 +159,6 @@ struct MapScreen: View {
     }
 
     private func selectFromSheet(_ place: Place) {
-        showVoiceDirections = false
         pendingPlace = place
         sheet = nil
     }
