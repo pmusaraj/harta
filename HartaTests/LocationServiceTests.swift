@@ -62,6 +62,29 @@ struct LocationServiceTests {
         service.stop()
     }
 
+    @Test func passiveTrackingTimeoutDoesNotShowAlert() async throws {
+        let manager = TestLocationManager()
+        let service = LocationService(manager: manager, locationTimeout: .milliseconds(20))
+        service.startTracking(requestPermission: true)
+        try await Task.sleep(for: .milliseconds(80))
+        #expect(service.errorMessage == nil)
+        #expect(!service.isLocating)
+        service.locationManager(manager, didUpdateLocations: [location(45)])
+        #expect(service.fix != nil)
+        service.stop()
+    }
+
+    @Test func manualLocateDuringPassiveTrackingReportsTimeout() async throws {
+        let manager = TestLocationManager()
+        let service = LocationService(manager: manager, locationTimeout: .milliseconds(20))
+        service.startTracking(requestPermission: true)
+        service.locate()
+        try await Task.sleep(for: .milliseconds(80))
+        #expect(service.errorMessage == "Finding your location took too long. Please try again.")
+        #expect(!service.isLocating)
+        service.stop()
+    }
+
     @Test func rejectsStaleFutureAndInvalidFixes() {
         let now = Date()
         #expect(LocationService.isUsable(location(45, at: now), now: now))

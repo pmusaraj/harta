@@ -216,21 +216,10 @@ final class MapFlowTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(forDuration: 1.2)
+        XCTAssertFalse(app.buttons["place.directions"].exists)
+        app.segmentedControls.buttons["Cycle"].tap()
         app.buttons["place.go"].tap()
         XCTAssertTrue(app.buttons["navigation.end"].waitForExistence(timeout: 10))
-        app.buttons["navigation.end"].tap()
-        XCTAssertTrue(app.buttons["place.go"].waitForExistence(timeout: 5))
-        app.buttons["place.directions"].tap()
-        XCTAssertTrue(app.buttons["directions.summary"].waitForExistence(timeout: 40))
-        let attachment = XCTAttachment(screenshot: app.screenshot())
-        attachment.name = "In-app walking directions"
-        attachment.lifetime = .keepAlways
-        add(attachment)
-        app.segmentedControls.buttons["Drive"].tap()
-        XCTAssertTrue(app.buttons["directions.summary"].waitForExistence(timeout: 40))
-        app.segmentedControls.buttons["Cycle"].tap()
-        XCTAssertTrue(app.buttons["directions.summary"].waitForExistence(timeout: 40))
-        app.buttons["directions.start"].tap()
         let instruction = app.staticTexts["navigation.instruction"]
         XCTAssertTrue(instruction.waitForExistence(timeout: 40))
         let ready = NSPredicate(format: "label != %@ AND label != %@", "Finding your location…", "Preparing your route…")
@@ -246,16 +235,13 @@ final class MapFlowTests: XCTestCase {
         let chosenVoiceLabel = originalVoiceLabel == "Unmute" ? "Mute" : "Unmute"
         XCTAssertEqual(voice.label, chosenVoiceLabel)
         app.buttons["navigation.end"].tap()
-        XCTAssertTrue(app.buttons["directions.start"].waitForExistence(timeout: 5))
-        app.buttons["directions.start"].tap()
+        XCTAssertTrue(app.buttons["place.go"].waitForExistence(timeout: 5))
+        app.buttons["place.go"].tap()
         XCTAssertTrue(voice.waitForExistence(timeout: 5))
         XCTAssertEqual(voice.label, chosenVoiceLabel)
         voice.tap()
         XCTAssertEqual(voice.label, originalVoiceLabel)
         app.buttons["navigation.end"].tap()
-        app.buttons["directions.origin"].tap()
-        app.buttons["Search starting point"].tap()
-        XCTAssertTrue(app.textFields["search.input"].waitForExistence(timeout: 5))
     }
 
     func testPinSaveAndRestore() {

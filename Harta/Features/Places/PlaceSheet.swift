@@ -7,10 +7,8 @@ struct PlaceSheet: View {
     @Bindable var directionsModel: DirectionsModel
     let location: LocationService
     @Binding var detent: PresentationDetent
-    var opensDirections = false
     @State private var lastEstimateFix: LocationFix?
     @State private var showError = false
-    @State private var showingDirections = false
     @State private var showingNavigation = false
     @Environment(\.dismiss) private var dismiss
 
@@ -42,11 +40,6 @@ struct PlaceSheet: View {
                         .buttonStyle(.bordered)
                         .accessibilityIdentifier("place.save")
                     }
-                    Button("Route details", systemImage: "list.bullet") {
-                        detent = .medium
-                        showingDirections = true
-                    }
-                    .accessibilityIdentifier("place.directions")
                     if detent != .height(320) {
                         Divider()
                         Text(place.coordinateLabel).font(.subheadline).foregroundStyle(.secondary).textSelection(.enabled)
@@ -56,9 +49,6 @@ struct PlaceSheet: View {
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal).padding(.bottom)
-            }
-            .navigationDestination(isPresented: $showingDirections) {
-                DirectionsView(destination: place, store: store, model: directionsModel)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
@@ -72,21 +62,17 @@ struct PlaceSheet: View {
         }
         .task(id: place.id) {
             lastEstimateFix = nil
-            if opensDirections {
-                showingDirections = true
-                return
-            }
             directionsModel.clear()
             // Estimates are optional: Go is available without waiting for a preview or permission prompt.
             if let fix = location.fix, abs(fix.timestamp.timeIntervalSinceNow) < 120 {
                 estimate(from: fix)
-            } else { location.locateIfAuthorized() }
+            }
         }
         .onChange(of: location.fix) { _, fix in
-            if let fix, !showingDirections, !showingNavigation { estimate(from: fix) }
+            if let fix, !showingNavigation { estimate(from: fix) }
         }
         .onChange(of: directionsModel.mode) {
-            if !showingDirections, let fix = location.fix, abs(fix.timestamp.timeIntervalSinceNow) < 120 { estimate(from: fix, force: true) }
+            if let fix = location.fix, abs(fix.timestamp.timeIntervalSinceNow) < 120 { estimate(from: fix, force: true) }
         }
     }
     private var goLabel: String {

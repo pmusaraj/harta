@@ -9,18 +9,18 @@ Harta is currently a prototype. It requires iOS/iPadOS 26 or later and an intern
 - Search for a destination, browse recent searches, or press and hold the map to drop a pin.
 - Tap the microphone in Search to find places or ask for directions. Try “find tennis clubs,” “walking directions to Central Library,” or “go home.”
 - Save places for later and share them with others.
-- Preview routes with travel time, distance, and written directions.
+- See an estimated travel time for your destination before starting navigation.
 - Follow turn-by-turn navigation with optional spoken guidance and automatic rerouting.
 - Choose from four map styles—Quiet, Everyday, Walking, and Explore—with light and dark appearances.
 - Show nearby EV chargers, toilets, parking, cycling paths, transit, and everyday essentials.
 
-Choose a destination and tap **Go** to preview a route, then **Start navigation** when you're ready. Navigation needs Precise Location permission. Voice guidance starts muted; turn it on to hear directions. Guidance can continue with the screen locked. Tap **End** to stop navigation.
+Choose a destination and tap **Go** to start navigation. Navigation needs Precise Location permission. Voice guidance starts muted; turn it on to hear directions. Guidance can continue with the screen locked. Tap **End** to stop navigation.
 
 Open **Search** above the location control to find a place, or **Layers** beside it to choose what appears on the map. Open **Settings** in the top-right corner to change the map style, read privacy information, or view map credits.
 
 In **Saved places**, tap the icon beside a place to choose a different symbol. Search the SF Symbols catalog by name or keyword, or enter an exact system symbol name. Only symbols supported on your device are offered. Sports venues receive a matching icon automatically when their name identifies a sport; other saves use a bookmark. Your chosen icon overrides automatic detection. Your choice appears in the saved list, search results, and on the map; tap the place’s name to open its details.
 
-Voice search keeps transcripts hidden and shows matching places or a directions preview. Exact saved destinations are matched first; broader searches combine saved and online places, with saved matches labeled. Sport icons and small name variations help match saved places. “Home” and “work” also match those saved icons. If an exact saved name or Home/Work matches several places, choose one. Voice directions never start navigation automatically. Voice search supports basic place searches, not opening-hours, price, or rating filters.
+Voice search keeps transcripts hidden and shows matching places or a destination card. Exact saved destinations are matched first; broader searches combine saved and online places, with saved matches labeled. Sport icons and small name variations help match saved places. “Home” and “work” also match those saved icons. If an exact saved name or Home/Work matches several places, choose one. Voice directions never start navigation automatically. Voice search supports basic place searches, not opening-hours, price, or rating filters.
 
 Speech recognition runs on device using your device language and may need a first-time language download. Apple Intelligence improves command extraction when available; a basic English command parser remains available otherwise. Device and language support vary. You can always type instead.
 

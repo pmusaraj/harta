@@ -4,6 +4,7 @@ import Observation
 @MainActor @Observable
 final class LocationService: NSObject, @preconcurrency CLLocationManagerDelegate {
     private let manager: CLLocationManager
+    private let locationTimeout: Duration
     private(set) var isLocating = false
     private(set) var fix: LocationFix?
     var errorMessage: String?
@@ -11,9 +12,11 @@ final class LocationService: NSObject, @preconcurrency CLLocationManagerDelegate
     private var running = false
     private var lastTimestamp: Date?
     private var timeout: Task<Void, Never>?
+    private var reportsTimeout = false
 
-    init(manager: CLLocationManager = CLLocationManager()) {
+    init(manager: CLLocationManager = CLLocationManager(), locationTimeout: Duration = .seconds(15)) {
         self.manager = manager
+        self.locationTimeout = locationTimeout
         super.init()
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
@@ -25,15 +28,20 @@ final class LocationService: NSObject, @preconcurrency CLLocationManagerDelegate
         tracksContinuously = true
         // Scene activation can follow the first fix without tracking ever stopping.
         guard !running else { return }
-        if requestPermission { locate() } else { locateIfAuthorized() }
+        if requestPermission || manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
+            locate(reportTimeout: false)
+        }
     }
 
-    func locateIfAuthorized() {
-        if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways { locate() }
-    }
+    func locate() { locate(reportTimeout: true) }
 
-    func locate() {
-        guard !isLocating else { return }
+    private func locate(reportTimeout: Bool) {
+        if isLocating {
+            // A tap during startup should turn the existing request into an explicit one.
+            if reportTimeout { reportsTimeout = true }
+            return
+        }
+        reportsTimeout = reportTimeout
         isLocating = true
         running = true
         errorMessage = nil
@@ -51,6 +59,7 @@ final class LocationService: NSObject, @preconcurrency CLLocationManagerDelegate
         timeout?.cancel()
         timeout = nil
         isLocating = false
+        reportsTimeout = false
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -70,6 +79,7 @@ final class LocationService: NSObject, @preconcurrency CLLocationManagerDelegate
         fix = LocationFix(timestamp: location.timestamp, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         errorMessage = nil
         isLocating = false
+        reportsTimeout = false
         timeout?.cancel()
         timeout = nil
         if !tracksContinuously { stop() }
@@ -94,11 +104,14 @@ final class LocationService: NSObject, @preconcurrency CLLocationManagerDelegate
         // Continuous updates also allow a poor initial fix to improve immediately.
         manager.startUpdatingLocation()
         timeout?.cancel()
+        let locationTimeout = locationTimeout
         timeout = Task { [weak self] in
-            do { try await Task.sleep(for: .seconds(15)) } catch { return }
+            do { try await Task.sleep(for: locationTimeout) } catch { return }
             guard let self, self.isLocating else { return }
-            if self.tracksContinuously { self.isLocating = false } else { self.stop() }
-            self.errorMessage = "Finding your location took too long. Please try again."
+            let shouldReport = self.reportsTimeout
+            if self.tracksContinuously { self.isLocating = false; self.reportsTimeout = false } else { self.stop() }
+            // Startup/background tracking is best-effort; only interrupt a user who asked to locate.
+            if shouldReport { self.errorMessage = "Finding your location took too long. Please try again." }
         }
     }
 
