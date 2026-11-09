@@ -34,10 +34,13 @@ struct PlaceSheet: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .accessibilityIdentifier("place.go")
-                        Button(store.contains(place) ? "Saved" : "Save",
-                               systemImage: store.contains(place) ? "bookmark.fill" : "bookmark", action: save)
-                            .buttonStyle(.bordered).frame(minHeight: 44)
-                            .accessibilityIdentifier("place.save")
+                        Button(action: save) {
+                            Label(store.contains(place) ? "Saved" : "Save",
+                                  systemImage: store.contains(place) ? "bookmark.fill" : "bookmark")
+                                .frame(maxWidth: .infinity, minHeight: 32)
+                        }
+                        .buttonStyle(.bordered)
+                        .accessibilityIdentifier("place.save")
                     }
                     Button("Route details", systemImage: "list.bullet") {
                         detent = .medium

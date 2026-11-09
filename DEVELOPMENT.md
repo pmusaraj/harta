@@ -78,3 +78,9 @@ UI test requires supported speech assets and microphone permission already grant
 first-time downloads/cancellation, Apple Intelligence disabled/not-ready, locale
 coverage, real microphone/silence behavior, Bluetooth route changes, phone-call
 interruptions, multilingual place names, latency, VoiceOver, and battery use.
+
+## Saved-place symbol search
+
+The icon picker searches bundled SF Symbols names and keywords, filtering availability through the public `UIImage(systemName:)` initializer on a background actor. Common place icons stay first; typing an exact symbol name also supports newer OS symbols beyond the bundled catalog. Artwork is supplied by the OS, not bundled. The current metadata comes from SF Symbols 7.2 (9,184 names, including variants); regenerate with `python3 scripts/symbols/generate.py` after updating Apple's SF Symbols app.
+
+Legacy saved icon identifiers (such as `home` and `tennis`) remain unchanged. Custom selections store `symbol:<system-name>` in the existing optional `savedIcon` field. Unavailable symbols fall back to the place's detected icon or bookmark without dropping the stored value. Icons continue to render in saved lists, search results, and map markers.

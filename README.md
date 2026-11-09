@@ -18,7 +18,7 @@ Choose a destination and tap **Go** to preview a route, then **Start navigation*
 
 Open **Search** above the location control to find a place, or **Layers** beside it to choose what appears on the map. Open **Settings** in the top-right corner to change the map style, read privacy information, or view map credits.
 
-In **Saved places**, tap the icon beside a place to choose a different symbol. Sports venues receive a matching icon automatically when their name identifies a sport; other saves use a bookmark. Your chosen icon overrides automatic detection. Your choice appears in the saved list, search results, and on the map; tap the place’s name to open its details.
+In **Saved places**, tap the icon beside a place to choose a different symbol. Search the SF Symbols catalog by name or keyword, or enter an exact system symbol name. Only symbols supported on your device are offered. Sports venues receive a matching icon automatically when their name identifies a sport; other saves use a bookmark. Your chosen icon overrides automatic detection. Your choice appears in the saved list, search results, and on the map; tap the place’s name to open its details.
 
 Voice search keeps transcripts hidden and shows matching places or a directions preview. Exact saved destinations are matched first; broader searches combine saved and online places, with saved matches labeled. Sport icons and small name variations help match saved places. “Home” and “work” also match those saved icons. If an exact saved name or Home/Work matches several places, choose one. Voice directions never start navigation automatically. Voice search supports basic place searches, not opening-hours, price, or rating filters.
 

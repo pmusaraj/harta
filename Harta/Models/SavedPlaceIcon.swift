@@ -1,72 +1,90 @@
 import Foundation
+import UIKit
 
-enum SavedPlaceIcon: String, CaseIterable, Identifiable, Sendable {
-    case bookmark, home, work, favorite, cafe, restaurant, shopping, gym, park, parking, school, travel
-
-    case tennis, soccer, basketball, baseball, football, hockey, golf, swimming, volleyball, badminton, pickleball, cricket, rugby
-
+/// Preset IDs remain compatible with existing saves; custom symbols use a namespace.
+struct SavedPlaceIcon: RawRepresentable, CaseIterable, Identifiable, Hashable, Sendable {
+    let rawValue: String
     var id: String { rawValue }
 
+    private init(preset: String) { rawValue = preset }
+
+    init?(rawValue: String) {
+        if Self.presets[rawValue] != nil {
+            self.rawValue = rawValue
+        } else if rawValue.hasPrefix("symbol:"),
+                  UIImage(systemName: String(rawValue.dropFirst(7))) != nil {
+            self.rawValue = rawValue
+        } else { return nil }
+    }
+
+    init?(systemName: String) {
+        if let preset = Self.allCases.first(where: { $0.symbol == systemName }) {
+            self = preset
+        } else {
+            self.init(rawValue: "symbol:" + systemName)
+        }
+    }
+
     var title: String {
-        switch self {
-        case .bookmark: "Bookmark"
-        case .home: "Home"
-        case .work: "Work"
-        case .favorite: "Favorite"
-        case .cafe: "Café"
-        case .restaurant: "Restaurant"
-        case .shopping: "Shopping"
-        case .gym: "Gym"
-        case .park: "Park"
-        case .parking: "Parking"
-        case .school: "School"
-        case .travel: "Travel"
-        case .tennis: "Tennis"
-        case .soccer: "Soccer"
-        case .basketball: "Basketball"
-        case .baseball: "Baseball"
-        case .football: "American football"
-        case .hockey: "Hockey"
-        case .golf: "Golf"
-        case .swimming: "Swimming"
-        case .volleyball: "Volleyball"
-        case .badminton: "Badminton"
-        case .pickleball: "Pickleball"
-        case .cricket: "Cricket"
-        case .rugby: "Rugby"
-        }
+        Self.presets[rawValue]?.title ?? symbol.replacingOccurrences(of: ".", with: " ").capitalized
     }
+    var symbol: String { Self.presets[rawValue]?.symbol ?? String(rawValue.dropFirst(7)) }
 
-    var symbol: String {
-        switch self {
-        case .bookmark: "bookmark.fill"
-        case .home: "house.fill"
-        case .work: "briefcase.fill"
-        case .favorite: "star.fill"
-        case .cafe: "cup.and.saucer.fill"
-        case .restaurant: "fork.knife"
-        case .shopping: "bag.fill"
-        case .gym: "dumbbell.fill"
-        case .park: "tree.fill"
-        case .parking: "parkingsign"
-        case .school: "graduationcap.fill"
-        case .travel: "airplane"
-        case .tennis: "tennisball.fill"
-        case .soccer: "soccerball"
-        case .basketball: "basketball.fill"
-        case .baseball: "baseball.fill"
-        case .football: "american.football.fill"
-        case .hockey: "figure.hockey"
-        case .golf: "figure.golf"
-        case .swimming: "figure.pool.swim"
-        case .volleyball: "volleyball.fill"
-        case .badminton: "figure.badminton"
-        case .pickleball: "figure.pickleball"
-        case .cricket: "figure.cricket"
-        case .rugby: "figure.rugby"
-        }
-    }
+    static let bookmark = Self(preset: "bookmark")
+    static let home = Self(preset: "home")
+    static let work = Self(preset: "work")
+    static let favorite = Self(preset: "favorite")
+    static let cafe = Self(preset: "cafe")
+    static let restaurant = Self(preset: "restaurant")
+    static let shopping = Self(preset: "shopping")
+    static let gym = Self(preset: "gym")
+    static let park = Self(preset: "park")
+    static let parking = Self(preset: "parking")
+    static let school = Self(preset: "school")
+    static let travel = Self(preset: "travel")
+    static let tennis = Self(preset: "tennis")
+    static let soccer = Self(preset: "soccer")
+    static let basketball = Self(preset: "basketball")
+    static let baseball = Self(preset: "baseball")
+    static let football = Self(preset: "football")
+    static let hockey = Self(preset: "hockey")
+    static let golf = Self(preset: "golf")
+    static let swimming = Self(preset: "swimming")
+    static let volleyball = Self(preset: "volleyball")
+    static let badminton = Self(preset: "badminton")
+    static let pickleball = Self(preset: "pickleball")
+    static let cricket = Self(preset: "cricket")
+    static let rugby = Self(preset: "rugby")
 
+    static let allCases: [Self] = [.bookmark, .home, .work, .favorite, .cafe, .restaurant, .shopping, .gym, .park, .parking, .school, .travel, .tennis, .soccer, .basketball, .baseball, .football, .hockey, .golf, .swimming, .volleyball, .badminton, .pickleball, .cricket, .rugby]
+
+    private static let presets: [String: (title: String, symbol: String)] = [
+        "bookmark": ("Bookmark", "bookmark.fill"),
+        "home": ("Home", "house.fill"),
+        "work": ("Work", "briefcase.fill"),
+        "favorite": ("Favorite", "star.fill"),
+        "cafe": ("Café", "cup.and.saucer.fill"),
+        "restaurant": ("Restaurant", "fork.knife"),
+        "shopping": ("Shopping", "bag.fill"),
+        "gym": ("Gym", "dumbbell.fill"),
+        "park": ("Park", "tree.fill"),
+        "parking": ("Parking", "parkingsign"),
+        "school": ("School", "graduationcap.fill"),
+        "travel": ("Travel", "airplane"),
+        "tennis": ("Tennis", "tennisball.fill"),
+        "soccer": ("Soccer", "soccerball"),
+        "basketball": ("Basketball", "basketball.fill"),
+        "baseball": ("Baseball", "baseball.fill"),
+        "football": ("American football", "american.football.fill"),
+        "hockey": ("Hockey", "figure.hockey"),
+        "golf": ("Golf", "figure.golf"),
+        "swimming": ("Swimming", "figure.pool.swim"),
+        "volleyball": ("Volleyball", "volleyball.fill"),
+        "badminton": ("Badminton", "figure.badminton"),
+        "pickleball": ("Pickleball", "figure.pickleball"),
+        "cricket": ("Cricket", "figure.cricket"),
+        "rugby": ("Rugby", "figure.rugby")
+    ]
 
     /// Match whole words in the venue name, never its address or partial words.
     /// Specific compound sports take precedence over their generic components.

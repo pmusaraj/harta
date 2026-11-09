@@ -25,14 +25,20 @@ final class MapFlowTests: XCTestCase {
         picker.name = "Saved place icon picker"
         picker.lifetime = .keepAlways
         add(picker)
-        app.buttons["saved.icon.option.home"].tap()
+        let search = app.searchFields.firstMatch
+        XCTAssertTrue(search.waitForExistence(timeout: 5))
+        search.tap()
+        search.typeText("bicycle")
+        let bicycle = app.buttons["saved.icon.option.symbol:bicycle"]
+        XCTAssertTrue(bicycle.waitForExistence(timeout: 15))
+        bicycle.tap()
         XCTAssertTrue(app.navigationBars["Choose an icon"].waitForNonExistence(timeout: 5))
-        XCTAssertEqual(app.buttons[identifier].value as? String, "Home")
+        XCTAssertEqual(app.buttons[identifier].value as? String, "Bicycle")
         app.terminate()
         app.launch()
         app.buttons["map.saved"].tap()
         XCTAssertTrue(app.buttons[identifier].waitForExistence(timeout: 5))
-        XCTAssertEqual(app.buttons[identifier].value as? String, "Home")
+        XCTAssertEqual(app.buttons[identifier].value as? String, "Bicycle")
         let saved = XCTAttachment(screenshot: app.screenshot())
         saved.name = "Saved place with custom icon"
         saved.lifetime = .keepAlways

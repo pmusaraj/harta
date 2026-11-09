@@ -110,4 +110,35 @@ struct SavedPlacesStoreTests {
         #expect(SavedPlacesStore(fileURL: file).icon(for: venue) == .basketball)
     }
 
+    @Test func customSymbolPersistsAndOverridesDetectedSport() throws {
+        let directory = URL.temporaryDirectory.appending(path: "Custom Symbols \(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appending(path: "places.json")
+        let venue = Place(id: "tennis", name: "Tennis Club", address: "", latitude: 43, longitude: -79)
+        let store = SavedPlacesStore(fileURL: file)
+        let icon = try #require(SavedPlaceIcon(systemName: "bicycle"))
+        store.toggle(venue)
+        #expect(store.setIcon(icon, for: venue))
+        let restored = SavedPlacesStore(fileURL: file)
+        #expect(restored.icon(for: venue)?.symbol == "bicycle")
+        #expect(restored.places.first?.savedIcon == "symbol:bicycle")
+        #expect(SavedPlaceIcon(systemName: "house.fill") == .home)
+        #expect(SavedPlaceIcon(rawValue: "symbol:not-a-real-system-symbol") == nil)
+    }
+
+    @Test func symbolSearchSupportsNamesKeywordsAndDiacritics() async throws {
+        let matches = try await SymbolCatalog.shared.matching("bicycle")
+        #expect(matches.contains { $0.symbol == "bicycle" })
+        let cafe = try await SymbolCatalog.shared.matching("cafe")
+        #expect(cafe.contains(.cafe))
+        let keyword = try await SymbolCatalog.shared.matching("date")
+        #expect(keyword.contains { $0.symbol == "calendar" })
+        let noMatch = try await SymbolCatalog.shared.matching("zzzzunknownsymbol")
+        #expect(noMatch.isEmpty)
+        let all = try await SymbolCatalog.shared.matching("")
+        #expect(all.count > 1000)
+        #expect(Set(all.map(\.id)).count == all.count)
+        #expect(all.first == .bookmark)
+    }
+
 }
