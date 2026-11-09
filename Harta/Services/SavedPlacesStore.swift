@@ -36,6 +36,26 @@ final class SavedPlacesStore {
 
     func contains(_ place: Place) -> Bool { places.contains { $0.id == place.id } }
 
+    @discardableResult
+    func rename(_ place: Place, to name: String) -> Bool {
+        guard canWrite, !isReadOnly else {
+            errorMessage = "This map cannot be edited. It is read-only or its saved file could not be read."
+            return false
+        }
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            errorMessage = "Enter a name for this place."
+            return false
+        }
+        guard let index = places.firstIndex(where: { $0.id == place.id }) else {
+            errorMessage = "This place is no longer saved. Save it before renaming it."
+            return false
+        }
+        var updated = places
+        updated[index].name = trimmed
+        return persist(updated)
+    }
+
     func icon(for place: Place) -> SavedPlaceIcon? {
         places.first { $0.id == place.id }?.icon
     }

@@ -7,6 +7,31 @@ import UIKit
 struct SavedPlacesStoreTests {
     private let place = Place(id: "test", name: "Test", address: "", latitude: 43, longitude: -79)
 
+    @Test func renamePersistsWithoutChangingIdentityOrCustomization() throws {
+        let file = URL.temporaryDirectory.appending(path: UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: file) }
+        let store = SavedPlacesStore(fileURL: file)
+        store.toggle(place)
+        #expect(store.setIcon(.home, for: place))
+        #expect(store.setTint(.blue, for: place))
+        #expect(store.receiveCloud(store.places, uploadedLocal: store.places))
+        #expect(store.rename(place, to: "  My home \n"))
+        let restored = SavedPlacesStore(fileURL: file)
+        #expect(restored.places.first?.name == "My home")
+        #expect(restored.places.first?.id == place.id)
+        #expect(restored.places.first?.latitude == place.latitude)
+        #expect(restored.icon(for: place) == .home)
+        #expect(restored.tint(for: place) == .blue)
+        #expect(restored.cloudBaseline.first?.name == place.name)
+        #expect(PlaceMerge.merge(baseline: restored.cloudBaseline, local: restored.places,
+                                remote: restored.cloudBaseline).first?.name == "My home")
+        #expect(!restored.rename(place, to: " \n "))
+        #expect(restored.places.first?.name == "My home")
+        let viewer = SavedPlacesStore(fileURL: file, isReadOnly: true)
+        #expect(!viewer.rename(place, to: "Not allowed"))
+        #expect(viewer.places.first?.name == "My home")
+    }
+
     @Test func savesAndRemovesAcrossLaunches() throws {
         let directory = URL.temporaryDirectory.appending(path: "Saved Places \(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: directory) }

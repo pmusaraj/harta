@@ -2,6 +2,40 @@ import XCTest
 
 @MainActor
 final class MapFlowTests: XCTestCase {
+    func testLongPressRenamesSavedPlace() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-mapOverlays", "0"]
+        app.launch()
+        XCTAssertTrue(app.buttons["map.saved"].waitForExistence(timeout: 15))
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(forDuration: 1.2)
+        let save = app.buttons["place.save"]
+        XCTAssertTrue(save.waitForExistence(timeout: 5))
+        if save.label != "Saved" { save.tap() }
+        let title = app.staticTexts["place.name"]
+        XCTAssertTrue(title.waitForExistence(timeout: 5))
+        title.press(forDuration: 1.2)
+        let alert = app.alerts["Rename saved place"]
+        XCTAssertTrue(alert.waitForExistence(timeout: 5))
+        let field = alert.textFields.firstMatch
+        field.tap()
+        if let value = field.value as? String {
+            field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: value.count))
+        }
+        field.typeText("Family meeting point")
+        alert.buttons["Save"].tap()
+        XCTAssertTrue(app.staticTexts["Family meeting point"].waitForExistence(timeout: 5))
+        app.terminate()
+        app.launch()
+        XCTAssertTrue(app.buttons["map.saved"].waitForExistence(timeout: 15))
+        app.buttons["map.saved"].tap()
+        let row = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@ AND label CONTAINS %@",
+                                                  "saved.place.", "Family meeting point")).firstMatch
+        XCTAssertTrue(row.waitForExistence(timeout: 5))
+        row.tap()
+        XCTAssertTrue(app.staticTexts["Family meeting point"].waitForExistence(timeout: 5))
+        app.buttons["place.save"].tap()
+    }
+
     func testSavedPlaceIconPickerPersistsWithoutOpeningPlace() {
         let app = XCUIApplication()
         app.launchArguments = ["-mapOverlays", "0"]

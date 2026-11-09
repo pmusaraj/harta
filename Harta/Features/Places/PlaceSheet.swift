@@ -9,9 +9,14 @@ struct PlaceSheet: View {
     @Binding var detent: PresentationDetent
     @State private var lastEstimateFix: LocationFix?
     @State private var showError = false
+    @State private var showingRename = false
+    @State private var editedName = ""
     @State private var showingNavigation = false
     @State private var editingIconFor: Place?
     @Environment(\.dismiss) private var dismiss
+
+    private var currentPlace: Place { store.places.first { $0.id == place.id } ?? place }
+    private var canRename: Bool { store.contains(place) && !store.isReadOnly }
 
     var body: some View {
         NavigationStack {
@@ -27,12 +32,31 @@ struct PlaceSheet: View {
                             }
                             .buttonStyle(.plain)
                             .foregroundStyle(store.tint(for: place).color)
-                            .accessibilityLabel("Change icon for \(place.name)")
+                            .accessibilityLabel("Change icon for \(currentPlace.name)")
                             .accessibilityValue(icon.title)
                             .accessibilityIdentifier("place.icon")
                             .disabled(store.isReadOnly)
                         }
-                        Text(place.name).font(.title2).bold().lineLimit(2)
+                        Text(currentPlace.name).font(.title2).bold().lineLimit(2)
+                            .contentShape(.rect)
+                            .onLongPressGesture(perform: beginRename)
+                            .accessibilityIdentifier("place.name")
+                            .accessibilityHint(canRename ? "Touch and hold to rename" : "")
+                            .accessibilityActions {
+                                if canRename {
+                                    Button("Rename saved place", action: beginRename)
+                                }
+                            }
+                            .alert("Rename saved place", isPresented: $showingRename) {
+                                TextField("Name", text: $editedName)
+                                    .textInputAutocapitalization(.words)
+                                    .accessibilityIdentifier("place.rename.field")
+                                Button("Cancel", role: .cancel) {}
+                                Button("Save") {
+                                    showError = !store.rename(place, to: editedName)
+                                }
+                                .disabled(editedName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                            }
                     }
                     if !place.address.isEmpty {
                         Text(place.address).font(.subheadline).foregroundStyle(.secondary).lineLimit(2)
@@ -61,7 +85,7 @@ struct PlaceSheet: View {
                     if detent != .height(320) {
                         Divider()
                         Text(place.coordinateLabel).font(.subheadline).foregroundStyle(.secondary).textSelection(.enabled)
-                        ShareLink(item: place.shareURL, subject: Text(place.name), message: Text(place.name)) {
+                        ShareLink(item: place.shareURL, subject: Text(currentPlace.name), message: Text(currentPlace.name)) {
                             Label("Share place", systemImage: "square.and.arrow.up")
                         }
                     }
@@ -79,7 +103,7 @@ struct PlaceSheet: View {
             SavedPlaceIconPicker(place: place, store: store)
         }
         .fullScreenCover(isPresented: $showingNavigation) {
-            NavigationScreen(destination: place, mode: directionsModel.mode)
+            NavigationScreen(destination: currentPlace, mode: directionsModel.mode)
         }
         .task(id: place.id) {
             lastEstimateFix = nil
@@ -96,6 +120,12 @@ struct PlaceSheet: View {
             if let fix = location.fix, abs(fix.timestamp.timeIntervalSinceNow) < 120 { estimate(from: fix, force: true) }
         }
     }
+    private func beginRename() {
+        guard canRename else { return }
+        editedName = currentPlace.name
+        showingRename = true
+    }
+
     private var goLabel: String {
         if let route = directionsModel.route, directionsModel.origin?.id == "current-location" {
             return "Go · \(max(1, Int(ceil(route.seconds / 60)))) min"
