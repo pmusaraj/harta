@@ -37,7 +37,7 @@ final class DirectionsModel {
             } catch {
                 guard !Task.isCancelled, token == generation else { return }
                 isLoading = false
-                errorMessage = "Couldn’t find a route. Check your connection or try another starting point or travel mode."
+                errorMessage = (error as? StadiaServiceError)?.errorDescription ?? "Couldn’t find a route. Check your connection or try another starting point or travel mode."
             }
         }
         return task

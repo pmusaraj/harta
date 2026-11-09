@@ -14,6 +14,7 @@ actor ValhallaRoutingService: RouteProviding {
         try Task.checkCancellation()
         var request = URLRequest(url: endpoint)
         request.httpMethod = "POST"
+        try AppConfiguration.authenticate(&request)
         request.timeoutInterval = 25
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("com.musaraj.harta", forHTTPHeaderField: "X-Client-Id")
@@ -25,9 +26,7 @@ actor ValhallaRoutingService: RouteProviding {
             "directions_options": ["units": "kilometers", "language": "en-US"]
         ])
         let (data, response) = try await session.data(for: request)
-        guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
-            throw URLError(.badServerResponse)
-        }
+        try StadiaServiceError.validate(response)
         try Task.checkCancellation()
         return try JSONDecoder().decode(ValhallaResponse.self, from: data).route()
     }

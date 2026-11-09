@@ -75,7 +75,7 @@ struct DirectionsView: View {
                 }
             }
             Section {
-                Link("Routing by Valhalla · FOSSGIS · OpenStreetMap", destination: AppConfiguration.routingCredit)
+                Link("Routing by Valhalla · Stadia Maps · OpenStreetMap", destination: AppConfiguration.routingCredit)
                     .font(.footnote)
             }
         }

@@ -141,7 +141,7 @@ final class NavigationModel {
             } catch {
                 guard token == generation, !Task.isCancelled else { return }
                 requestingRoute = false; isPreparing = false
-                errorMessage = "Navigation couldn’t start. Check your connection and location, then retry."
+                errorMessage = (error as? StadiaServiceError)?.errorDescription ?? "Navigation couldn’t start. Check your connection and location, then retry."
                 provider.stopUpdating()
             }
         }

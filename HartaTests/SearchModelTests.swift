@@ -30,4 +30,14 @@ struct SearchModelTests {
         #expect(model.results.first?.name == "Toronto")
         #expect(model.errorMessage == nil)
     }
+    @Test func cancelledAutocompleteDoesNotPublishResults() async {
+        let model = SearchModel()
+        model.query = "Library"
+        let task = model.submit(latitude: 43, longitude: -79, autocomplete: true)
+        model.queryChanged()
+        await task?.value
+        #expect(model.suggestions.isEmpty)
+        #expect(!model.isSearching)
+        #expect(model.errorMessage == nil)
+    }
 }

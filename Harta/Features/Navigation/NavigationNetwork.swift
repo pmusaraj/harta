@@ -11,14 +11,13 @@ actor NavigationNetwork: URLRequestLoading {
         try await Task.sleep(for: .seconds(delay))
         try Task.checkCancellation()
         var request = urlRequest
+        try AppConfiguration.authenticate(&request)
         request.timeoutInterval = 25
         request.setValue("com.musaraj.harta", forHTTPHeaderField: "X-Client-Id")
         request.setValue("Harta-iOS/0.1", forHTTPHeaderField: "User-Agent")
         do {
             let result = try await URLSession.shared.data(for: request)
-            guard let response = result.1 as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-                throw URLError(.badServerResponse)
-            }
+            try StadiaServiceError.validate(result.1)
             return result
         } catch {
             if !Task.isCancelled { await onError() }

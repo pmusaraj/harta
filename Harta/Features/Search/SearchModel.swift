@@ -4,6 +4,7 @@ import Observation
 @MainActor @Observable
 final class SearchModel {
     var query = ""
+    private(set) var suggestions: [PlaceSuggestion] = []
     private(set) var results: [Place] = []
     private(set) var isSearching = false
     private(set) var hasSearched = false
@@ -11,26 +12,28 @@ final class SearchModel {
     private(set) var locationMessage: String?
     private(set) var needsLocation = false
     private(set) var request: PlaceSearchRequest?
+    private(set) var isAutocompleteRequest = false
     private let service: any PlaceSearching
     private var task: Task<Void, Never>?
     private var generation = UUID()
 
-    init(service: any PlaceSearching = PhotonSearchService()) { self.service = service }
+    init(service: any PlaceSearching = StadiaSearchService()) { self.service = service }
 
     @discardableResult
     func submit(query submittedQuery: String? = nil, request submittedRequest: PlaceSearchRequest? = nil,
                 latitude: Double, longitude: Double, currentLocation: LocationFix? = nil,
-                savedPlaces: [Place] = []) -> Task<Void, Never>? {
+                savedPlaces: [Place] = [], autocomplete: Bool = false) -> Task<Void, Never>? {
         cancel()
         let request = submittedRequest ?? PlaceSearchRequest(text: submittedQuery ?? query)
         guard request.destination.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2 else { return nil }
         self.request = request
+        isAutocompleteRequest = autocomplete
         let requestID = generation
         hasSearched = true
         errorMessage = nil
         locationMessage = nil
         needsLocation = false
-        results = []
+        results = []; suggestions = []
         let fix = currentLocation.flatMap { abs($0.timestamp.timeIntervalSinceNow) < 120 ? $0 : nil }
         var biasLatitude: Double? = latitude
         var biasLongitude: Double? = longitude
@@ -61,6 +64,15 @@ final class SearchModel {
         let searchLatitude = biasLatitude, searchLongitude = biasLongitude
         task = Task { [weak self, service] in
             do {
+                if autocomplete {
+                    try await Task.sleep(for: .milliseconds(400))
+                    let suggestions = try await service.suggestions(query: request.query, latitude: searchLatitude, longitude: searchLongitude)
+                    try Task.checkCancellation()
+                    guard let self, self.generation == requestID else { return }
+                    self.suggestions = suggestions.filter { suggestion in !self.results.contains { $0.id == suggestion.id } }
+                    self.isSearching = false
+                    return
+                }
                 let places = try await service.search(query: request.query, latitude: searchLatitude, longitude: searchLongitude)
                 try Task.checkCancellation()
                 guard let self, self.generation == requestID else { return }
@@ -69,16 +81,36 @@ final class SearchModel {
                 self.isSearching = false
             } catch {
                 guard let self, self.generation == requestID, !Task.isCancelled else { return }
-                self.errorMessage = "Online search is unavailable. Saved matches are still shown. Check your connection and try again."
+                self.errorMessage = (error as? StadiaServiceError)?.errorDescription ?? "Online search is unavailable. Saved matches are still shown. Check your connection and try again."
                 self.isSearching = false
             }
         }
         return task
     }
 
+    func selectSuggestion(_ suggestion: PlaceSuggestion, onSelect: @escaping @MainActor (Place) -> Void) {
+        cancel()
+        let token = generation
+        isSearching = true
+        errorMessage = nil
+        task = Task { [weak self, service] in
+            do {
+                let place = try await service.resolve(suggestion)
+                try Task.checkCancellation()
+                guard let self, self.generation == token else { return }
+                self.isSearching = false
+                onSelect(place)
+            } catch {
+                guard let self, self.generation == token, !Task.isCancelled else { return }
+                self.isSearching = false
+                self.errorMessage = (error as? StadiaServiceError)?.errorDescription ?? "Couldn’t load this place. Tap it to try again."
+            }
+        }
+    }
+
     func queryChanged() {
         cancel()
-        results = []
+        results = []; suggestions = []
         hasSearched = false
         errorMessage = nil
         locationMessage = nil

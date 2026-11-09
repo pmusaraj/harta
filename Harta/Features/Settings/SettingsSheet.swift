@@ -39,9 +39,9 @@ struct SettingsSheet: View {
                     Text("Applies to browsing and navigation. Colors follow your device’s appearance.")
                 }
                 Section("Privacy") {
-                    Text("Voice search records only while you ask a question. Speech recognition and command extraction run on this device; audio and transcripts are not saved. Speech language support may need an initial download. Unmatched destination searches go to Photon, and route requests use the routing service.")
+                    Text("Voice search records only while you ask a question. Speech recognition and command extraction run on this device; audio and transcripts are not saved. Speech language support may need an initial download. Unmatched destination searches go to Stadia Maps, and route requests use the routing service.")
                     Text("Saved places stay on this device. Location updates while the app is active and pauses in the background. During navigation, precise location updates continue while the phone is locked. Ending navigation stops background tracking.")
-                    Text("Map requests go to OpenFreeMap. Submitted searches go to Photon. Searches prefer your current location when available; an explicit map-area search uses the map center. Searches for a named locality omit the location bias. Routing sends your starting point, destination, and travel mode to the FOSSGIS Valhalla service. Navigation rerouting sends your updated position. These providers receive your IP address.")
+                    Text("Map requests go to OpenFreeMap. Search text (including partial queries) and selected place identifiers go to Stadia Maps. Searches prefer your current location when available; an explicit map-area search uses the map center. Searches for a named locality omit the location bias. Routing sends your starting point, destination, and travel mode to the Stadia Maps Valhalla service. Navigation rerouting sends your updated position. These providers receive your IP address.")
                 }
                 Section("Map credits") {
                     Link("© OpenStreetMap contributors · ODbL", destination: AppConfiguration.osmCredit)
@@ -53,8 +53,8 @@ struct SettingsSheet: View {
                     Link("Map style design · CC BY 4.0", destination: AppConfiguration.url("https://creativecommons.org/licenses/by/4.0/"))
                     NavigationLink("Map style licenses") { MapStyleLicensesView() }
                     Link("MapLibre Native · BSD 2-Clause", destination: AppConfiguration.mapLibreCredit)
-                    Link("Photon search", destination: AppConfiguration.searchCredit)
-                    Link("Valhalla routing · FOSSGIS", destination: AppConfiguration.routingCredit)
+                    Link("Stadia Maps search", destination: AppConfiguration.searchCredit)
+                    Link("Valhalla routing · Stadia Maps", destination: AppConfiguration.routingCredit)
                     Link("Ferrostar navigation · BSD 3-Clause", destination: AppConfiguration.url("https://github.com/stadiamaps/ferrostar"))
                 }
                 Section {

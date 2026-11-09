@@ -34,3 +34,5 @@ __pycache__/
 /screenshots/
 /design/
 /HANDOFF.md
+
+/Configuration/Local.xcconfig

@@ -2,7 +2,7 @@
 
 Harta is a maps and navigation app for iPhone and iPad. Find places, save your favorites, and get walking, cycling, or driving directions.
 
-Harta is currently a prototype. It requires iOS/iPadOS 26 or later and an internet connection. No account is needed.
+Harta is currently a prototype. It requires iOS/iPadOS 26 or later and an internet connection. No user account is needed. Builds require a Stadia Maps API key for online search and routing (see Development).
 
 ## Explore and navigate
 
@@ -30,7 +30,7 @@ Search prefers your current location when available. “Near me” requires a re
 
 Voice audio and transcripts are processed on device and are not saved or uploaded. Unmatched voice destinations use the same online search as typed queries. Saved places, recent searches, and preferences stay on your device. Harta has no analytics. Background location is used only during active navigation.
 
-Online services receive the information needed to respond: Photon receives submitted searches and, when used, the current-location or map-center search bias, OpenFreeMap receives map tile requests, and FOSSGIS receives route coordinates and travel mode. These providers also receive your IP address. You can clear recent searches in the app.
+Online services receive the information needed to respond: Stadia Maps receives search text (including partial queries), selected place identifiers and, when used, the current-location or map-center search bias, OpenFreeMap receives map tile requests, and Stadia Maps receives route coordinates and travel mode. These providers also receive your IP address. You can clear recent searches in the app.
 
 ## Current limitations
 

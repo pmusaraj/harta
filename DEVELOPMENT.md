@@ -2,7 +2,7 @@
 
 Harta (`com.musaraj.harta`) is a native SwiftUI iOS prototype with MapLibre Native. iOS 26+, Xcode 26+.
 
-Open `Harta.xcodeproj`, select the **Harta** scheme and an iOS 26 simulator, then Run. Swift Package Manager downloads the pinned MapLibre 6.31.0 and Ferrostar 0.57.0 SDKs. No API key is needed for the prototype.
+Open `Harta.xcodeproj`, select the **Harta** scheme and an iOS 26 simulator, then Run. Swift Package Manager downloads the pinned MapLibre 6.31.0 and Ferrostar 0.57.0 SDKs. Search and routing require a Stadia Maps API key. Copy `Configuration/Local.xcconfig.example` to `Configuration/Local.xcconfig` and replace the placeholder key. This local file is ignored by Git and is included by both Debug and Release builds. The key is embedded in the built app; use a dedicated prototype key and monitor usage in the Stadia dashboard. Missing keys produce an explicit error; there is no public-demo fallback.
 
 For a physical device, select your development team in Signing & Capabilities. The bundle identifier is `com.musaraj.harta`. The app includes the selected Route H icon (concept 3B).
 
@@ -17,7 +17,7 @@ xcodebuild -project Harta.xcodeproj -scheme Harta \
   -derivedDataPath .build/DerivedData CODE_SIGNING_ALLOWED=NO build
 ```
 
-Run unit and UI tests with Product → Test in Xcode on an iOS 26 simulator. The live routing UI smoke test is opt-in: pass `RUN_LIVE_ROUTING_TESTS=1` to xcodebuild, grant simulator location permission, and set its location to `43.6426,-79.3871` (near the Toronto default destination). It calls the public routing service; normal tests do not.
+Run unit and UI tests with Product → Test in Xcode on an iOS 26 simulator. The live routing UI smoke test is opt-in: pass `RUN_LIVE_ROUTING_TESTS=1` to xcodebuild, grant simulator location permission, and set its location to `43.6426,-79.3871` (near the Toronto default destination). It calls Stadia using the configured key and consumes credits; normal tests do not.
 
 ## Map layers
 
@@ -27,13 +27,17 @@ Coverage follows OpenStreetMap/OpenMapTiles and varies by region. These layers d
 
 ## Service boundaries
 
-MapLibre is the native renderer. Valhalla supplies online routes through the configurable FOSSGIS demo endpoint (`https://valhalla1.openstreetmap.de/route`). Preview requests are explicit, cancellable, and throttled to at most one per second per service instance. Navigation requests use Ferrostar’s Valhalla adapter with voice/banner instructions; automatic rerouting waits at least 15 seconds and 15 meters of movement between attempts. The public demo is for modest prototype use; choose production hosting before release. OpenFreeMap provides online tiles and styles. Photon’s public demo provides modest prototype search traffic only. Before public release, choose production search hosting and validate coverage, limits, privacy terms, and attribution. Endpoint configuration is in `AppConfiguration.swift`; bundled map styles are in `Harta/Resources/MapStyles`. Regenerate all eight style files with `python3 scripts/map-styles/generate.py`; upstream base snapshots and license notices are retained.
+MapLibre renders OpenFreeMap tiles. Stadia Maps supplies search and Valhalla routes. Typed autocomplete uses `/geocoding/v2/autocomplete` after three characters and a 400 ms pause. Suggestions have no coordinates: selecting one calls `/geocoding/v2/place_details` for that GID only. Explicit Return and voice searches use `/geocoding/v2/search` for complete input. Search responses are cached in memory for at most five minutes (30 entries); editing, dismissing, starting voice, and backgrounding cancel pending work. Saved matches remain available when online requests fail.
 
-Search sends the submitted query and a fresh current-location bias to Photon by default, falling back visibly to the map center. Explicit map-area requests use the map center; named localities omit coordinate bias. Tile requests disclose viewed areas to OpenFreeMap. Routing sends origin/destination coordinates and travel mode to FOSSGIS. Automatic rerouting sends the current position again. All providers receive the device’s IP address. Saved places are a local JSON file in Application Support. The last ten selected search places and travel-mode and map-style preferences stay locally in UserDefaults; recent places can be cleared in search. Maps/search/routing require connectivity; cache availability is not an offline feature.
+Free-plan budgeting: 200,000 credits/month shared by the account, noncommercial use only, no overage. Autocomplete v2 costs 1 credit/request; details, submitted search, and standard routing cost 20 each. Five autocomplete requests + selected-place details + route preview + navigation start cost 65 credits, approximately 3,076 trips/month before reroutes or other requests. Preview and navigation still fetch separate route formats; do not assume one routing call per trip. Reroutes are limited by Ferrostar to at least 15 seconds and 15 metres of movement. No traffic profiles, background prefetch, or automatic paid fallback are enabled. HTTP 429 is surfaced without search retries. Account-wide quota enforcement remains with Stadia. Pricing: https://stadiamaps.com/pricing/.
+
+Search sends partial/submitted text, selected GIDs, and a fresh location bias to Stadia Maps, falling back visibly to map center. Named localities omit coordinate bias. Routing sends origin/destination coordinates and mode; rerouting sends the updated position. OpenFreeMap receives tile requests. Providers receive the device IP address. Saved places and recent selections remain local. Online services require connectivity.
+
+Endpoint configuration is in `AppConfiguration.swift`. Regenerate map styles with `python3 scripts/map-styles/generate.py`.
 
 The map requests location on launch, centers on the first fresh fix, and keeps its location dot updated while active. Browsing uses best accuracy with a five-meter distance filter and resumes updates when the app returns to the foreground. Montreal is the fallback while locating or if permission is denied. Panning or choosing a destination cancels automatic recentering; the location button explicitly recenters.
 
-Routing references: [Valhalla API](https://valhalla.github.io/valhalla/api/), [public demo usage](https://github.com/valhalla/valhalla#demo-server).
+Routing references: [Valhalla API](https://valhalla.github.io/valhalla/api/), [Stadia routing](https://docs.stadiamaps.com/routing/standard-routing/).
 
 ## Project notes
 
@@ -51,13 +55,13 @@ Audio stays in memory. The UI never binds a transcript to the search text field.
 AppleVoiceCommandExtractor uses guided Foundation Models output when available;
 BasicVoiceCommandParser handles explicit English commands without Apple Intelligence.
 SavedPlaceResolver handles direct aliases and exact named destinations. SearchModel
-merges other saved matches with Photon results using PlaceSearchRanking: normalized
+merges other saved matches with Stadia results using PlaceSearchRanking: normalized
 name tokens, conservative one-edit typos, sport/category icons, saved status, and
 distance. Saved results appear before the network completes and survive failures.
 Duplicate IDs or matching names within 50 metres collapse to the saved record.
-Explicit named localities filter saved addresses/names and omit GPS bias in Photon.
+Explicit named localities filter saved addresses/names and omit GPS bias in Stadia.
 PlaceSearchRequest separates current location, map area, and named locality.
-Photon requests up to 20 results with location_bias_scale=0.1 when biased.
+Stadia requests up to eight results with focus.point coordinates when biased.
 The existing model only extracts voice intent; model-assisted retrieval/ranking is
 deferred to stage two. Voice
 route requests enter the existing DirectionsView and retain Start navigation.

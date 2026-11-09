@@ -24,10 +24,14 @@ targets:
     type: application
     platform: iOS
     sources: [Harta]
+    configFiles:
+      Debug: Configuration/Stadia.xcconfig
+      Release: Configuration/Stadia.xcconfig
     info:
       path: Harta/Resources/Info.plist
       properties:
         CFBundleShortVersionString: $(MARKETING_VERSION)
+        StadiaMapsAPIKey: $(STADIA_MAPS_API_KEY)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UIBackgroundModes: [location, audio]
     dependencies:

@@ -92,7 +92,7 @@ struct SearchPanel: View {
                             row(place)
                             if place.id != model.results.last?.id { Divider() }
                         }
-                    } else if model.hasSearched && !model.isSearching && model.errorMessage == nil {
+                    } else if model.suggestions.isEmpty && model.hasSearched && !model.isSearching && model.errorMessage == nil {
                         Text("No places found. Try another name or address.").foregroundStyle(.secondary)
                     } else if !model.hasSearched && voice.status == nil && voice.errorMessage == nil && voice.candidates.isEmpty {
                         if !recents.places.isEmpty {
@@ -116,10 +116,25 @@ struct SearchPanel: View {
                             }
                         }
                         if recents.places.isEmpty && store.places.isEmpty {
-                            Text("Enter a place or address, then tap Search.").foregroundStyle(.secondary)
+                            Text("Start typing a place or address.").foregroundStyle(.secondary)
                         }
                     }
-                    Text("Photon · OpenStreetMap").font(.caption).foregroundStyle(.secondary)
+                    ForEach(model.suggestions) { suggestion in
+                        Button {
+                            model.selectSuggestion(suggestion) { place in select(place, command: nil) }
+                        } label: {
+                            VStack(alignment: .leading, spacing: 3) {
+                                Text(suggestion.name).foregroundStyle(.primary)
+                                Text(suggestion.address).font(.subheadline).foregroundStyle(.secondary)
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                            .contentShape(.rect)
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(model.isSearching)
+                    }
+                    Link("Search © Stadia Maps · Data credits", destination: AppConfiguration.searchCredit)
+                        .font(.caption)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
@@ -133,7 +148,12 @@ struct SearchPanel: View {
         .clipShape(.rect(cornerRadius: 24))
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("search.panel")
-        .onChange(of: model.query) { voice.cancel(); model.queryChanged() }
+        .onChange(of: model.query) {
+            voice.cancel(); model.queryChanged()
+            guard model.query.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 else { return }
+            model.submit(latitude: latitude, longitude: longitude, currentLocation: location?.fix,
+                         savedPlaces: store.places, autocomplete: true)
+        }
         .onChange(of: voice.selection) { _, selection in
             if let selection { select(selection.place, command: selection.command) }
         }
@@ -162,6 +182,7 @@ struct SearchPanel: View {
         }
     }
     private func select(_ place: Place, command: VoiceCommand?) {
+        model.cancel()
         recents.record(place)
         focused = false
         if command?.action == .directions, let onDirections {
@@ -171,6 +192,7 @@ struct SearchPanel: View {
 
     private func startVoice() {
         focused = false
+        model.cancel()
         voice.start(store: store, search: model, latitude: latitude, longitude: longitude,
                     currentLocation: { location?.fix })
     }
@@ -181,14 +203,14 @@ struct SearchPanel: View {
         runSearch(PlaceSearchRequest(text: model.query))
     }
 
-    private func runSearch(_ request: PlaceSearchRequest) {
+    private func runSearch(_ request: PlaceSearchRequest, autocomplete: Bool = false) {
         model.submit(request: request, latitude: latitude, longitude: longitude,
-                     currentLocation: location?.fix, savedPlaces: store.places)
+                     currentLocation: location?.fix, savedPlaces: store.places, autocomplete: autocomplete)
     }
 
     private func retrySearch() {
         focused = false
-        if let request = model.request { runSearch(request) }
+        if let request = model.request { runSearch(request, autocomplete: model.isAutocompleteRequest) }
         else { submit() }
     }
 }
