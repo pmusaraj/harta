@@ -2,10 +2,12 @@
 
 final class PlaceMapAnnotation: MLNPointAnnotation {
     let place: Place
+    let tint: SavedPlaceTint
     let icon: SavedPlaceIcon?
     let isSelectedPlace: Bool
 
-    init(place: Place, icon: SavedPlaceIcon?, isSelected: Bool) {
+    init(place: Place, icon: SavedPlaceIcon?, isSelected: Bool, tint: SavedPlaceTint = .teal) {
+        self.tint = tint
         self.place = place
         self.icon = icon
         self.isSelectedPlace = isSelected

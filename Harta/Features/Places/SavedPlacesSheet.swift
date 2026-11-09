@@ -22,10 +22,10 @@ struct SavedPlacesSheet: View {
                             Image(systemName: place.icon.symbol)
                                 .font(.title3)
                                 .frame(width: 44, height: 44)
-                                .background(.teal.opacity(0.12), in: .circle)
+                                .background(place.tint.color.opacity(0.12), in: .circle)
                         }
                         .buttonStyle(.plain)
-                        .foregroundStyle(.teal)
+                        .foregroundStyle(place.tint.color)
                         .accessibilityLabel("Change icon for \(place.name)")
                         .accessibilityValue(place.icon.title)
                         .accessibilityIdentifier("saved.icon.\(place.id)")

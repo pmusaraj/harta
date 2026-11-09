@@ -53,6 +53,7 @@
 		6B96C3BA5CC3824DBC31CD22 /* SearchSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FFC9D98FA115553637B024 /* SearchSheet.swift */; };
 		6E4C5F00CE0FA77D965C01FC /* VoiceCommandError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968906B0778F4544BF49AFD7 /* VoiceCommandError.swift */; };
 		71C9C03D9A1064E80E00DF86 /* RecentPlacesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3E38B6051839978A0BDBC /* RecentPlacesStore.swift */; };
+		77BCB25F87DC4B03FEFF4F8B /* SavedPlaceTint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF0BA00B91C75239ED4F698 /* SavedPlaceTint.swift */; };
 		780F6500A6AEA9B071F4BE26 /* SearchPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94A0D227E0BF056651F3920 /* SearchPanel.swift */; };
 		7845EF68AD2375A798D51268 /* VoiceCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5473718316509FD8C4B334F7 /* VoiceCommandTests.swift */; };
 		79E901E5DC0C93D2B8C01689 /* PlaceMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE4D1CA9F80110AD5F67EBD /* PlaceMapAnnotation.swift */; };
@@ -78,6 +79,7 @@
 		A9CCD8A2C7D67656CE3008B7 /* TransitKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6C9509C1C80920CC4EA0A4 /* TransitKind.swift */; };
 		AE46EADCF7ECBD7402282E00 /* DarkMatterLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5FDAFA38AA6C77DA3468C4F2 /* DarkMatterLicense.txt */; };
 		AE70F8B7E13A9DFB4A4E0785 /* AppleVoiceCommandExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDE8D31475D6C36258B3491 /* AppleVoiceCommandExtractor.swift */; };
+		AF2254CC0CDC8B8330F8D8CB /* SavedPlaceTintPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B04E1753B14D0CC17DE8E /* SavedPlaceTintPicker.swift */; };
 		AF3E9316174BCC5897009766 /* MapLibre-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D64C855D783D0F0465420994 /* MapLibre-LICENSE.txt */; };
 		B1BD831CC919A6EE7D520780 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FE88E990ED20C759E002D3BC /* PrivacyInfo.xcprivacy */; };
 		B2D7B9706CCAC133EC0308D5 /* MapCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2DB244917B5AB6BADFE2C /* MapCoordinator.swift */; };
@@ -147,6 +149,7 @@
 		0EC9DB0134CAD4A59CDB86BF /* DirectionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsModel.swift; sourceTree = "<group>"; };
 		0F95789140F94D918C3B002B /* Harta.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Harta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FA81D24DEC7EA15C52BDB0C /* VoiceTestServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceTestServices.swift; sourceTree = "<group>"; };
+		100B04E1753B14D0CC17DE8E /* SavedPlaceTintPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlaceTintPicker.swift; sourceTree = "<group>"; };
 		131A3C6D27167B8E2C8A3297 /* HartaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HartaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		13328118F047D5AD4C31C07E /* MapFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFlowTests.swift; sourceTree = "<group>"; };
 		1599B1E377C246650245470C /* SpeechAudioInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAudioInput.swift; sourceTree = "<group>"; };
@@ -170,6 +173,7 @@
 		4DE00C98A741118681F200A9 /* RecentPlacesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentPlacesTests.swift; sourceTree = "<group>"; };
 		4E8D8E0913D73F49D5E34AD4 /* VoiceCommandModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceCommandModelTests.swift; sourceTree = "<group>"; };
 		4E9BA659E5A9E12A5F35CFA0 /* SavedPlaceResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlaceResolver.swift; sourceTree = "<group>"; };
+		4EF0BA00B91C75239ED4F698 /* SavedPlaceTint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlaceTint.swift; sourceTree = "<group>"; };
 		4FCCA4952664610085B6284E /* NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
 		51D9EA46F3F3C9130B1CBD9D /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		5473718316509FD8C4B334F7 /* VoiceCommandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceCommandTests.swift; sourceTree = "<group>"; };
@@ -325,6 +329,7 @@
 				E5E2FEC0191809FE9EAF946B /* PlaceSearchRequest.swift */,
 				06792800A04EA96F8940F32C /* PlaceSuggestion.swift */,
 				9CBCCAEFFD3815B172AECAE6 /* SavedPlaceIcon.swift */,
+				4EF0BA00B91C75239ED4F698 /* SavedPlaceTint.swift */,
 				CA0E575F5426B3A3AB612C08 /* StadiaResponse.swift */,
 				BB6C9509C1C80920CC4EA0A4 /* TransitKind.swift */,
 				A52E7C1EC6F066B346426A3F /* TravelMode.swift */,
@@ -375,6 +380,7 @@
 				2D022F0AFCC326FF87C35A12 /* PlaceSheet.swift */,
 				61D41AF2C1760AF639861E3A /* SavedPlaceIconPicker.swift */,
 				00A2635662A057BDFF4AD206 /* SavedPlacesSheet.swift */,
+				100B04E1753B14D0CC17DE8E /* SavedPlaceTintPicker.swift */,
 			);
 			path = Places;
 			sourceTree = "<group>";
@@ -763,6 +769,8 @@
 				FCB732E318C2AFC269297143 /* SavedPlaceIconPicker.swift in Sources */,
 				3E475847D3326053473112F0 /* SavedPlaceMarker.swift in Sources */,
 				E72693410D90D47BFB9BD53A /* SavedPlaceResolver.swift in Sources */,
+				77BCB25F87DC4B03FEFF4F8B /* SavedPlaceTint.swift in Sources */,
+				AF2254CC0CDC8B8330F8D8CB /* SavedPlaceTintPicker.swift in Sources */,
 				34414F1F550D62100CB932A6 /* SavedPlacesSheet.swift in Sources */,
 				3611E7632056444CE0883581 /* SavedPlacesStore.swift in Sources */,
 				F467FB61E00CD9A101212F74 /* SearchModel.swift in Sources */,

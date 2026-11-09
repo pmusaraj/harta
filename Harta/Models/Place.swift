@@ -9,6 +9,9 @@ struct Place: Identifiable, Codable, Equatable, Sendable {
     let longitude: Double
     // Optional for compatibility with places saved before icon customization.
     var savedIcon: String?
+    var savedTint: String?
+
+    var tint: SavedPlaceTint { savedTint.flatMap(SavedPlaceTint.init(rawValue:)) ?? .teal }
 
     var suggestedIcon: SavedPlaceIcon? { SavedPlaceIcon.detected(in: name) }
 

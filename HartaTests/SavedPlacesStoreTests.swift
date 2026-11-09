@@ -52,6 +52,38 @@ struct SavedPlacesStoreTests {
         #expect(SavedPlacesStore(fileURL: file).icon(for: place) == .bookmark)
     }
 
+    @Test func tintDefaultsAndChangesSurviveRelaunch() throws {
+        let file = URL.temporaryDirectory.appending(path: UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: file) }
+        let legacy = Data(#"[{"id":"test","name":"Test","address":"","latitude":43,"longitude":-79}]"#.utf8)
+        try legacy.write(to: file)
+        let store = SavedPlacesStore(fileURL: file)
+        #expect(store.tint(for: place) == .teal)
+        #expect(store.setTint(.purple, for: place))
+        #expect(store.setIcon(.home, for: place))
+        let restored = SavedPlacesStore(fileURL: file)
+        #expect(restored.tint(for: place) == .purple)
+        #expect(restored.icon(for: place) == .home)
+        #expect(restored.places.first?.latitude == place.latitude)
+        var unknown = place
+        unknown.savedTint = "future-color"
+        #expect(unknown.tint == .teal)
+    }
+
+    @Test func failedTintWriteKeepsPreviousSelection() throws {
+        let directory = URL.temporaryDirectory.appending(path: UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let file = directory.appending(path: "places.json")
+        let store = SavedPlacesStore(fileURL: file)
+        store.toggle(place)
+        #expect(store.setTint(.blue, for: place))
+        try FileManager.default.removeItem(at: file)
+        try FileManager.default.createDirectory(at: file, withIntermediateDirectories: false)
+        #expect(!store.setTint(.pink, for: place))
+        #expect(store.tint(for: place) == .blue)
+        #expect(store.errorMessage != nil)
+    }
+
     @Test func unknownIconFallsBackWithoutLosingThePlace() throws {
         let data = Data(#"{"id":"test","name":"Test","address":"","latitude":43,"longitude":-79,"savedIcon":"future-icon"}"#.utf8)
         let decoded = try JSONDecoder().decode(Place.self, from: data)

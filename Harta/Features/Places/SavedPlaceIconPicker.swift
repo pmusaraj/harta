@@ -13,9 +13,8 @@ struct SavedPlaceIconPicker: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text(place.name)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                    SavedPlaceTintPicker(place: place, store: store)
+                    Divider()
                     if let error = store.errorMessage {
                         Text(error).foregroundStyle(.red)
                     }
@@ -31,12 +30,12 @@ struct SavedPlaceIconPicker: View {
                                     Image(systemName: icon.symbol)
                                         .font(.title2)
                                         .frame(width: 48, height: 48)
-                                        .background(.teal.opacity(0.12), in: .circle)
+                                        .background(store.tint(for: place).color.opacity(0.12), in: .circle)
                                         .overlay(alignment: .bottomTrailing) {
                                             if store.icon(for: place) == icon {
                                                 Image(systemName: "checkmark.circle.fill")
                                                     .symbolRenderingMode(.palette)
-                                                    .foregroundStyle(.white, .teal)
+                                                    .foregroundStyle(Color(uiColor: .systemBackground), store.tint(for: place).color)
                                                     .font(.body)
                                             }
                                         }
@@ -46,7 +45,7 @@ struct SavedPlaceIconPicker: View {
                                 .contentShape(.rect)
                             }
                             .buttonStyle(.plain)
-                            .foregroundStyle(.teal)
+                            .foregroundStyle(store.tint(for: place).color)
                             .accessibilityLabel(icon.title)
                             .accessibilityValue(store.icon(for: place) == icon ? "Selected" : "Not selected")
                             .accessibilityIdentifier("saved.icon.option.\(icon.rawValue)")

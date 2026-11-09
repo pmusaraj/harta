@@ -10,13 +10,29 @@ struct PlaceSheet: View {
     @State private var lastEstimateFix: LocationFix?
     @State private var showError = false
     @State private var showingNavigation = false
+    @State private var editingIconFor: Place?
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 14) {
-                    Text(place.name).font(.title2).bold().lineLimit(2)
+                    HStack(spacing: 12) {
+                        if let icon = store.icon(for: place) {
+                            Button { editingIconFor = place } label: {
+                                Image(systemName: icon.symbol)
+                                    .font(.title3)
+                                    .frame(width: 44, height: 44)
+                                    .background(store.tint(for: place).color.opacity(0.12), in: .circle)
+                            }
+                            .buttonStyle(.plain)
+                            .foregroundStyle(store.tint(for: place).color)
+                            .accessibilityLabel("Change icon for \(place.name)")
+                            .accessibilityValue(icon.title)
+                            .accessibilityIdentifier("place.icon")
+                        }
+                        Text(place.name).font(.title2).bold().lineLimit(2)
+                    }
                     if !place.address.isEmpty {
                         Text(place.address).font(.subheadline).foregroundStyle(.secondary).lineLimit(2)
                     }
@@ -57,6 +73,9 @@ struct PlaceSheet: View {
             } message: { Text(store.errorMessage ?? "Please try again.") }
         }
         .presentationDragIndicator(.visible)
+        .sheet(item: $editingIconFor) { place in
+            SavedPlaceIconPicker(place: place, store: store)
+        }
         .fullScreenCover(isPresented: $showingNavigation) {
             NavigationScreen(destination: place, mode: directionsModel.mode)
         }

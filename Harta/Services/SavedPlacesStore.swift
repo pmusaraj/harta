@@ -38,6 +38,22 @@ final class SavedPlacesStore {
         return persist(updated)
     }
 
+    func tint(for place: Place) -> SavedPlaceTint {
+        places.first { $0.id == place.id }?.tint ?? .teal
+    }
+
+    @discardableResult
+    func setTint(_ tint: SavedPlaceTint, for place: Place) -> Bool {
+        guard canWrite else {
+            errorMessage = "Saved places are unavailable because the existing file couldn’t be read."
+            return false
+        }
+        guard let index = places.firstIndex(where: { $0.id == place.id }) else { return false }
+        var updated = places
+        updated[index].savedTint = tint.rawValue
+        return persist(updated)
+    }
+
     func toggle(_ place: Place) {
         guard canWrite else {
             errorMessage = "Saved places are unavailable because the existing file couldn’t be read."

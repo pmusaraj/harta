@@ -10,7 +10,7 @@ struct SearchPlaceRow: View {
                 HStack(spacing: 12) {
                     if let icon = store.icon(for: place) ?? place.suggestedIcon {
                         Image(systemName: icon.symbol)
-                            .foregroundStyle(.teal)
+                            .foregroundStyle(store.tint(for: place).color)
                             .frame(width: 28)
                             .accessibilityHidden(true)
                     }
