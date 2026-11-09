@@ -6,6 +6,7 @@ struct MapCredits: View {
             HStack(spacing: 8) {
                 Link("© OpenStreetMap", destination: AppConfiguration.osmCredit)
                 Link("© OpenMapTiles", destination: AppConfiguration.tilesCredit)
+                Link("© Stadia Maps", destination: AppConfiguration.searchCredit)
             }
             .font(.caption2)
             .tint(.primary)

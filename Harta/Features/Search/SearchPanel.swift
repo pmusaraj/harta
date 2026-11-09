@@ -133,8 +133,6 @@ struct SearchPanel: View {
                         .buttonStyle(.plain)
                         .disabled(model.isSearching)
                     }
-                    Link("Search © Stadia Maps · Data credits", destination: AppConfiguration.searchCredit)
-                        .font(.caption)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
