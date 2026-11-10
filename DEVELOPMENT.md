@@ -87,6 +87,8 @@ Legacy saved icon identifiers (such as `home` and `tennis`) remain unchanged. Cu
 
 ## Family map sharing
 
+Local builds explicitly sign for the Development iCloud environment. Settings shows a small development notice and recommends TestFlight on both devices for sharing tests. The notice reads the installed executable's signed environment entitlement, rather than the Debug/Release configuration; unknown environments leave it hidden. Simulator always shows the development notice. TestFlight export re-signs for Production via `scripts/testflight.sh`.
+
 The app uses `iCloud.com.musaraj.harta`, with the CloudKit entitlement and `CKSharingSupported` declared in `project.yml`. In Xcode Signing & Capabilities / Apple Developer, enable iCloud with CloudKit for `com.musaraj.harta`, create or associate that container with team `M4XMDAF939`, and regenerate signing profiles. These account-side steps are not performed by XcodeGen or an unsigned simulator build.
 
 The first development upload creates a `FamilyMap` record type with a `places` Asset field, in a custom `FamilyMap` zone. The fixed `FamilyMap` root record has a private `CKShare`; the sharing controller offers private, read-only invitations only. Deploy the development schema to production in CloudKit Console before TestFlight/App Store testing. Never enable public access to the map records.

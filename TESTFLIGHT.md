@@ -65,8 +65,10 @@ Signing/archiving successfully does not establish that the production schema is 
 
 ## Latest upload — November 9, 2026
 
-Version **0.1.0 (5)** was successfully archived and uploaded using the signed-in Xcode account. Apple reported that the uploaded package was processing; TestFlight availability and group assignment have not been confirmed. The release archive contains the Stadia key, family sharing, and long-press saved-place renaming.
+Version **0.1.0 (6)** was successfully archived and uploaded using the signed-in Xcode account. Apple reported that the uploaded package was processing; TestFlight availability and group assignment have not been confirmed. This build includes the sharing presentation fix: the sheet is hosted at the Settings root and bound to the loaded share, with explicit errors for unexpected share-loading results. The simulator build and signed Release archive passed; the reported dismissal bug still needs verification on an iCloud-enabled device.
 
-Artifacts: `.build/testflight/5/20261110T000913Z-292/`. Upload completed with a non-blocking warning that the vendor MapLibre framework's matching dSYM is absent; this limits crash symbolication within MapLibre. The upload itself succeeded.
+Artifacts: `.build/testflight/6/20261110T004127Z-717/`. Upload completed with a non-blocking warning that the vendor MapLibre framework's matching dSYM is absent; this limits crash symbolication within MapLibre. The upload itself succeeded.
 
-Still pending: verify/deploy the CloudKit production schema, populate the prepared beta metadata and contact fields in App Store Connect, assign build 5 to the intended group, and complete Beta App Review for external family testers. No tester invitations have been sent. CloudKit management access was checked with `cktool get-teams`, which reported no configured management token. App Store Connect metadata API credentials are not configured in this workspace; Xcode signing/upload access does not supply those API credentials.
+To test, install **0.1.0 (6)** from TestFlight and open Settings → Manage my map’s sharing. Verify that the sharing UI loads, Settings stays available after dismissal, and sharing can be reopened.
+
+The user reports CloudKit sharing setup is complete. Production schema state was not independently rechecked during this upload. App Store Connect metadata API credentials are not configured in this workspace; Xcode signing/upload access does not supply those API credentials. No tester invitations were sent or group assignments changed.

@@ -1,13 +1,20 @@
 import SwiftUI
 
 struct SettingsSheet: View {
-    let family: FamilyMapStore
+    @Bindable var family: FamilyMapStore
     @Environment(\.dismiss) private var dismiss
     @AppStorage(MapStyle.preferenceKey) private var mapStyle: MapStyle = .everyday
 
     var body: some View {
         NavigationStack {
             List {
+                if CloudKitEnvironment.current == .development {
+                    Section {
+                        Label("Development build · iCloud Development", systemImage: "info.circle")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
                 FamilyMapSettings(family: family)
                 Section {
                     ForEach(MapStyle.allCases) { style in
@@ -67,6 +74,11 @@ struct SettingsSheet: View {
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done", action: close) } }
+        }
+        // Keep the presentation outside List's lazily managed sections. Bind to the
+        // share itself so the system controller is created with its data in place.
+        .sheet(item: $family.presentedShare) { presentation in
+            CloudSharingSheet(share: presentation.share, family: family)
         }
     }
 

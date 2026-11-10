@@ -16,7 +16,7 @@ final class FamilyMapStore {
     private(set) var status = ""
     private(set) var lastSynced: Date?
     var errorMessage: String?
-    var presentedShare: CKShare?
+    var presentedShare: CloudSharePresentation?
 
     var activeStore: SavedPlacesStore { showingFamily && joined != nil ? family : personal }
     var container: CKContainer { CKContainer(identifier: Self.containerIdentifier) }
@@ -65,14 +65,20 @@ final class FamilyMapStore {
             let database = container.privateCloudDatabase
             let root = try await database.record(for: ownerID)
             if let reference = root.share {
-                presentedShare = try await database.record(for: reference.recordID) as? CKShare
+                guard let share = try await database.record(for: reference.recordID) as? CKShare else {
+                    throw SyncError.invalidShare
+                }
+                presentedShare = CloudSharePresentation(share: share)
             } else {
                 let share = CKShare(rootRecord: root)
                 share[CKShare.SystemFieldKey.title] = "Family map" as CKRecordValue
                 share.publicPermission = .none
                 let result = try await database.modifyRecords(saving: [root, share], deleting: [], savePolicy: .ifServerRecordUnchanged, atomically: true)
                 for value in result.saveResults.values { _ = try value.get() }
-                presentedShare = try result.saveResults[share.recordID]?.get() as? CKShare
+                guard let savedShare = try result.saveResults[share.recordID]?.get() as? CKShare else {
+                    throw SyncError.invalidShare
+                }
+                presentedShare = CloudSharePresentation(share: savedShare)
             }
             errorMessage = nil
             status = "Up to date"
@@ -119,7 +125,10 @@ final class FamilyMapStore {
             try await checkAccount()
             let root = try await container.sharedCloudDatabase.record(for: joined.recordID)
             guard let reference = root.share else { throw SyncError.invalidShare }
-            presentedShare = try await container.sharedCloudDatabase.record(for: reference.recordID) as? CKShare
+            guard let share = try await container.sharedCloudDatabase.record(for: reference.recordID) as? CKShare else {
+                throw SyncError.invalidShare
+            }
+            presentedShare = CloudSharePresentation(share: share)
         } catch { report(error) }
     }
 

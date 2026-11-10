@@ -38,11 +38,11 @@ struct FamilyMapSettings: View {
         } header: {
             Text("Family map")
         } footer: {
-            Text("Sharing uploads all your personal saved places to iCloud. Invited members can view them, including later changes. Everyone needs an iCloud account. Maps sync while Harta is open; downloaded places are available offline. Recent searches and live location are not shared.")
-        }
-        .sheet(isPresented: Binding(get: { family.presentedShare != nil }, set: { if !$0 { family.presentedShare = nil } })) {
-            if let share = family.presentedShare {
-                CloudSharingSheet(share: share, family: family)
+            VStack(alignment: .leading, spacing: 8) {
+                if CloudKitEnvironment.current == .development {
+                    Text("For sharing tests, use the TestFlight build on both devices. This build uses separate iCloud data and invitations.")
+                }
+                Text("Sharing uploads all your personal saved places to iCloud. Invited members can view them, including later changes. Everyone needs an iCloud account. Maps sync while Harta is open; downloaded places are available offline. Recent searches and live location are not shared.")
             }
         }
     }
