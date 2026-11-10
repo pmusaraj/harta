@@ -104,6 +104,7 @@
 		C7EAC357A5DD2DC9CDF2D844 /* VoiceTestServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA81D24DEC7EA15C52BDB0C /* VoiceTestServices.swift */; };
 		C92CC36A7EBD8972F3DA9F5A /* AppleSpeechTranscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B263EA33DAEB3C7EDC123CB /* AppleSpeechTranscriber.swift */; };
 		CB383B2451BCCE4FBF3E50E9 /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252961D0C07070FFCDD080 /* NavigationModel.swift */; };
+		CCDC3E08C9F645DD7BF62B6A /* AppStoreScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892A7FB08400972B0ABF332E /* AppStoreScreenshotTests.swift */; };
 		D0CBA65D48C2299D1F197F22 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCCA4952664610085B6284E /* NavigationTests.swift */; };
 		D1189E8F33B8B3ABE02A25F9 /* MapErrorBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990B579E15C0199570C4E2E /* MapErrorBanner.swift */; };
 		D3E9FB7417CAD02F9CCDC6DC /* PlaceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D022F0AFCC326FF87C35A12 /* PlaceSheet.swift */; };
@@ -208,6 +209,7 @@
 		8352D56D8F17FD88F02016DF /* RouteProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteProviding.swift; sourceTree = "<group>"; };
 		85536F8A591447BBE6534367 /* MapStartupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStartupTests.swift; sourceTree = "<group>"; };
 		88E28840E1C64F2D787D7CFF /* SavedPlaceMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlaceMarker.swift; sourceTree = "<group>"; };
+		892A7FB08400972B0ABF332E /* AppStoreScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreScreenshotTests.swift; sourceTree = "<group>"; };
 		8A3D262F084C44C9D22F2154 /* DirectionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsTests.swift; sourceTree = "<group>"; };
 		8EE4D1CA9F80110AD5F67EBD /* PlaceMapAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceMapAnnotation.swift; sourceTree = "<group>"; };
 		94D272366F667589E7BC7851 /* SharingAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingAppDelegate.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 		81996998DCD87BE9A9EB9DC4 /* HartaUITests */ = {
 			isa = PBXGroup;
 			children = (
+				892A7FB08400972B0ABF332E /* AppStoreScreenshotTests.swift */,
 				13328118F047D5AD4C31C07E /* MapFlowTests.swift */,
 				7F293099B3961017A222654E /* VoiceFlowTests.swift */,
 			);
@@ -842,6 +845,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCDC3E08C9F645DD7BF62B6A /* AppStoreScreenshotTests.swift in Sources */,
 				9597456EF7C3E98002C15C77 /* MapFlowTests.swift in Sources */,
 				F5D6F6649BDE99E0554A19D0 /* VoiceFlowTests.swift in Sources */,
 			);

@@ -75,5 +75,6 @@ schemes:
         Harta: all
     test:
       environmentVariables:
+        RUN_APP_STORE_SCREENSHOTS: "$(RUN_APP_STORE_SCREENSHOTS)"
         RUN_LIVE_ROUTING_TESTS: "$(RUN_LIVE_ROUTING_TESTS)"
       targets: [HartaTests, HartaUITests]

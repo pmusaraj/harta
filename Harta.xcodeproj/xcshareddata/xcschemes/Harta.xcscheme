@@ -66,6 +66,11 @@
       </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
+            key = "RUN_APP_STORE_SCREENSHOTS"
+            value = "$(RUN_APP_STORE_SCREENSHOTS)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "RUN_LIVE_ROUTING_TESTS"
             value = "$(RUN_LIVE_ROUTING_TESTS)"
             isEnabled = "YES">
