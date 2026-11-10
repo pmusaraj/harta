@@ -59,6 +59,20 @@ xcodebuild -project Harta.xcodeproj -scheme Harta -configuration Release \
   "${AUTH[@]}" "CURRENT_PROJECT_VERSION=$BUILD_NUMBER" archive \
   2>&1 | tee "$OUTPUT/archive.log"
 
+# Verify the actual archived app so a missing local secret cannot reach testers.
+python3 - "$ARCHIVE/Products/Applications/Harta.app/Info.plist" <<'PYVERIFY'
+import plistlib
+import sys
+with open(sys.argv[1], "rb") as source:
+    info = plistlib.load(source)
+key = info.get("StadiaMapsAPIKey", "").strip()
+if not key or key.startswith("$(") or key == "your-stadia-api-key":
+    sys.exit("Archive rejected: configure the Stadia key in Configuration/Local.xcconfig and rebuild.")
+if not info.get("CKSharingSupported"):
+    sys.exit("Archive rejected: CloudKit sharing support is missing.")
+print("Archive verified: Stadia key present and CloudKit sharing enabled. Key value hidden.")
+PYVERIFY
+
 if [[ "$ACTION" == archive ]]; then
   echo "Archive ready: $ARCHIVE"
   exit 0
@@ -73,6 +87,7 @@ cat > "$OUTPUT/ExportOptions.plist" <<EOF
   <key>method</key><string>app-store-connect</string>
   <key>destination</key><string>$DESTINATION</string>
   <key>signingStyle</key><string>automatic</string>
+  <key>iCloudContainerEnvironment</key><string>Production</string>
   <key>manageAppVersionAndBuildNumber</key><false/>
   <key>uploadSymbols</key><true/>
   <key>testFlightInternalTestingOnly</key><false/>

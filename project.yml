@@ -40,6 +40,7 @@ targets:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UIBackgroundModes: [location, audio]
         CKSharingSupported: true
+        ITSAppUsesNonExemptEncryption: false
     dependencies:
       - package: MapLibre
       - package: Ferrostar

@@ -1,0 +1,9 @@
+No separate Harta account or login is required for maps, search, saved places, or navigation.
+
+To test navigation, allow Precise Location, select a destination, and tap Go. Background location and audio support an active navigation session with the screen locked. Voice guidance starts muted; enable it in navigation. Tap End to finish navigation and stop background tracking.
+
+Voice search requests microphone access and processes speech on device. It is optional; typed search remains available.
+
+To test family sharing, use two devices with different active iCloud accounts and this TestFlight build. On device A, save a place, open Settings → Family map → Share my saved places, and invite device B's iCloud user with view-only permission. Open the invitation on device B. The owner can edit names/icons/colours and add/remove places; the participant can view. Keep both apps open or use Sync now. A participant can switch back to personal places without losing them. Sharing does not transmit live location or recent searches.
+
+To rename a saved place, open its details, touch and hold the name, enter a new name, and tap Save.

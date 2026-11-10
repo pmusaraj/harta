@@ -1,0 +1,10 @@
+This build adds family map sharing and saved-place renaming, and includes the Stadia Maps key needed for search and routing.
+
+• Search for a place and try walking, cycling, and driving directions.
+• Save a place or dropped pin. Touch and hold its name in the place details to rename it. Check that the name, icon, and colour survive closing and reopening the app.
+• In Settings → Family map, share your saved places with another person using their own iCloud account. Have them install this TestFlight build and open your invitation.
+• The owner can edit; invited members can view. Add, rename, or remove a place as the owner and check the other device while both apps are open. Use Sync now if needed; automatic refresh runs about every 30 seconds while Harta is active.
+• Switch between a joined family map and personal saved places. Check that joining does not replace personal places.
+• Try removing a member or leaving a share, then refresh the other device.
+
+Maps, search, and routing require internet access. Downloaded saved places can be viewed offline. Sharing requires iCloud; recent searches and live location are not shared. Navigation voice guidance starts muted. Please include the steps and a screenshot when reporting an issue through TestFlight.

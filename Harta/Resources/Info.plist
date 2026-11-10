@@ -20,6 +20,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CKSharingSupported</key>
 	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>StadiaMapsAPIKey</key>
 	<string>$(STADIA_MAPS_API_KEY)</string>
 	<key>UIBackgroundModes</key>
