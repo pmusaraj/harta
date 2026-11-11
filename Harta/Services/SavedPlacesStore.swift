@@ -7,7 +7,7 @@ final class SavedPlacesStore {
     var errorMessage: String?
     private let fileURL: URL
     private var canWrite = true
-    let isReadOnly: Bool
+    private(set) var isReadOnly: Bool
     private(set) var cloudBaseline: [Place] = []
 
     private struct Snapshot: Codable {
@@ -35,6 +35,17 @@ final class SavedPlacesStore {
     }
 
     func contains(_ place: Place) -> Bool { places.contains { $0.id == place.id } }
+
+    var hasPendingChanges: Bool { places != cloudBaseline }
+
+    func setReadOnly(_ readOnly: Bool) { isReadOnly = readOnly }
+
+    /// Used only when replacing or removing a joined map, never for a permission downgrade.
+    @discardableResult
+    func replaceCloud(_ remote: [Place]) -> Bool {
+        guard canWrite else { return false }
+        return persist(remote, baseline: remote)
+    }
 
     @discardableResult
     func rename(_ place: Place, to name: String) -> Bool {
@@ -114,7 +125,7 @@ final class SavedPlacesStore {
     @discardableResult
     func receiveCloud(_ remote: [Place], uploadedLocal: [Place]? = nil) -> Bool {
         guard canWrite else { return false }
-        let updated = isReadOnly ? remote : PlaceMerge.merge(
+        let updated = PlaceMerge.merge(
             baseline: uploadedLocal ?? cloudBaseline, local: places, remote: remote)
         return persist(updated, baseline: remote)
     }

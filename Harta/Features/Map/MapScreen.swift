@@ -45,7 +45,7 @@ struct MapScreen: View {
                 } else {
                     HStack(spacing: 10) {
                         if family.showingFamily, family.joined != nil {
-                            Label("Family map · View only", systemImage: "person.2")
+                            Label(family.family.isReadOnly ? "Shared map · View only" : "Shared map · Can edit", systemImage: "person.2")
                                 .font(.subheadline)
                                 .padding(10)
                                 .background(.regularMaterial, in: .capsule)
@@ -123,6 +123,9 @@ struct MapScreen: View {
                 Task { await family.refresh() }
             }
             .onChange(of: family.personal.places) {
+                Task { await family.refresh() }
+            }
+            .onChange(of: family.family.places) {
                 Task { await family.refresh() }
             }
             .onChange(of: location.fix) { _, fix in

@@ -50,6 +50,7 @@
 		53678832DBE40CB007E25101 /* PositronLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 051B118471246F063F539B09 /* PositronLicense.txt */; };
 		55170380C6E8299E5F041BF4 /* SearchPlaceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49874165E2C8A1328D5AFE78 /* SearchPlaceRow.swift */; };
 		5877A672E91C57C9DA6C04B7 /* SharingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D272366F667589E7BC7851 /* SharingAppDelegate.swift */; };
+		5E0C2F7981F8B2CC94EFF429 /* SharedMapEditingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61779403F43C977C1CB6CFB9 /* SharedMapEditingTests.swift */; };
 		61D35D99B316C25F5D13743B /* ValhallaRoutingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590AF4E81BE0C6E01E59DE56 /* ValhallaRoutingService.swift */; };
 		624FEAE4F1A1FC37C39A9CBD /* GeneratedVoiceCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A988123C3DDE0D5618EAF84 /* GeneratedVoiceCommand.swift */; };
 		65A724654D22CF965F4D75F7 /* FamilyMapStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DDB87475212410AD93FB11 /* FamilyMapStore.swift */; };
@@ -71,6 +72,7 @@
 		8F7F6C22ED2D39C3D7041444 /* MapCredits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FD3FFD1EED1D4557CBAB60 /* MapCredits.swift */; };
 		90799D2981E33802BC8ADE00 /* MapLayerToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0C0CB50E9D5B4407E0E9B8 /* MapLayerToggle.swift */; };
 		909197C0717FB28EAEB63A93 /* CombinedSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E2E39BBB204ECBC5406DB3 /* CombinedSearchService.swift */; };
+		945E95F3F1D05556C0615989 /* SavedPlacesSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65110058C563FB07DF6E08E /* SavedPlacesSync.swift */; };
 		9597456EF7C3E98002C15C77 /* MapFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13328118F047D5AD4C31C07E /* MapFlowTests.swift */; };
 		983068EAD62944CB837B7CE8 /* BasicVoiceCommandParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4306BA0BA689BE1A8299ECF /* BasicVoiceCommandParser.swift */; };
 		9A36270D09A0D2684800C921 /* MapStyleLicensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39677381C6C050AEE2E10D7F /* MapStyleLicensesView.swift */; };
@@ -199,6 +201,7 @@
 		5B5CA8351B6DC9BFD42E2D14 /* harta-explore-dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "harta-explore-dark.json"; sourceTree = "<group>"; };
 		5D16AE088E30542EAE2BE829 /* StadiaTestURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StadiaTestURLProtocol.swift; sourceTree = "<group>"; };
 		5FDAFA38AA6C77DA3468C4F2 /* DarkMatterLicense.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = DarkMatterLicense.txt; sourceTree = "<group>"; };
+		61779403F43C977C1CB6CFB9 /* SharedMapEditingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedMapEditingTests.swift; sourceTree = "<group>"; };
 		61D41AF2C1760AF639861E3A /* SavedPlaceIconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlaceIconPicker.swift; sourceTree = "<group>"; };
 		6886931E6F8B56089B7F38E8 /* TestResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestResources.swift; sourceTree = "<group>"; };
 		69B2DB244917B5AB6BADFE2C /* MapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCoordinator.swift; sourceTree = "<group>"; };
@@ -265,6 +268,7 @@
 		E1FFC9D98FA115553637B024 /* SearchSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSheet.swift; sourceTree = "<group>"; };
 		E4306BA0BA689BE1A8299ECF /* BasicVoiceCommandParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicVoiceCommandParser.swift; sourceTree = "<group>"; };
 		E5E2FEC0191809FE9EAF946B /* PlaceSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchRequest.swift; sourceTree = "<group>"; };
+		E65110058C563FB07DF6E08E /* SavedPlacesSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlacesSync.swift; sourceTree = "<group>"; };
 		E6747DD263F7AC82C93C6175 /* SymbolCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolCatalog.swift; sourceTree = "<group>"; };
 		E8732284952A12C8294F0E15 /* HartaUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HartaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC0A142D22C3C1DB77C08D12 /* Ferrostar-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Ferrostar-LICENSE.txt"; sourceTree = "<group>"; };
@@ -442,6 +446,7 @@
 				4DE00C98A741118681F200A9 /* RecentPlacesTests.swift */,
 				021D232EFC03405959A14E34 /* SavedPlacesStoreTests.swift */,
 				26A90D272522A0AE7EF681B6 /* SearchModelTests.swift */,
+				61779403F43C977C1CB6CFB9 /* SharedMapEditingTests.swift */,
 				A1CC45C6F4FCD58F4929E6F5 /* SpeechAudioConverterTests.swift */,
 				752FC1D17D471B41B840C3EE /* StadiaSearchTests.swift */,
 				5D16AE088E30542EAE2BE829 /* StadiaTestURLProtocol.swift */,
@@ -470,6 +475,7 @@
 				8352D56D8F17FD88F02016DF /* RouteProviding.swift */,
 				4E9BA659E5A9E12A5F35CFA0 /* SavedPlaceResolver.swift */,
 				A0C83A5AC9D5B616F7D06B1E /* SavedPlacesStore.swift */,
+				E65110058C563FB07DF6E08E /* SavedPlacesSync.swift */,
 				3D2D1C97CC893BD2F619C48B /* SpeechAudioConverter.swift */,
 				1599B1E377C246650245470C /* SpeechAudioInput.swift */,
 				9F74BE04A1A3FEB823E7F6C1 /* StadiaSearchService.swift */,
@@ -756,6 +762,7 @@
 				B3865A08870F00F919E742B3 /* RecentPlacesTests.swift in Sources */,
 				C249D6836C39608F82128390 /* SavedPlacesStoreTests.swift in Sources */,
 				2877D1F2702771B28D557372 /* SearchModelTests.swift in Sources */,
+				5E0C2F7981F8B2CC94EFF429 /* SharedMapEditingTests.swift in Sources */,
 				A3804B3CA48E04CE37DA6D90 /* SpeechAudioConverterTests.swift in Sources */,
 				FF322CBE59604DFE641B0F06 /* StadiaSearchTests.swift in Sources */,
 				F35694DB2C7241B23E44AFBD /* StadiaTestURLProtocol.swift in Sources */,
@@ -828,6 +835,7 @@
 				AF2254CC0CDC8B8330F8D8CB /* SavedPlaceTintPicker.swift in Sources */,
 				34414F1F550D62100CB932A6 /* SavedPlacesSheet.swift in Sources */,
 				3611E7632056444CE0883581 /* SavedPlacesStore.swift in Sources */,
+				945E95F3F1D05556C0615989 /* SavedPlacesSync.swift in Sources */,
 				F467FB61E00CD9A101212F74 /* SearchModel.swift in Sources */,
 				780F6500A6AEA9B071F4BE26 /* SearchPanel.swift in Sources */,
 				55170380C6E8299E5F041BF4 /* SearchPlaceRow.swift in Sources */,

@@ -6,8 +6,10 @@ struct FamilyMapSettings: View {
     var body: some View {
         Section {
             if family.joined != nil {
-                Toggle("Show family map", isOn: $family.showingFamily)
-                Text("You can view this family map. Switch it off to use your personal saved places.")
+                Toggle("Show shared map", isOn: $family.showingFamily)
+                Text(family.family.isReadOnly
+                     ? "This map is view-only. Switch it off to use your personal saved places."
+                     : "You can edit this shared map. Changes sync to everyone with access. Switch it off to use your personal saved places.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                 Button("Manage membership") { Task { await family.manageJoinedMap() } }
@@ -36,13 +38,13 @@ struct FamilyMapSettings: View {
                     .foregroundStyle(.secondary)
             }
         } header: {
-            Text("Family map")
+            Text("Shared map")
         } footer: {
             VStack(alignment: .leading, spacing: 8) {
                 if CloudKitEnvironment.current == .development {
                     Text("For sharing tests, use the TestFlight build on both devices. This build uses separate iCloud data and invitations.")
                 }
-                Text("Sharing uploads all your personal saved places to iCloud. Invited members can view them, including later changes. Everyone needs an iCloud account. Maps sync while Harta is open; downloaded places are available offline. Recent searches and live location are not shared.")
+                Text("Sharing uploads all your personal saved places to iCloud. Invite anyone with an iCloud account and choose whether they can view or edit. Editors can add, change, and remove places for everyone. Existing invitations remain view-only until you grant editing access. Maps sync while Harta is open; downloaded places are available offline. Recent searches and live location are not shared.")
             }
         }
     }

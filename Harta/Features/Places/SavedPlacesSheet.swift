@@ -41,7 +41,7 @@ struct SavedPlacesSheet: View {
                 .onDelete(perform: delete)
                 .deleteDisabled(store.isReadOnly)
             }
-            .navigationTitle(store.isReadOnly ? "Family places" : "Saved places")
+            .navigationTitle(store.isReadOnly ? "Shared places" : "Saved places")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

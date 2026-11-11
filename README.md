@@ -45,12 +45,14 @@ Harta is still being tested for navigation accuracy, background guidance, and ba
 - [Development](DEVELOPMENT.md): building, testing, and technical details.
 - [TestFlight distribution](TESTFLIGHT.md): signing and uploading beta builds.
 
-## Family maps
+## Shared maps
 
-In Settings → Family map, choose **Share my saved places** to upload your saved places to iCloud and invite people using Apple’s sharing sheet. You own and edit the map; invited members have view-only access. Everyone needs an active iCloud account. Invitations are explicit and do not require Apple Family Sharing membership.
+In Settings → Shared map, choose **Share my saved places** to upload your saved places to iCloud and invite people using Apple’s sharing sheet. Choose view-only or editing access for invited members. Editors can add, rename, customize, and remove places, and their changes sync to everyone. Existing members remain view-only until the owner grants editing access. Everyone needs an active iCloud account. Invitations are explicit and do not require Apple Family Sharing membership. CloudKit supports up to 100 participants per share ([Apple documentation](https://developer.apple.com/documentation/cloudkit/ckshare)).
 
-Open the invitation link on a device with Harta installed to join. Members can switch between the family map and their personal saved places in Settings. Joining does not overwrite personal places. Use **Manage membership** to leave; owners use **Manage my map’s sharing** to remove members or stop sharing.
+Open the invitation link on a device with Harta installed to join. Members can switch between the shared map and their personal saved places in Settings. Joining does not overwrite personal places. Use **Manage membership** to leave; owners use **Manage my map’s sharing** to remove members or stop sharing.
 
 Changes sync when Harta is active, including a refresh about every 30 seconds, and through **Sync now**. Downloaded saved places remain available offline; map tiles, search, and routing still need connectivity. Live location, recent searches, and navigation sessions are not shared. Revoked access is detected on the next successful cloud check, not while a device is offline.
 
-This first version supports one joined family map per installation. Open the invitation on each device that should join. CloudKit provisioning and testing with separate iCloud accounts are required before distributing this feature; see Development.
+This first version supports one joined shared map per installation. Open the invitation on each device that should join. CloudKit provisioning and testing with separate iCloud accounts are required before distributing this feature; see Development.
+
+Shared-map editing unlocks after a successful permission check each launch. Once verified, edits can be saved offline and upload when connectivity returns. Independent place edits merge; pending local changes win conflicts on the same place. If editing permission is revoked, unsent edits stay on the device and can sync if editing access is restored. Leaving, losing access, or joining a different map clears the joined-map cache, including unsent edits. Personal places are preserved.

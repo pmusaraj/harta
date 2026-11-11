@@ -36,16 +36,15 @@ final class FamilyMapStore {
         defer { busy = false }
         do {
             try await checkAccount()
-            if enabled { try await syncOwner() }
-            if let joined {
-                do {
-                    let record = try await container.sharedCloudDatabase.record(for: joined.recordID)
-                    guard family.receiveCloud(try decode(record)) else { throw SyncError.localSave }
-                } catch let error as CKError where error.code == .unknownItem || error.code == .zoneNotFound || error.code == .permissionFailure {
-                    forgetFamily()
-                    throw SyncError.accessRemoved
-                }
+            // A failure syncing a user's own map must not prevent their joined map from syncing.
+            var syncError: Error?
+            if enabled {
+                do { try await syncOwner() } catch { syncError = error }
             }
+            if let joined {
+                do { try await syncJoined(joined) } catch { syncError = error }
+            }
+            if let syncError { throw syncError }
             lastSynced = .now
             status = "Up to date"
             errorMessage = nil
@@ -71,7 +70,7 @@ final class FamilyMapStore {
                 presentedShare = CloudSharePresentation(share: share)
             } else {
                 let share = CKShare(rootRecord: root)
-                share[CKShare.SystemFieldKey.title] = "Family map" as CKRecordValue
+                share[CKShare.SystemFieldKey.title] = "Shared map" as CKRecordValue
                 share.publicPermission = .none
                 let result = try await database.modifyRecords(saving: [root, share], deleting: [], savePolicy: .ifServerRecordUnchanged, atomically: true)
                 for value in result.saveResults.values { _ = try value.get() }
@@ -103,14 +102,13 @@ final class FamilyMapStore {
             _ = try await container.accept(metadata)
             let reference = FamilyMapReference(rootID)
             if joined != reference {
-                guard family.receiveCloud([]) else { throw SyncError.localSave }
+                guard family.replaceCloud([]) else { throw SyncError.localSave }
+                family.setReadOnly(true)
             }
             joined = reference
             defaults.set(try JSONEncoder().encode(reference), forKey: "familyMap.joined")
-            let record = try await container.sharedCloudDatabase.record(for: rootID)
-            let places = try decode(record)
-            guard family.receiveCloud(places) else { throw SyncError.localSave }
             showingFamily = true
+            try await syncJoined(reference)
             lastSynced = .now
             status = "Up to date"
             errorMessage = nil
@@ -153,25 +151,74 @@ final class FamilyMapStore {
 
     private func syncOwner() async throws {
         let database = container.privateCloudDatabase
-        let record: CKRecord
-        do { record = try await database.record(for: ownerID) }
-        catch let error as CKError where error.code == .unknownItem {
-            record = CKRecord(recordType: "FamilyMap", recordID: ownerID)
+        for attempt in 0..<3 {
+            do {
+                let record: CKRecord
+                do { record = try await database.record(for: ownerID) }
+                catch let error as CKError where error.code == .unknownItem {
+                    record = CKRecord(recordType: "FamilyMap", recordID: ownerID)
+                }
+                try await SavedPlacesSync.sync(store: personal, remote: decode(record),
+                                               isNew: record.creationDate == nil) { places in
+                    try await self.upload(places, to: record, database: database)
+                }
+                return
+            } catch let error as CKError where error.code == .serverRecordChanged && attempt < 2 {
+                // Fetch the latest version and merge again. Never acknowledge a rejected write.
+                continue
+            }
         }
-        let remote = try decode(record)
-        let local = personal.places
-        let merged = PlaceMerge.merge(baseline: record.creationDate == nil ? [] : personal.cloudBaseline,
-                                      local: local, remote: remote)
-        if merged != remote || record.creationDate == nil {
-            let file = URL.temporaryDirectory.appending(path: "family-map-\(UUID().uuidString).json")
-            defer { try? FileManager.default.removeItem(at: file) }
-            try JSONEncoder().encode(merged).write(to: file, options: .atomic)
-            record["places"] = CKAsset(fileURL: file)
-            // The default save policy rejects stale server versions. Pending local edits remain
-            // on disk and are merged with the latest version on the next refresh.
-            _ = try await database.save(record)
+    }
+
+    private func syncJoined(_ reference: FamilyMapReference) async throws {
+        let database = container.sharedCloudDatabase
+        for attempt in 0..<3 {
+            let record: CKRecord
+            let share: CKShare
+            do {
+                record = try await database.record(for: reference.recordID)
+                guard let shareID = record.share?.recordID,
+                      let fetchedShare = try await database.record(for: shareID) as? CKShare else {
+                    throw SyncError.invalidShare
+                }
+                share = fetchedShare
+            } catch let error as CKError where error.code == .unknownItem || error.code == .zoneNotFound || error.code == .permissionFailure {
+                forgetFamily()
+                throw SyncError.accessRemoved
+            }
+
+            // Recheck server permissions before each upload, including conflict retries.
+            let canEdit = share.currentUserParticipant?.permission == .readWrite
+            family.setReadOnly(!canEdit)
+            let remote = try decode(record)
+            guard canEdit else {
+                // Retain unsent edits if an editor becomes a viewer; do not silently discard them.
+                guard family.receiveCloud(remote) else { throw SyncError.localSave }
+                if family.hasPendingChanges { throw SyncError.editPermissionRemoved }
+                return
+            }
+            do {
+                try await SavedPlacesSync.sync(store: family, remote: remote) { places in
+                    try await self.upload(places, to: record, database: database)
+                }
+                return
+            } catch let error as CKError where error.code == .serverRecordChanged && attempt < 2 {
+                continue
+            } catch let error as CKError where error.code == .permissionFailure {
+                // A write denial can mean a downgrade, not loss of read access. Keep pending edits.
+                family.setReadOnly(true)
+                throw SyncError.editPermissionRemoved
+            }
         }
-        guard personal.receiveCloud(merged, uploadedLocal: local) else { throw SyncError.localSave }
+    }
+
+    private func upload(_ places: [Place], to record: CKRecord, database: CKDatabase) async throws {
+        let file = URL.temporaryDirectory.appending(path: "family-map-\(UUID().uuidString).json")
+        defer { try? FileManager.default.removeItem(at: file) }
+        try JSONEncoder().encode(places).write(to: file, options: .atomic)
+        record["places"] = CKAsset(fileURL: file)
+        // Reject stale snapshots in both private and shared databases.
+        _ = try await database.save(record)
     }
 
     private func decode(_ record: CKRecord) throws -> [Place] {
@@ -189,7 +236,8 @@ final class FamilyMapStore {
         joined = nil
         showingFamily = false
         defaults.removeObject(forKey: "familyMap.joined")
-        _ = family.receiveCloud([])
+        family.setReadOnly(true)
+        _ = family.replaceCloud([])
     }
 
     private func report(_ error: Error) {
@@ -198,14 +246,15 @@ final class FamilyMapStore {
     }
 
     private enum SyncError: LocalizedError {
-        case noAccount, accountChanged, invalidShare, localSave, accessRemoved
+        case noAccount, accountChanged, invalidShare, localSave, accessRemoved, editPermissionRemoved
         var errorDescription: String? {
             switch self {
-            case .noAccount: "Sign in to iCloud in Settings to sync your family map."
+            case .noAccount: "Sign in to iCloud in Settings to sync your shared map."
             case .accountChanged: "Your iCloud account changed. Sign back in to the original account to sync this map. Your personal places are preserved."
-            case .invalidShare: "This family map could not be read. Please ask the owner for a new invitation."
+            case .invalidShare: "This shared map could not be read. Please ask the owner for a new invitation."
             case .localSave: "The map could not be saved on this device. Your changes have not been discarded."
-            case .accessRemoved: "You no longer have access to this family map. Your personal places are preserved."
+            case .editPermissionRemoved: "Editing access is unavailable. Unsent changes remain on this device and will sync if the owner restores editing access."
+            case .accessRemoved: "You no longer have access to this shared map. Your personal places are preserved."
             }
         }
     }
